@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Personal Portfolio of Jorge Contreras - Creative Developer & Software Engineer showcasing interactive, modern web applications and cloud architectures.">
+  <title>Jorge Contreras | Creative Developer & Software Engineer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Decorative Glowing Blobs -->
+  <div class="bg-glows">
+    <div class="glow-1"></div>
+    <div class="glow-2"></div>
+  </div>
+
+  <!-- HEADER / NAVIGATION -->
+  <header class="header">
+    <div class="container nav-container">
+      <a href="#" class="logo" id="logoLink">
+        <span>&lt;</span>Jorge<span>/&gt;</span>
+      </a>
+      
+      <nav class="nav-menu" id="navMenu">
+        <a href="#about" class="nav-link">About</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+          <!-- Sun Icon (for dark mode -> transitions to light) -->
+          <svg class="sun-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <!-- Moon Icon (for light mode -> transitions to dark) -->
+          <svg class="moon-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <div class="menu-toggle" id="menuToggle" aria-label="Toggle Mobile Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="home">
+    <div class="container hero-grid">
+      <div class="hero-content reveal">
+        <span class="hero-subtitle">Welcome to my space</span>
+        <h1 class="hero-title">Hi, I'm <span>Jorge Contreras</span>.</h1>
+        <p class="hero-desc">I am a creative developer specializing in building premium digital experiences. I design and build highly performant, responsive, and aesthetically striking web applications.</p>
+        <div class="hero-ctas">
+          <a href="#projects" class="btn btn-primary">
+            View My Work
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+          <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+        </div>
+      </div>
+      <div class="hero-visual reveal">
+        <div class="visual-canvas">
+          <div class="visual-inner">
+            <!-- Floating code element -->
+            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section class="about" id="about">
+    <div class="container">
+      <span class="section-meta">About Me</span>
+      <h2 class="section-title">Crafting ideas into clean code.</h2>
+      
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>I thrive at the intersection of design and engineering. With deep expertise in front-end micro-interactions, responsive architectures, and cloud services, I create software that runs seamlessly and feels premium to use.</p>
+          <p>My philosophy is that good code should not only be efficient but also intuitive and beautifully presented. Every project represents a commitment to high-performance layouts, pixel-perfect design, and maintainable systems.</p>
+        </div>
+        <div class="about-highlights reveal">
+          <div class="highlight-card">
+            <div class="highlight-num">4+</div>
+            <div class="highlight-label">Years of Coding</div>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-num">15+</div>
+            <div class="highlight-label">Projects Completed</div>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-num">99%</div>
+            <div class="highlight-label">Client Satisfaction</div>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-num">100%</div>
+            <div class="highlight-label">Pixel Perfect Guarantee</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS SECTION -->
+  <section class="projects" id="projects">
+    <div class="container">
+      <span class="section-meta">Portfolio</span>
+      <h2 class="section-title">Featured Projects</h2>
+      <p class="section-desc">A curated collection of systems I've built, reflecting my focus on user experience, system scale, and clean execution.</p>
+
+      <div class="project-filters">
+        <button class="filter-btn active" data-filter="all">All Projects</button>
+        <button class="filter-btn" data-filter="frontend">Frontend</button>
+        <button class="filter-btn" data-filter="fullstack">Fullstack</button>
+        <button class="filter-btn" data-filter="systems">Systems</button>
+      </div>
+
+      <div class="projects-grid">
+        
+        <!-- Project 1: Aether -->
+        <article class="project-card reveal" data-category="systems">
+          <div class="project-visual">
+            <!-- Node/Network Graphic SVG -->
+            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+              <path d="M2 17l10 5 10-5"></path>
+              <path d="M2 12l10 5 10-5"></path>
+              <circle cx="12" cy="7" r="1.5" fill="currentColor"></circle>
+              <circle cx="6" cy="14" r="1" fill="currentColor"></circle>
+              <circle cx="18" cy="14" r="1" fill="currentColor"></circle>
+            </svg>
+          </div>
+          <div class="project-info">
+            <div class="project-tags">
+              <span class="project-tag">Go</span>
+              <span class="project-tag">gRPC</span>
+              <span class="project-tag">Kubernetes</span>
+            </div>
+            <h3 class="project-card-title">Aether Cloud Orchestration</h3>
+            <p class="project-card-desc">A decentralized microservices scheduler that optimizes computing workloads across geographically distributed clusters.</p>
+            <div class="project-links">
+              <a href="#" class="project-link">
+                GitHub 
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+              </a>
+              <a href="#" class="project-link">
+                Live Demo 
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2: Vesper -->
+        <article class="project-card reveal" data-category="frontend">
+          <div class="project-visual">
+            <!-- Vector design icon SVG -->
+            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"></path>
+              <path d="M12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18Z"></path>
+              <line x1="12" y1="2" x2="12" y2="6"></line>
+              <line x1="12" y1="18" x2="12" y2="22"></line>
+              <line x1="2" y1="12" x2="6" y2="12"></line>
+              <line x1="18" y1="12" x2="22" y2="12"></line>
+            </svg>
+          </div>
+          <div class="project-info">
+            <div class="project-tags">
+              <span class="project-tag">TypeScript</span>
+              <span class="project-tag">Canvas</span>
+              <span class="project-tag">WebAssembly</span>
+            </div>
+            <h3 class="project-card-title">Vesper Interactive Canvas</h3>
+            <p class="project-card-desc">A premium browser-based vectors layout editor, featuring rendering logic running in WASM for close-to-metal speeds.</p>
+            <div class="project-links">
+              <a href="#" class="project-link">
+                GitHub 
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+              </a>
+              <a href="#" class="project-link">
+                Live Demo 
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 3: Helios -->
+        <article class="project-card reveal" data-category="fullstack">
+          <div class="project-visual">
+            <!-- Activity/Waveform graphic SVG -->
+            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+          </div>
+          <div class="project-info">
+            <div class="project-tags">
+              <span class="project-tag">Next.js</span>
+              <span class="project-tag">Node.js</span>
+              <span class="project-tag">InfluxDB</span>
+            </div>
+            <h3 class="project-card-title">Helios Analytics Engine</h3>
+            <p class="project-card-desc">An interactive dashboard receiving, processing, and charting over 10k real-time IoT metrics every single second.</p>
+            <div class="project-links">
+              <a href="#" class="project-link">
+                GitHub 
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+              </a>
+              <a href="#" class="project-link">
+                Live Demo 
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS SECTION -->
+  <section class="skills" id="skills">
+    <div class="container">
+      <span class="section-meta">Core Stack</span>
+      <h2 class="section-title">My Tech Stack</h2>
+      
+      <div class="skills-container">
+        <div class="skills-categories reveal">
+          <button class="skills-category-btn active" data-category="languages">Languages</button>
+          <button class="skills-category-btn" data-category="frameworks">Frameworks & Libs</button>
+          <button class="skills-category-btn" data-category="tools">Tools & DevOps</button>
+        </div>
+
+        <div class="skills-grid reveal" id="skillsGrid">
+          <!-- Dynamic rendering or pre-filled layout categories -->
+          <!-- languages (Default active) -->
+          <div class="skill-card" data-skill-type="languages">
+            <!-- JS -->
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+            <div class="skill-name">JavaScript</div>
+          </div>
+          <div class="skill-card" data-skill-type="languages">
+            <!-- TS -->
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline></svg>
+            <div class="skill-name">TypeScript</div>
+          </div>
+          <div class="skill-card" data-skill-type="languages">
+            <!-- Python -->
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 12m-9 0a9 9 0 1 1 18 0a9 9 0 1 1 -18 0"></path><path d="M12 12h.01"></path></svg>
+            <div class="skill-name">Python</div>
+          </div>
+          <div class="skill-card" data-skill-type="languages">
+            <!-- Go -->
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+            <div class="skill-name">Go</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <span class="section-meta">Get In Touch</span>
+      <h2 class="section-title">Let's connect.</h2>
+      
+      <div class="contact-grid">
+        <div class="contact-info reveal">
+          
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </div>
+            <div class="contact-details">
+              <h4>Email</h4>
+              <p>jorge@contreras.dev</p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </div>
+            <div class="contact-details">
+              <h4>Location</h4>
+              <p>Austin, Texas, USA</p>
+            </div>
+          </div>
+
+          <div class="social-links">
+            <a href="#" class="social-btn" aria-label="GitHub">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            </a>
+            <a href="#" class="social-btn" aria-label="LinkedIn">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </a>
+          </div>
+
+        </div>
+
+        <div class="contact-form-container reveal">
+          <form id="contactForm">
+            <div class="form-group">
+              <label for="name" class="form-label">Full Name</label>
+              <input type="text" id="name" class="form-control" placeholder="Jorge Contreras" required>
+            </div>
+            <div class="form-group">
+              <label for="email" class="form-label">Email Address</label>
+              <input type="email" id="email" class="form-control" placeholder="hello@domain.com" required>
+            </div>
+            <div class="form-group">
+              <label for="message" class="form-label">Message</label>
+              <textarea id="message" class="form-control" placeholder="Tell me about your project..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+              Send Message
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </button>
+          </form>
+
+          <div class="form-success-message" id="successMessage">
+            <div class="success-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <h3>Message Sent!</h3>
+            <p>Thank you for reaching out, Jorge. I will get back to you as soon as possible.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <p>&copy; 2026 Jorge Contreras. All rights reserved.</p>
+      <p>Built with &hearts; in Austin, Texas</p>
+    </div>
+  </footer>
+
+  <!-- Back to top floating button -->
+  <button class="back-to-top" id="backToTop" aria-label="Scroll to top">
+    <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <script src="script.js"></script>
+</body>
+</html>
