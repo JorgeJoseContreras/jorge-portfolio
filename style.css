@@ -1014,3 +1014,16 @@ textarea.form-control {
     text-align: center;
   }
 }
+
+@media (max-width: 480px) {
+  .logo {
+    font-size: 1.25rem;
+  }
+  .section-title {
+    font-size: 1.75rem;
+  }
+  .projects-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
