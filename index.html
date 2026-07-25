@@ -55,103 +55,67 @@
 
       <div class="project-filters">
         <button class="filter-btn active" data-filter="all">All Projects</button>
-        <button class="filter-btn" data-filter="frontend">Frontend</button>
         <button class="filter-btn" data-filter="fullstack">Fullstack</button>
         <button class="filter-btn" data-filter="systems">Systems</button>
       </div>
 
       <div class="projects-grid">
         
-        <!-- Project 1: Aether -->
-        <article class="project-card reveal" data-category="systems">
-          <div class="project-visual">
-            <!-- Node/Network Graphic SVG -->
-            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-              <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-              <path d="M2 17l10 5 10-5"></path>
-              <path d="M2 12l10 5 10-5"></path>
-              <circle cx="12" cy="7" r="1.5" fill="currentColor"></circle>
-              <circle cx="6" cy="14" r="1" fill="currentColor"></circle>
-              <circle cx="18" cy="14" r="1" fill="currentColor"></circle>
-            </svg>
-          </div>
-          <div class="project-info">
-            <div class="project-tags">
-              <span class="project-tag">Go</span>
-              <span class="project-tag">gRPC</span>
-              <span class="project-tag">Kubernetes</span>
-            </div>
-            <h3 class="project-card-title">Aether Cloud Orchestration</h3>
-            <p class="project-card-desc">A decentralized microservices scheduler that optimizes computing workloads across geographically distributed clusters.</p>
-            <div class="project-links">
-              <a href="#" class="project-link">
-                GitHub 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-              </a>
-              <a href="#" class="project-link">
-                Live Demo 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Project 2: Vesper -->
-        <article class="project-card reveal" data-category="frontend">
-          <div class="project-visual">
-            <!-- Vector design icon SVG -->
-            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-              <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"></path>
-              <path d="M12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18Z"></path>
-              <line x1="12" y1="2" x2="12" y2="6"></line>
-              <line x1="12" y1="18" x2="12" y2="22"></line>
-              <line x1="2" y1="12" x2="6" y2="12"></line>
-              <line x1="18" y1="12" x2="22" y2="12"></line>
-            </svg>
-          </div>
-          <div class="project-info">
-            <div class="project-tags">
-              <span class="project-tag">TypeScript</span>
-              <span class="project-tag">Canvas</span>
-              <span class="project-tag">WebAssembly</span>
-            </div>
-            <h3 class="project-card-title">Vesper Interactive Canvas</h3>
-            <p class="project-card-desc">A premium browser-based vectors layout editor, featuring rendering logic running in WASM for close-to-metal speeds.</p>
-            <div class="project-links">
-              <a href="#" class="project-link">
-                GitHub 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-              </a>
-              <a href="#" class="project-link">
-                Live Demo 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Project 3: Helios -->
+        <!-- Project 1: iMessage AI Assistant -->
         <article class="project-card reveal" data-category="fullstack">
           <div class="project-visual">
-            <!-- Activity/Waveform graphic SVG -->
+            <!-- Chat bubble with AI sparkle SVG -->
             <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              <path d="M12 7l1 2.5L15.5 10l-2.5 1L12 13.5l-1-2.5L8.5 10l2.5-1z" fill="currentColor"></path>
             </svg>
           </div>
           <div class="project-info">
             <div class="project-tags">
-              <span class="project-tag">Next.js</span>
               <span class="project-tag">Node.js</span>
-              <span class="project-tag">InfluxDB</span>
+              <span class="project-tag">OpenAI API</span>
+              <span class="project-tag">iMessage DB</span>
             </div>
-            <h3 class="project-card-title">Helios Analytics Engine</h3>
-            <p class="project-card-desc">An interactive dashboard receiving, processing, and charting over 10k real-time IoT metrics every single second.</p>
+            <h3 class="project-card-title">iMessage AI Assistant</h3>
+            <p class="project-card-desc">An intelligent messaging co-pilot that scans, digests, and reacts to incoming iMessage notifications in real-time.</p>
             <div class="project-links">
               <a href="#" class="project-link">
                 GitHub 
                 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
               </a>
+              <a href="https://notification-assistant.onrender.com" target="_blank" class="project-link">
+                Live Demo 
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2: Agentic Stock Trading Bot -->
+        <article class="project-card reveal" data-category="systems">
+          <div class="project-visual">
+            <!-- Trending up arrow chart SVG -->
+            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path d="M23 6l-9.5 9.5-5-5L1 18"></path>
+              <polyline points="17 6 23 6 23 12"></polyline>
+              <rect x="2" y="2" width="6" height="6" rx="1"></rect>
+              <path d="M5 8v4"></path>
+            </svg>
+          </div>
+          <div class="project-info">
+            <div class="project-tags">
+              <span class="project-tag">Python</span>
+              <span class="project-tag">Robinhood API</span>
+              <span class="project-tag">Agentic AI</span>
+            </div>
+            <h3 class="project-card-title">Agentic Stock Trading Bot</h3>
+            <p class="project-card-desc">An autonomous stock trading bot running algorithmic strategies on Robinhood, powered by agentic decision models.</p>
+            <div class="project-links">
               <a href="#" class="project-link">
+                GitHub 
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+              </a>
+              <a href="https://robinhood-bot-v2.onrender.com" target="_blank" class="project-link">
                 Live Demo 
                 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
               </a>
