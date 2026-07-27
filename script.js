@@ -86,6 +86,27 @@ const formStatus = document.getElementById('formStatus');
 // Open modal
 const openModal = (e) => {
   e.preventDefault();
+  
+  const modalTitle = document.getElementById('modalTitle');
+  const modalDesc = document.getElementById('modalDesc');
+  const web3FormsSubject = document.getElementById('web3FormsSubject');
+  const formMessageLabel = document.getElementById('formMessageLabel');
+  const formMessage = document.getElementById('formMessage');
+  
+  if (e.currentTarget.id === 'contactDemoTrigger') {
+    modalTitle.textContent = 'Request Live Demo';
+    modalDesc.textContent = 'The Automated Multi-Modal Social Engagement Pipeline (AHB) runs locally on a connected emulator. Submit your contact details below to request a live demo or get detail sheets sent to your inbox!';
+    web3FormsSubject.value = 'Live Demo Request - AHB App';
+    formMessageLabel.textContent = 'Message / Request Detail';
+    formMessage.placeholder = "Hi Jorge, I'd like to schedule a live demo or ask about...";
+  } else {
+    modalTitle.textContent = 'Contact Me';
+    modalDesc.textContent = "Have a project in mind, a question about my work, or just want to connect? Send a message below and I'll get back to you shortly!";
+    web3FormsSubject.value = 'Contact Form Submission - Portfolio';
+    formMessageLabel.textContent = 'Your Message';
+    formMessage.placeholder = "Hi Jorge, I'd like to reach out regarding...";
+  }
+
   contactModal.classList.add('show');
   document.body.style.overflow = 'hidden'; // Lock background scrolling
 };

@@ -151,13 +151,13 @@
   <div class="modal-overlay" id="contactModal">
     <div class="modal-content">
       <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
-      <h3 class="modal-title">Request Live Demo</h3>
-      <p class="modal-desc">The Automated Multi-Modal Social Engagement Pipeline (AHB) runs locally on a connected emulator. Submit your contact details below to request a live demo or get detail sheets sent to your inbox!</p>
+      <h3 class="modal-title" id="modalTitle">Request Live Demo</h3>
+      <p class="modal-desc" id="modalDesc">The Automated Multi-Modal Social Engagement Pipeline (AHB) runs locally on a connected emulator. Submit your contact details below to request a live demo or get detail sheets sent to your inbox!</p>
       
       <form id="contactForm">
         <!-- We use an AJAX submit to Web3Forms -->
         <input type="hidden" name="access_key" id="web3FormsKey" value="ebde9e87-c5fe-4d67-9014-66eb79850fe4">
-        <input type="hidden" name="subject" value="Live Demo Request - AHB App">
+        <input type="hidden" name="subject" id="web3FormsSubject" value="Live Demo Request - AHB App">
         <input type="checkbox" name="botcheck" style="display: none;">
 
         <div class="form-group">
@@ -171,7 +171,7 @@
         </div>
 
         <div class="form-group">
-          <label for="formMessage" class="form-label">Message / Request Detail</label>
+          <label for="formMessage" class="form-label" id="formMessageLabel">Message / Request Detail</label>
           <textarea name="message" id="formMessage" class="form-textarea" placeholder="Hi Jorge, I'd like to schedule a live demo or ask about..." rows="4" required></textarea>
         </div>
 
