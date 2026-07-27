@@ -84,12 +84,18 @@ const formSubmitBtn = document.getElementById('formSubmitBtn');
 const formStatus = document.getElementById('formStatus');
 
 // Open modal
+const openModal = (e) => {
+  e.preventDefault();
+  contactModal.classList.add('show');
+  document.body.style.overflow = 'hidden'; // Lock background scrolling
+};
+
 if (demoTrigger) {
-  demoTrigger.addEventListener('click', (e) => {
-    e.preventDefault();
-    contactModal.classList.add('show');
-    document.body.style.overflow = 'hidden'; // Lock background scrolling
-  });
+  demoTrigger.addEventListener('click', openModal);
+}
+const footerContactBtn = document.getElementById('contactFooterBtn');
+if (footerContactBtn) {
+  footerContactBtn.addEventListener('click', openModal);
 }
 
 // Close modal (via close button)
