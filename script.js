@@ -78,6 +78,7 @@ filterButtons.forEach(btn => {
 // --- LIVE DEMO CONTACT MODAL ---
 const contactModal = document.getElementById('contactModal');
 const demoTrigger = document.getElementById('contactDemoTrigger');
+const scholarshipTrigger = document.getElementById('scholarshipDemoTrigger');
 const modalClose = document.getElementById('modalClose');
 const contactForm = document.getElementById('contactForm');
 const formSubmitBtn = document.getElementById('formSubmitBtn');
@@ -99,6 +100,12 @@ const openModal = (e) => {
     web3FormsSubject.value = 'Live Demo Request - AHB App';
     formMessageLabel.textContent = 'Message / Request Detail';
     formMessage.placeholder = "Hi Jorge, I'd like to schedule a live demo or ask about...";
+  } else if (e.currentTarget.id === 'scholarshipDemoTrigger') {
+    modalTitle.textContent = 'Request Access';
+    modalDesc.textContent = 'The Scholarship Disbursement Report Authorization Automation is an enterprise system. Submit your details below to request a demo or learn more about how it works.';
+    web3FormsSubject.value = 'Demo Request - Scholarship Disbursement Automation';
+    formMessageLabel.textContent = 'Message / Request Detail';
+    formMessage.placeholder = "Hi Jorge, I'd like to learn more about the Scholarship Disbursement Automation...";
   } else {
     modalTitle.textContent = 'Contact Me';
     modalDesc.textContent = "Have a project in mind, a question about my work, or just want to connect? Send a message below and I'll get back to you shortly!";
@@ -113,6 +120,9 @@ const openModal = (e) => {
 
 if (demoTrigger) {
   demoTrigger.addEventListener('click', openModal);
+}
+if (scholarshipTrigger) {
+  scholarshipTrigger.addEventListener('click', openModal);
 }
 const footerContactBtn = document.getElementById('contactFooterBtn');
 if (footerContactBtn) {
