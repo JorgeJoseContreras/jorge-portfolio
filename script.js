@@ -79,6 +79,7 @@ filterButtons.forEach(btn => {
 const contactModal = document.getElementById('contactModal');
 const demoTrigger = document.getElementById('contactDemoTrigger');
 const scholarshipTrigger = document.getElementById('scholarshipDemoTrigger');
+const mileageTrigger = document.getElementById('mileageDemoTrigger');
 const modalClose = document.getElementById('modalClose');
 const contactForm = document.getElementById('contactForm');
 const formSubmitBtn = document.getElementById('formSubmitBtn');
@@ -106,6 +107,12 @@ const openModal = (e) => {
     web3FormsSubject.value = 'Demo Request - Scholarship Disbursement Automation';
     formMessageLabel.textContent = 'Message / Request Detail';
     formMessage.placeholder = "Hi Jorge, I'd like to learn more about the Scholarship Disbursement Automation...";
+  } else if (e.currentTarget.id === 'mileageDemoTrigger') {
+    modalTitle.textContent = 'Request a Demo';
+    modalDesc.textContent = 'The Automated Mileage Report Generator is available for demonstration. Submit your details below and I will reach out to walk you through the tool!';
+    web3FormsSubject.value = 'Demo Request - Mileage Report Generator';
+    formMessageLabel.textContent = 'Message / Request Detail';
+    formMessage.placeholder = "Hi Jorge, I'd like to see a demo of the Mileage Report Generator...";
   } else {
     modalTitle.textContent = 'Contact Me';
     modalDesc.textContent = "Have a project in mind, a question about my work, or just want to connect? Send a message below and I'll get back to you shortly!";
@@ -123,6 +130,9 @@ if (demoTrigger) {
 }
 if (scholarshipTrigger) {
   scholarshipTrigger.addEventListener('click', openModal);
+}
+if (mileageTrigger) {
+  mileageTrigger.addEventListener('click', openModal);
 }
 const footerContactBtn = document.getElementById('contactFooterBtn');
 if (footerContactBtn) {
