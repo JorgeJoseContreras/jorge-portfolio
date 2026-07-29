@@ -932,7 +932,6 @@ textarea.form-control {
 
 /* --- FOOTER --- */
 .footer {
-  border-top: 1px solid var(--border-color);
   padding: var(--space-lg) 0;
   text-align: center;
   color: var(--text-muted);
