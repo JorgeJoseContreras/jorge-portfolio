@@ -61,8 +61,9 @@ filterButtons.forEach(btn => {
     const filterValue = btn.getAttribute('data-filter');
 
     projectCards.forEach(card => {
-      const category = card.getAttribute('data-category');
-      if (filterValue === 'all' || category === filterValue) {
+      const category = card.getAttribute('data-category') || '';
+      const categories = category.split(' ');
+      if (filterValue === 'all' || categories.includes(filterValue)) {
         card.style.display = 'flex';
         // Trigger reflow for animation
         card.style.animation = 'none';
@@ -80,6 +81,10 @@ const contactModal = document.getElementById('contactModal');
 const demoTrigger = document.getElementById('contactDemoTrigger');
 const scholarshipTrigger = document.getElementById('scholarshipDemoTrigger');
 const mileageTrigger = document.getElementById('mileageDemoTrigger');
+const zengineMonitorTrigger = document.getElementById('zengineMonitorDemoTrigger');
+const scholarServicesTrigger = document.getElementById('scholarServicesDemoTrigger');
+const bulkPaymentsTrigger = document.getElementById('bulkPaymentsDemoTrigger');
+const csvOptimizerTrigger = document.getElementById('csvOptimizerDemoTrigger');
 const modalClose = document.getElementById('modalClose');
 const contactForm = document.getElementById('contactForm');
 const formSubmitBtn = document.getElementById('formSubmitBtn');
@@ -113,6 +118,30 @@ const openModal = (e) => {
     web3FormsSubject.value = 'Demo Request - Mileage Report Generator';
     formMessageLabel.textContent = 'Message / Request Detail';
     formMessage.placeholder = "Hi Jorge, I'd like to see a demo of the Mileage Report Generator...";
+  } else if (e.currentTarget.id === 'zengineMonitorDemoTrigger') {
+    modalTitle.textContent = 'Request Access';
+    modalDesc.textContent = 'The Zengine Disbursements Monitor tracks financial disbursements in real-time. Submit your details below to request more info or schedule a systems walk-through.';
+    web3FormsSubject.value = 'Demo Request - Zengine Disbursements Monitor';
+    formMessageLabel.textContent = 'Message / Request Detail';
+    formMessage.placeholder = "Hi Jorge, I'd like to learn more about the Zengine Disbursements Monitor...";
+  } else if (e.currentTarget.id === 'scholarServicesDemoTrigger') {
+    modalTitle.textContent = 'Request Access';
+    modalDesc.textContent = 'The Scholar Services App provides an optimized data workspace interface for departments. Submit your details below to schedule a workflow walkthrough.';
+    web3FormsSubject.value = 'Demo Request - Scholar Services App';
+    formMessageLabel.textContent = 'Message / Request Detail';
+    formMessage.placeholder = "Hi Jorge, I'd like to request a demo of the Scholar Services App...";
+  } else if (e.currentTarget.id === 'bulkPaymentsDemoTrigger') {
+    modalTitle.textContent = 'Request Access';
+    modalDesc.textContent = 'The Bulk Payments App is designed to simplify disbursement allocation forms inside Zengine. Submit your details below to see how it can optimize payment runs.';
+    web3FormsSubject.value = 'Demo Request - Bulk Payments App';
+    formMessageLabel.textContent = 'Message / Request Detail';
+    formMessage.placeholder = "Hi Jorge, I'd like to request a demo of the Bulk Payments App...";
+  } else if (e.currentTarget.id === 'csvOptimizerDemoTrigger') {
+    modalTitle.textContent = 'Request Access';
+    modalDesc.textContent = 'The Zengine CSV Optimizer leverages AI tools to clean and format spreadsheet uploads. Submit your details below to request access or detailed setup guides.';
+    web3FormsSubject.value = 'Demo Request - Zengine CSV Optimizer';
+    formMessageLabel.textContent = 'Message / Request Detail';
+    formMessage.placeholder = "Hi Jorge, I'd like to request a demo or info on the CSV Optimizer...";
   } else {
     modalTitle.textContent = 'Contact Me';
     modalDesc.textContent = "Have a project in mind, a question about my work, or just want to connect? Send a message below and I'll get back to you shortly!";
@@ -133,6 +162,18 @@ if (scholarshipTrigger) {
 }
 if (mileageTrigger) {
   mileageTrigger.addEventListener('click', openModal);
+}
+if (zengineMonitorTrigger) {
+  zengineMonitorTrigger.addEventListener('click', openModal);
+}
+if (scholarServicesTrigger) {
+  scholarServicesTrigger.addEventListener('click', openModal);
+}
+if (bulkPaymentsTrigger) {
+  bulkPaymentsTrigger.addEventListener('click', openModal);
+}
+if (csvOptimizerTrigger) {
+  csvOptimizerTrigger.addEventListener('click', openModal);
 }
 const footerContactBtn = document.getElementById('contactFooterBtn');
 if (footerContactBtn) {
