@@ -297,29 +297,29 @@ const fetchAlpacaPnL = () => {
     });
 };
 
-// --- LIVE P&L SCRAPE FOR ROBINHOOD BOT (via allorigins proxy) ---
+// --- LIVE P&L FETCH FOR ROBINHOOD BOT (via allorigins proxy → /api/portfolio JSON) ---
 const fetchRobinhoodPnL = () => {
   const badge = document.getElementById('robinhood-pnl-badge');
   if (!badge) return;
 
-  const targetUrl = encodeURIComponent('https://robinhood-bot-v2.onrender.com/');
+  const targetUrl = encodeURIComponent('https://robinhood-bot-v2.onrender.com/api/portfolio');
   fetch(`https://api.allorigins.win/get?url=${targetUrl}`)
     .then(res => {
       if (!res.ok) throw new Error('Proxy error');
       return res.json();
     })
-    .then(data => {
-      // Parse the HTML and find the #val-return-pct element
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(data.contents, 'text/html');
-      const el = doc.getElementById('val-return-pct');
-      if (!el) throw new Error('Element not found');
+    .then(proxy => {
+      const data = JSON.parse(proxy.contents);
+      if (data.error) throw new Error(data.error);
 
-      const text = el.textContent.trim(); // e.g. "-7.65%"
-      badge.textContent = text;
+      const equity = parseFloat(data.account.equity || data.account.cash || 0);
+      // P&L % from initial $1000 deposit (same formula as the bot dashboard)
+      const pnlPct = ((equity - 1000) / 1000) * 100;
+      const formattedPct = pnlPct >= 0 ? `+${pnlPct.toFixed(2)}%` : `${pnlPct.toFixed(2)}%`;
 
-      const isNegative = text.startsWith('-');
-      if (!isNegative) {
+      badge.textContent = formattedPct;
+
+      if (pnlPct >= 0) {
         badge.style.backgroundColor = 'rgba(16, 185, 129, 0.15)';
         badge.style.color = '#10B981';
         badge.style.border = '1px solid rgba(16, 185, 129, 0.3)';
@@ -330,7 +330,7 @@ const fetchRobinhoodPnL = () => {
       }
     })
     .catch(err => {
-      console.error('Error scraping Robinhood PnL:', err);
+      console.error('Error fetching Robinhood PnL:', err);
       badge.textContent = 'Offline';
       badge.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
       badge.style.color = '#9ca3af';
