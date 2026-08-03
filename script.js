@@ -336,12 +336,12 @@ const fetchRobinhoodPnL = () => {
     });
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  fetchAlpacaPnL();
-  fetchRobinhoodPnL();
-  // Poll every 30 seconds
-  setInterval(fetchAlpacaPnL, 30000);
-  setInterval(fetchRobinhoodPnL, 30000);
-});
+// Run immediately upon script execution since script is loaded at the bottom of the document
+fetchAlpacaPnL();
+fetchRobinhoodPnL();
+
+// Poll every 30 seconds
+setInterval(fetchAlpacaPnL, 30000);
+setInterval(fetchRobinhoodPnL, 30000);
 
 
