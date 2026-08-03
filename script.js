@@ -260,4 +260,42 @@ if (contactForm) {
   });
 }
 
+// --- LIVE P&L FETCH FOR ALPACA BOT ---
+const fetchAlpacaPnL = () => {
+  const badge = document.getElementById('alpaca-pnl-badge');
+  if (!badge) return;
+
+  fetch('https://alpaca-trading-bot-xw33.onrender.com/api/data')
+    .then(res => res.json())
+    .then(data => {
+      const pnlUsd = data.pnl_usd || 0;
+      const pnlPct = data.pnl_pct || 0;
+      
+      const formattedUsd = pnlUsd >= 0 ? `+$${pnlUsd.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}` : `-$${Math.abs(pnlUsd).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      const formattedPct = pnlPct >= 0 ? `+${pnlPct.toFixed(2)}%` : `${pnlPct.toFixed(2)}%`;
+      
+      badge.textContent = `${formattedUsd} (${formattedPct})`;
+      
+      if (pnlUsd >= 0) {
+        badge.style.backgroundColor = 'rgba(16, 185, 129, 0.15)'; // light green bg
+        badge.style.color = '#10B981'; // emerald green
+        badge.style.border = '1px solid rgba(16, 185, 129, 0.3)';
+      } else {
+        badge.style.backgroundColor = 'rgba(239, 68, 68, 0.15)'; // light red bg
+        badge.style.color = '#EF4444'; // red
+        badge.style.border = '1px solid rgba(239, 68, 68, 0.3)';
+      }
+      badge.style.display = 'inline-block';
+    })
+    .catch(err => {
+      console.error('Error fetching Alpaca PnL:', err);
+    });
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  fetchAlpacaPnL();
+  // Poll every 30 seconds
+  setInterval(fetchAlpacaPnL, 30000);
+});
+
 
