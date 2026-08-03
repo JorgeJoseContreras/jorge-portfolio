@@ -266,7 +266,10 @@ const fetchAlpacaPnL = () => {
   if (!badge) return;
 
   fetch('https://alpaca-trading-bot-xw33.onrender.com/api/data')
-    .then(res => res.json())
+    .then(res => {
+      if (!res.ok) throw new Error('Response error');
+      return res.json();
+    })
     .then(data => {
       const pnlUsd = data.pnl_usd || 0;
       const pnlPct = data.pnl_pct || 0;
@@ -283,10 +286,14 @@ const fetchAlpacaPnL = () => {
         badge.style.color = '#EF4444'; // red
         badge.style.border = '1px solid rgba(239, 68, 68, 0.3)';
       }
-      badge.style.display = 'inline-block';
     })
     .catch(err => {
       console.error('Error fetching Alpaca PnL:', err);
+      // Fallback state
+      badge.textContent = 'Offline';
+      badge.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+      badge.style.color = '#9ca3af';
+      badge.style.border = '1px solid rgba(255, 255, 255, 0.1)';
     });
 };
 
@@ -296,7 +303,10 @@ const fetchRobinhoodPnL = () => {
   if (!badge) return;
 
   fetch('https://robinhood-bot-v2.onrender.com/api/portfolio')
-    .then(res => res.json())
+    .then(res => {
+      if (!res.ok) throw new Error('Response error');
+      return res.json();
+    })
     .then(data => {
       const cash = parseFloat(data.account.cash || 0);
       const equity = parseFloat(data.account.equity || cash);
@@ -315,10 +325,14 @@ const fetchRobinhoodPnL = () => {
         badge.style.color = '#EF4444'; // red
         badge.style.border = '1px solid rgba(239, 68, 68, 0.3)';
       }
-      badge.style.display = 'inline-block';
     })
     .catch(err => {
       console.error('Error fetching Robinhood PnL:', err);
+      // Fallback state
+      badge.textContent = 'Offline';
+      badge.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+      badge.style.color = '#9ca3af';
+      badge.style.border = '1px solid rgba(255, 255, 255, 0.1)';
     });
 };
 
