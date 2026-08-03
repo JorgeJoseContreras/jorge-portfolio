@@ -297,38 +297,40 @@ const fetchAlpacaPnL = () => {
     });
 };
 
-// --- LIVE P&L FETCH FOR ROBINHOOD BOT ---
+// --- LIVE P&L SCRAPE FOR ROBINHOOD BOT (via allorigins proxy) ---
 const fetchRobinhoodPnL = () => {
   const badge = document.getElementById('robinhood-pnl-badge');
   if (!badge) return;
 
-  fetch('https://robinhood-bot-v2.onrender.com/api/portfolio')
+  const targetUrl = encodeURIComponent('https://robinhood-bot-v2.onrender.com/');
+  fetch(`https://api.allorigins.win/get?url=${targetUrl}`)
     .then(res => {
-      if (!res.ok) throw new Error('Response error');
+      if (!res.ok) throw new Error('Proxy error');
       return res.json();
     })
     .then(data => {
-      const cash = parseFloat(data.account.cash || 0);
-      const equity = parseFloat(data.account.equity || cash);
-      // Overall P&L percentage is calculated from the base amount of $1000
-      const overallReturnPct = ((equity - 1000) / 1000) * 100;
-      const formattedPct = overallReturnPct >= 0 ? `+${overallReturnPct.toFixed(2)}%` : `${overallReturnPct.toFixed(2)}%`;
-      
-      badge.textContent = formattedPct;
-      
-      if (overallReturnPct >= 0) {
-        badge.style.backgroundColor = 'rgba(16, 185, 129, 0.15)'; // light green bg
-        badge.style.color = '#10B981'; // emerald green
+      // Parse the HTML and find the #val-return-pct element
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(data.contents, 'text/html');
+      const el = doc.getElementById('val-return-pct');
+      if (!el) throw new Error('Element not found');
+
+      const text = el.textContent.trim(); // e.g. "-7.65%"
+      badge.textContent = text;
+
+      const isNegative = text.startsWith('-');
+      if (!isNegative) {
+        badge.style.backgroundColor = 'rgba(16, 185, 129, 0.15)';
+        badge.style.color = '#10B981';
         badge.style.border = '1px solid rgba(16, 185, 129, 0.3)';
       } else {
-        badge.style.backgroundColor = 'rgba(239, 68, 68, 0.15)'; // light red bg
-        badge.style.color = '#EF4444'; // red
+        badge.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
+        badge.style.color = '#EF4444';
         badge.style.border = '1px solid rgba(239, 68, 68, 0.3)';
       }
     })
     .catch(err => {
-      console.error('Error fetching Robinhood PnL:', err);
-      // Fallback state
+      console.error('Error scraping Robinhood PnL:', err);
       badge.textContent = 'Offline';
       badge.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
       badge.style.color = '#9ca3af';
