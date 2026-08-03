@@ -338,12 +338,64 @@ const fetchRobinhoodPnL = () => {
     });
 };
 
+// --- LIVE P&L FETCH FOR KRAKEN CRYPTO BOT ---
+const fetchKrakenPnL = () => {
+  const badge = document.getElementById('kraken-pnl-badge');
+  if (!badge) return;
+
+  fetch('https://kraken-trading-bot-lafb.onrender.com/health')
+    .then(res => {
+      if (!res.ok) throw new Error('Response error');
+      return res.json();
+    })
+    .then(data => {
+      const state = data.state;
+      const balances = state.balances || {};
+      const prices = state.prices || {};
+      const initialDeposit = state.initial_deposit || 100.0;
+
+      // Compute net liquidation value: USD cash + all crypto holdings × current price
+      let netLiq = parseFloat(balances['USD'] || 0);
+      for (const [coin, amount] of Object.entries(balances)) {
+        if (coin === 'USD') continue;
+        const priceKey = `${coin}/USD`;
+        const price = parseFloat(prices[priceKey] || 0);
+        netLiq += parseFloat(amount || 0) * price;
+      }
+
+      const allTimePL = netLiq - initialDeposit;
+      const allTimePLPct = initialDeposit > 0 ? (allTimePL / initialDeposit) * 100 : 0;
+      const formattedPct = allTimePLPct >= 0 ? `+${allTimePLPct.toFixed(2)}%` : `${allTimePLPct.toFixed(2)}%`;
+
+      badge.textContent = formattedPct;
+
+      if (allTimePLPct >= 0) {
+        badge.style.backgroundColor = 'rgba(16, 185, 129, 0.15)';
+        badge.style.color = '#10B981';
+        badge.style.border = '1px solid rgba(16, 185, 129, 0.3)';
+      } else {
+        badge.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
+        badge.style.color = '#EF4444';
+        badge.style.border = '1px solid rgba(239, 68, 68, 0.3)';
+      }
+    })
+    .catch(err => {
+      console.error('Error fetching Kraken PnL:', err);
+      badge.textContent = 'Offline';
+      badge.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+      badge.style.color = '#9ca3af';
+      badge.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+    });
+};
+
 // Run immediately upon script execution since script is loaded at the bottom of the document
 fetchAlpacaPnL();
 fetchRobinhoodPnL();
+fetchKrakenPnL();
 
 // Poll every 30 seconds
 setInterval(fetchAlpacaPnL, 30000);
 setInterval(fetchRobinhoodPnL, 30000);
+setInterval(fetchKrakenPnL, 30000);
 
 
