@@ -270,7 +270,6 @@ const fetchAlpacaPnL = () => {
     .then(data => {
       const pnlUsd = data.pnl_usd || 0;
       const pnlPct = data.pnl_pct || 0;
-      
       const formattedPct = pnlPct >= 0 ? `+${pnlPct.toFixed(2)}%` : `${pnlPct.toFixed(2)}%`;
       
       badge.textContent = formattedPct;
@@ -291,10 +290,44 @@ const fetchAlpacaPnL = () => {
     });
 };
 
+// --- LIVE P&L FETCH FOR ROBINHOOD BOT ---
+const fetchRobinhoodPnL = () => {
+  const badge = document.getElementById('robinhood-pnl-badge');
+  if (!badge) return;
+
+  fetch('https://robinhood-bot-v2.onrender.com/api/portfolio')
+    .then(res => res.json())
+    .then(data => {
+      const cash = parseFloat(data.account.cash || 0);
+      const equity = parseFloat(data.account.equity || cash);
+      // Overall P&L percentage is calculated from the base amount of $1000
+      const overallReturnPct = ((equity - 1000) / 1000) * 100;
+      const formattedPct = overallReturnPct >= 0 ? `+${overallReturnPct.toFixed(2)}%` : `${overallReturnPct.toFixed(2)}%`;
+      
+      badge.textContent = formattedPct;
+      
+      if (overallReturnPct >= 0) {
+        badge.style.backgroundColor = 'rgba(16, 185, 129, 0.15)'; // light green bg
+        badge.style.color = '#10B981'; // emerald green
+        badge.style.border = '1px solid rgba(16, 185, 129, 0.3)';
+      } else {
+        badge.style.backgroundColor = 'rgba(239, 68, 68, 0.15)'; // light red bg
+        badge.style.color = '#EF4444'; // red
+        badge.style.border = '1px solid rgba(239, 68, 68, 0.3)';
+      }
+      badge.style.display = 'inline-block';
+    })
+    .catch(err => {
+      console.error('Error fetching Robinhood PnL:', err);
+    });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   fetchAlpacaPnL();
+  fetchRobinhoodPnL();
   // Poll every 30 seconds
   setInterval(fetchAlpacaPnL, 30000);
+  setInterval(fetchRobinhoodPnL, 30000);
 });
 
 
