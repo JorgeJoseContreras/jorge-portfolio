@@ -271,10 +271,9 @@ const fetchAlpacaPnL = () => {
       const pnlUsd = data.pnl_usd || 0;
       const pnlPct = data.pnl_pct || 0;
       
-      const formattedUsd = pnlUsd >= 0 ? `+$${pnlUsd.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}` : `-$${Math.abs(pnlUsd).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
       const formattedPct = pnlPct >= 0 ? `+${pnlPct.toFixed(2)}%` : `${pnlPct.toFixed(2)}%`;
       
-      badge.textContent = `${formattedUsd} (${formattedPct})`;
+      badge.textContent = formattedPct;
       
       if (pnlUsd >= 0) {
         badge.style.backgroundColor = 'rgba(16, 185, 129, 0.15)'; // light green bg
