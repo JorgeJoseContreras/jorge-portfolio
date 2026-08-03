@@ -343,28 +343,28 @@ const fetchKrakenPnL = () => {
   const badge = document.getElementById('kraken-pnl-badge');
   if (!badge) return;
 
-  fetch('https://kraken-trading-bot-lafb.onrender.com/health')
+  const targetUrl = encodeURIComponent('https://kraken-trading-bot-lafb.onrender.com/health');
+  fetch(`https://api.allorigins.win/get?url=${targetUrl}`)
     .then(res => {
-      if (!res.ok) throw new Error('Response error');
+      if (!res.ok) throw new Error('Proxy error');
       return res.json();
     })
-    .then(data => {
+    .then(proxy => {
+      const data = JSON.parse(proxy.contents);
       const state = data.state;
       const balances = state.balances || {};
       const prices = state.prices || {};
       const initialDeposit = state.initial_deposit || 100.0;
 
-      // Compute net liquidation value: USD cash + all crypto holdings × current price
+      // Compute net liquidation: USD cash + all crypto holdings × current price
       let netLiq = parseFloat(balances['USD'] || 0);
       for (const [coin, amount] of Object.entries(balances)) {
         if (coin === 'USD') continue;
-        const priceKey = `${coin}/USD`;
-        const price = parseFloat(prices[priceKey] || 0);
+        const price = parseFloat(prices[`${coin}/USD`] || 0);
         netLiq += parseFloat(amount || 0) * price;
       }
 
-      const allTimePL = netLiq - initialDeposit;
-      const allTimePLPct = initialDeposit > 0 ? (allTimePL / initialDeposit) * 100 : 0;
+      const allTimePLPct = initialDeposit > 0 ? ((netLiq - initialDeposit) / initialDeposit) * 100 : 0;
       const formattedPct = allTimePLPct >= 0 ? `+${allTimePLPct.toFixed(2)}%` : `${allTimePLPct.toFixed(2)}%`;
 
       badge.textContent = formattedPct;
