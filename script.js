@@ -388,14 +388,57 @@ const fetchKrakenPnL = () => {
     });
 };
 
+// --- LIVE P&L FETCH FOR KALSHI PREDICTION MARKET BOT ---
+const fetchKalshiPnL = () => {
+  const badge = document.getElementById('kalshi-pnl-badge');
+  if (!badge) return;
+
+  const targetUrl = encodeURIComponent('https://kalshi-trading-bot-70rb.onrender.com/api/data');
+  fetch(`https://api.allorigins.win/get?url=${targetUrl}`)
+    .then(res => {
+      if (!res.ok) throw new Error('Proxy error');
+      return res.json();
+    })
+    .then(proxy => {
+      const data = JSON.parse(proxy.contents);
+      if (data.error) throw new Error(data.error);
+
+      const totalPnl = parseFloat(data.total_pnl || 0);
+      const totalDeposits = parseFloat(data.total_deposits || 1);
+      const pnlPct = (totalPnl / totalDeposits) * 100;
+      const formattedPct = pnlPct >= 0 ? `+${pnlPct.toFixed(2)}%` : `${pnlPct.toFixed(2)}%`;
+
+      badge.textContent = formattedPct;
+
+      if (pnlPct >= 0) {
+        badge.style.backgroundColor = 'rgba(16, 185, 129, 0.15)';
+        badge.style.color = '#10B981';
+        badge.style.border = '1px solid rgba(16, 185, 129, 0.3)';
+      } else {
+        badge.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
+        badge.style.color = '#EF4444';
+        badge.style.border = '1px solid rgba(239, 68, 68, 0.3)';
+      }
+    })
+    .catch(err => {
+      console.error('Error fetching Kalshi PnL:', err);
+      badge.textContent = 'Offline';
+      badge.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+      badge.style.color = '#9ca3af';
+      badge.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+    });
+};
+
 // Run immediately upon script execution since script is loaded at the bottom of the document
 fetchAlpacaPnL();
 fetchRobinhoodPnL();
 fetchKrakenPnL();
+fetchKalshiPnL();
 
 // Poll every 30 seconds
 setInterval(fetchAlpacaPnL, 30000);
 setInterval(fetchRobinhoodPnL, 30000);
 setInterval(fetchKrakenPnL, 30000);
+setInterval(fetchKalshiPnL, 30000);
 
 
