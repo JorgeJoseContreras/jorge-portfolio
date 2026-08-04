@@ -441,4 +441,134 @@ setInterval(fetchRobinhoodPnL, 30000);
 setInterval(fetchKrakenPnL, 30000);
 setInterval(fetchKalshiPnL, 30000);
 
+// =============================================================
+// --- ADMIN PANEL SYSTEM ---
+// =============================================================
 
+const ADMIN_PASSWORD = '0138';
+const ADMIN_SESSION_KEY = 'adminSession';
+
+// All projects: [cardId, displayName]
+const ADMIN_PROJECTS = [
+  ['card-imessage',        'iMessage AI Assistant'],
+  ['card-adminbot',        'Admin Coding Bot'],
+  ['card-alpaca',          'Agentic Stock Trading Bot'],
+  ['card-robinhood',       'Telegram Stock Trading Bot'],
+  ['card-kraken',          'Agentic Crypto Trading Bot'],
+  ['card-kalshi',          'Agentic Prediction Market Bot'],
+  ['card-scholarship',     'Scholarship Disbursement Authorization Automation'],
+  ['card-mileage',         'Automated Mileage Report Generator'],
+  ['card-zengine-monitor', 'Zengine Disbursements Monitor'],
+  ['card-scholar-services','Scholar Services Zengine App'],
+  ['card-bulk-payments',   'Zengine Live Form Data Editor'],
+  ['card-csv-optimizer',   'Zengine CSV Optimizer'],
+  ['card-social',          'Automated Multi-Modal Social Engagement Pipeline'],
+];
+
+// Investment badges: [badgeId, displayName]
+const ADMIN_BADGES = [
+  ['alpaca-pnl-badge',   'Alpaca — Agentic Stock Bot'],
+  ['robinhood-pnl-badge','Robinhood — Telegram Stock Bot'],
+  ['kraken-pnl-badge',   'Kraken — Agentic Crypto Bot'],
+  ['kalshi-pnl-badge',   'Kalshi — Prediction Market Bot'],
+];
+
+function loadAdminSettings() {
+  try { return JSON.parse(localStorage.getItem('adminSettings') || '{}'); } catch { return {}; }
+}
+function saveAdminSettings(s) { localStorage.setItem('adminSettings', JSON.stringify(s)); }
+
+function applyAdminSettings() {
+  const s = loadAdminSettings();
+  ADMIN_PROJECTS.forEach(([id]) => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = (s[id] === false) ? 'none' : '';
+  });
+  ADMIN_BADGES.forEach(([id]) => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = (s['badge_' + id] === false) ? 'none' : '';
+  });
+}
+
+function populateAdminPanel() {
+  const s = loadAdminSettings();
+  const projectList = document.getElementById('adminProjectList');
+  projectList.innerHTML = '';
+  ADMIN_PROJECTS.forEach(([id, label]) => {
+    const visible = s[id] !== false;
+    const row = document.createElement('label');
+    row.style.cssText = 'display:flex;align-items:center;gap:12px;cursor:pointer;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);';
+    row.innerHTML = `<input type="checkbox" data-id="${id}" ${visible ? 'checked' : ''} style="width:16px;height:16px;accent-color:#8b5cf6;cursor:pointer;"><span style="color:var(--text-primary,#fff);font-size:0.88rem;flex:1;">${label}</span>`;
+    projectList.appendChild(row);
+  });
+
+  const badgeList = document.getElementById('adminBadgeList');
+  badgeList.innerHTML = '';
+  ADMIN_BADGES.forEach(([id, label]) => {
+    const visible = s['badge_' + id] !== false;
+    const row = document.createElement('label');
+    row.style.cssText = 'display:flex;align-items:center;gap:12px;cursor:pointer;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);';
+    row.innerHTML = `<input type="checkbox" data-badge="${id}" ${visible ? 'checked' : ''} style="width:16px;height:16px;accent-color:#8b5cf6;cursor:pointer;"><span style="color:var(--text-primary,#fff);font-size:0.88rem;flex:1;">${label}</span>`;
+    badgeList.appendChild(row);
+  });
+}
+
+const adminLoginModal = document.getElementById('adminLoginModal');
+const adminPanelModal = document.getElementById('adminPanelModal');
+
+function showAdminLogin() {
+  document.getElementById('adminPasswordInput').value = '';
+  document.getElementById('adminLoginError').style.display = 'none';
+  adminLoginModal.style.display = 'flex';
+  setTimeout(() => document.getElementById('adminPasswordInput').focus(), 50);
+}
+function hideAdminLogin() { adminLoginModal.style.display = 'none'; }
+function showAdminPanel() { populateAdminPanel(); adminPanelModal.style.display = 'flex'; }
+function hideAdminPanel() { adminPanelModal.style.display = 'none'; }
+
+// Hidden bottom-left trigger
+document.getElementById('adminTrigger').addEventListener('click', () => {
+  sessionStorage.getItem(ADMIN_SESSION_KEY) === 'true' ? showAdminPanel() : showAdminLogin();
+});
+
+// Login logic
+document.getElementById('adminLoginSubmit').addEventListener('click', () => {
+  const val = document.getElementById('adminPasswordInput').value.trim();
+  if (val === ADMIN_PASSWORD) {
+    sessionStorage.setItem(ADMIN_SESSION_KEY, 'true');
+    hideAdminLogin();
+    showAdminPanel();
+  } else {
+    document.getElementById('adminLoginError').style.display = 'block';
+    document.getElementById('adminPasswordInput').value = '';
+    document.getElementById('adminPasswordInput').focus();
+  }
+});
+document.getElementById('adminPasswordInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('adminLoginSubmit').click();
+});
+document.getElementById('adminLoginCancel').addEventListener('click', hideAdminLogin);
+
+// Panel controls
+document.getElementById('adminPanelClose').addEventListener('click', hideAdminPanel);
+
+document.getElementById('adminSaveBtn').addEventListener('click', () => {
+  const s = loadAdminSettings();
+  document.querySelectorAll('#adminProjectList input[data-id]').forEach(cb => { s[cb.dataset.id] = cb.checked; });
+  document.querySelectorAll('#adminBadgeList input[data-badge]').forEach(cb => { s['badge_' + cb.dataset.badge] = cb.checked; });
+  saveAdminSettings(s);
+  applyAdminSettings();
+  hideAdminPanel();
+});
+
+document.getElementById('adminLogoutBtn').addEventListener('click', () => {
+  sessionStorage.removeItem(ADMIN_SESSION_KEY);
+  hideAdminPanel();
+});
+
+// Close on backdrop click
+adminLoginModal.addEventListener('click', e => { if (e.target === adminLoginModal) hideAdminLogin(); });
+adminPanelModal.addEventListener('click', e => { if (e.target === adminPanelModal) hideAdminPanel(); });
+
+// Apply on load
+applyAdminSettings();

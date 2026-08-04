@@ -63,7 +63,7 @@
       <div class="projects-grid">
         
         <!-- Project 1: iMessage AI Assistant -->
-        <article class="project-card reveal" data-category="assistants">
+        <article class="project-card reveal" data-category="assistants" id="card-imessage">
           <div class="project-info">
             <div class="project-tags">
               <span class="project-tag">Python</span>
@@ -85,7 +85,7 @@
         </article>
 
         <!-- Project: Admin Coding Bot -->
-        <article class="project-card reveal" data-category="assistants">
+        <article class="project-card reveal" data-category="assistants" id="card-adminbot">
           <div class="project-info">
             <div class="project-tags">
               <span class="project-tag">Python</span>
@@ -107,7 +107,7 @@
         </article>
 
         <!-- Project 2: Agentic Stock Trading Bot -->
-        <article class="project-card reveal" data-category="investments">
+        <article class="project-card reveal" data-category="investments" id="card-alpaca">
           <div class="project-info">
             <div class="project-tags">
               <span class="project-tag">Python</span>
@@ -131,7 +131,7 @@
         </article>
  
         <!-- Project 3: Telegram Stock Trading Bot -->
-        <article class="project-card reveal" data-category="investments">
+        <article class="project-card reveal" data-category="investments" id="card-robinhood">
           <div class="project-info">
             <div class="project-tags">
               <span class="project-tag">JavaScript</span>
@@ -157,7 +157,7 @@
         </article>
 
         <!-- Project: Agentic Crypto Trading Bot -->
-        <article class="project-card reveal" data-category="investments">
+        <article class="project-card reveal" data-category="investments" id="card-kraken">
           <div class="project-info">
             <div class="project-tags">
               <span class="project-tag">Python</span>
@@ -182,7 +182,7 @@
         </article>
 
         <!-- Project: Agentic Prediction Market Bot -->
-        <article class="project-card reveal" data-category="investments">
+        <article class="project-card reveal" data-category="investments" id="card-kalshi">
           <div class="project-info">
             <div class="project-tags">
               <span class="project-tag">Python</span>
@@ -207,7 +207,7 @@
         </article>
 
         <!-- Project 4: Scholarship Disbursement Report Authorization Automation -->
-        <article class="project-card reveal" data-category="enterprise">
+        <article class="project-card reveal" data-category="enterprise" id="card-scholarship">
           <div class="project-info">
             <div class="project-tags">
               <span class="project-tag">Python</span>
@@ -229,7 +229,7 @@
         </article>
 
         <!-- Project 5: Automated Mileage Report Generator -->
-        <article class="project-card reveal" data-category="enterprise">
+        <article class="project-card reveal" data-category="enterprise" id="card-mileage">
           <div class="project-info">
             <div class="project-tags">
               <span class="project-tag">Python</span>
@@ -251,7 +251,7 @@
         </article>
 
         <!-- Project 6: Zengine Disbursements Monitor -->
-        <article class="project-card reveal" data-category="assistants enterprise">
+        <article class="project-card reveal" data-category="assistants enterprise" id="card-zengine-monitor">
           <div class="project-info">
             <div class="project-tags">
               <span class="project-tag">Python</span>
@@ -272,7 +272,7 @@
         </article>
 
         <!-- Project 7: Scholar Services Zengine App -->
-        <article class="project-card reveal" data-category="enterprise">
+        <article class="project-card reveal" data-category="enterprise" id="card-scholar-services">
           <div class="project-info">
             <div class="project-tags">
               <span class="project-tag">Python</span>
@@ -293,7 +293,7 @@
         </article>
 
         <!-- Project 8: Zengine Live Form Data Editor -->
-        <article class="project-card reveal" data-category="enterprise">
+        <article class="project-card reveal" data-category="enterprise" id="card-bulk-payments">
           <div class="project-info">
             <div class="project-tags">
               <span class="project-tag">Python</span>
@@ -315,7 +315,7 @@
         </article>
 
         <!-- Project 9: Zengine CSV Optimizer -->
-        <article class="project-card reveal" data-category="enterprise">
+        <article class="project-card reveal" data-category="enterprise" id="card-csv-optimizer">
           <div class="project-info">
             <div class="project-tags">
               <span class="project-tag">Python</span>
@@ -337,7 +337,7 @@
         </article>
 
         <!-- Project 10: Automated Multi-Modal Social Engagement Pipeline -->
-        <article class="project-card reveal" data-category="hobby">
+        <article class="project-card reveal" data-category="hobby" id="card-social">
           <div class="project-info">
             <div class="project-tags">
               <span class="project-tag">Python</span>
@@ -423,6 +423,44 @@
       <polyline points="18 15 12 9 6 15"></polyline>
     </svg>
   </button>
+
+  <!-- Hidden Admin Trigger (bottom-left corner) -->
+  <div id="adminTrigger" style="position:fixed;bottom:0;left:0;width:50px;height:50px;z-index:9998;cursor:default;"></div>
+
+  <!-- Admin Login Modal -->
+  <div id="adminLoginModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center;backdrop-filter:blur(4px);">
+    <div style="background:var(--bg-card,#1a1a2e);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:32px;width:320px;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+      <h3 style="margin:0 0 8px;color:var(--text-primary,#fff);font-size:1.1rem;">Admin Access</h3>
+      <p style="margin:0 0 20px;color:var(--text-muted,#888);font-size:0.85rem;">Enter password to continue</p>
+      <input type="password" id="adminPasswordInput" placeholder="Password" style="width:100%;box-sizing:border-box;padding:10px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:#fff;font-size:0.95rem;margin-bottom:12px;outline:none;">
+      <div id="adminLoginError" style="color:#EF4444;font-size:0.8rem;margin-bottom:12px;display:none;">Incorrect password.</div>
+      <div style="display:flex;gap:10px;">
+        <button id="adminLoginSubmit" style="flex:1;padding:10px;border-radius:8px;border:none;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:600;cursor:pointer;">Login</button>
+        <button id="adminLoginCancel" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:var(--text-muted,#888);cursor:pointer;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Panel Modal -->
+  <div id="adminPanelModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center;backdrop-filter:blur(4px);overflow-y:auto;">
+    <div style="background:var(--bg-card,#1a1a2e);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:32px;width:440px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,0.5);margin:20px auto;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+        <h3 style="margin:0;color:var(--text-primary,#fff);font-size:1.1rem;">⚙️ Admin Settings</h3>
+        <button id="adminPanelClose" style="background:transparent;border:none;color:var(--text-muted,#888);font-size:1.4rem;cursor:pointer;line-height:1;">&times;</button>
+      </div>
+
+      <p style="margin:0 0 16px;color:var(--text-muted,#888);font-size:0.8rem;text-transform:uppercase;letter-spacing:.05em;">Show / Hide Projects</p>
+      <div id="adminProjectList" style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;"></div>
+
+      <p style="margin:0 0 16px;color:var(--text-muted,#888);font-size:0.8rem;text-transform:uppercase;letter-spacing:.05em;">Investment P&L Badges</p>
+      <div id="adminBadgeList" style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;"></div>
+
+      <div style="display:flex;gap:10px;">
+        <button id="adminSaveBtn" style="flex:1;padding:10px;border-radius:8px;border:none;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:600;cursor:pointer;">Save & Apply</button>
+        <button id="adminLogoutBtn" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(239,68,68,0.4);background:transparent;color:#EF4444;cursor:pointer;">Logout</button>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
