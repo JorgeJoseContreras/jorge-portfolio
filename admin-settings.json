@@ -1,0 +1,19 @@
+{
+  "card-imessage": true,
+  "card-adminbot": true,
+  "card-alpaca": true,
+  "card-robinhood": true,
+  "card-kraken": true,
+  "card-kalshi": true,
+  "card-scholarship": true,
+  "card-mileage": true,
+  "card-zengine-monitor": true,
+  "card-scholar-services": true,
+  "card-bulk-payments": true,
+  "card-csv-optimizer": true,
+  "card-social": true,
+  "badge_alpaca-pnl-badge": true,
+  "badge_robinhood-pnl-badge": true,
+  "badge_kraken-pnl-badge": true,
+  "badge_kalshi-pnl-badge": true
+}

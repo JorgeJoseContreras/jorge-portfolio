@@ -442,7 +442,64 @@ setInterval(fetchKrakenPnL, 30000);
 setInterval(fetchKalshiPnL, 30000);
 
 // =============================================================
-// --- ADMIN PANEL SYSTEM ---
+// --- DYNAMIC LOGO LETTER WAVE EFFECT ---
+// =============================================================
+function initLogoWave() {
+  const logoLink = document.getElementById('logoLink');
+  if (!logoLink) return;
+
+  const text = logoLink.textContent.trim();
+  logoLink.innerHTML = '';
+
+  const spans = [];
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+    const span = document.createElement('span');
+    if (char === ' ') {
+      span.className = 'logo-space';
+      span.innerHTML = '&nbsp;';
+    } else {
+      span.className = 'logo-letter';
+      span.textContent = char;
+    }
+    logoLink.appendChild(span);
+    spans.push(span);
+  }
+
+  const radius = 65; // Influence radius in px
+
+  logoLink.addEventListener('mousemove', (e) => {
+    const mouseX = e.clientX;
+    spans.forEach(span => {
+      if (span.classList.contains('logo-space')) return;
+      const rect = span.getBoundingClientRect();
+      const center = rect.left + rect.width / 2;
+      const dist = Math.abs(mouseX - center);
+
+      if (dist < radius) {
+        const factor = Math.cos((dist / radius) * (Math.PI / 2)); // Smooth cosine wave curve
+        const translateY = -14 * factor;
+        const scale = 1 + 0.25 * factor;
+        const rotate = (mouseX < center ? 12 : -12) * factor;
+        span.style.transform = `translateY(${translateY}px) scale(${scale}) rotate(${rotate}deg)`;
+        span.style.filter = `drop-shadow(0 6px 12px rgba(168, 85, 247, ${0.4 * factor}))`;
+      } else {
+        span.style.transform = 'translateY(0) scale(1) rotate(0deg)';
+        span.style.filter = 'none';
+      }
+    });
+  });
+
+  logoLink.addEventListener('mouseleave', () => {
+    spans.forEach(span => {
+      span.style.transform = 'translateY(0) scale(1) rotate(0deg)';
+      span.style.filter = 'none';
+    });
+  });
+}
+
+// =============================================================
+// --- FILE-PERSISTENT ADMIN PANEL SYSTEM ---
 // =============================================================
 
 const ADMIN_PASSWORD = '0138';
@@ -473,13 +530,32 @@ const ADMIN_BADGES = [
   ['kalshi-pnl-badge',   'Kalshi — Prediction Market Bot'],
 ];
 
-function loadAdminSettings() {
-  try { return JSON.parse(localStorage.getItem('adminSettings') || '{}'); } catch { return {}; }
+let fileAdminSettings = {};
+
+async function fetchAdminConfigFile() {
+  try {
+    const res = await fetch('admin-settings.json?t=' + Date.now());
+    if (res.ok) {
+      fileAdminSettings = await res.json();
+    }
+  } catch (e) {
+    console.warn('Could not fetch admin-settings.json:', e);
+  }
 }
-function saveAdminSettings(s) { localStorage.setItem('adminSettings', JSON.stringify(s)); }
+
+function getMergedAdminSettings() {
+  let local = {};
+  try { local = JSON.parse(localStorage.getItem('adminSettings') || '{}'); } catch {}
+  return Object.assign({}, fileAdminSettings, local);
+}
+
+function saveAdminSettings(s) {
+  localStorage.setItem('adminSettings', JSON.stringify(s));
+  fileAdminSettings = Object.assign({}, fileAdminSettings, s);
+}
 
 function applyAdminSettings() {
-  const s = loadAdminSettings();
+  const s = getMergedAdminSettings();
   ADMIN_PROJECTS.forEach(([id]) => {
     const el = document.getElementById(id);
     if (el) el.style.display = (s[id] === false) ? 'none' : '';
@@ -491,7 +567,7 @@ function applyAdminSettings() {
 }
 
 function populateAdminPanel() {
-  const s = loadAdminSettings();
+  const s = getMergedAdminSettings();
   const projectList = document.getElementById('adminProjectList');
   projectList.innerHTML = '';
   ADMIN_PROJECTS.forEach(([id, label]) => {
@@ -527,48 +603,92 @@ function showAdminPanel() { populateAdminPanel(); adminPanelModal.style.display 
 function hideAdminPanel() { adminPanelModal.style.display = 'none'; }
 
 // Hidden bottom-left trigger
-document.getElementById('adminTrigger').addEventListener('click', () => {
-  sessionStorage.getItem(ADMIN_SESSION_KEY) === 'true' ? showAdminPanel() : showAdminLogin();
-});
+const adminTrigger = document.getElementById('adminTrigger');
+if (adminTrigger) {
+  adminTrigger.addEventListener('click', () => {
+    sessionStorage.getItem(ADMIN_SESSION_KEY) === 'true' ? showAdminPanel() : showAdminLogin();
+  });
+}
 
 // Login logic
-document.getElementById('adminLoginSubmit').addEventListener('click', () => {
-  const val = document.getElementById('adminPasswordInput').value.trim();
-  if (val === ADMIN_PASSWORD) {
-    sessionStorage.setItem(ADMIN_SESSION_KEY, 'true');
-    hideAdminLogin();
-    showAdminPanel();
-  } else {
-    document.getElementById('adminLoginError').style.display = 'block';
-    document.getElementById('adminPasswordInput').value = '';
-    document.getElementById('adminPasswordInput').focus();
-  }
-});
-document.getElementById('adminPasswordInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') document.getElementById('adminLoginSubmit').click();
-});
-document.getElementById('adminLoginCancel').addEventListener('click', hideAdminLogin);
+const adminLoginSubmit = document.getElementById('adminLoginSubmit');
+if (adminLoginSubmit) {
+  adminLoginSubmit.addEventListener('click', () => {
+    const val = document.getElementById('adminPasswordInput').value.trim();
+    if (val === ADMIN_PASSWORD) {
+      sessionStorage.setItem(ADMIN_SESSION_KEY, 'true');
+      hideAdminLogin();
+      showAdminPanel();
+    } else {
+      document.getElementById('adminLoginError').style.display = 'block';
+      document.getElementById('adminPasswordInput').value = '';
+      document.getElementById('adminPasswordInput').focus();
+    }
+  });
+}
+
+const adminPasswordInput = document.getElementById('adminPasswordInput');
+if (adminPasswordInput) {
+  adminPasswordInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') adminLoginSubmit.click();
+  });
+}
+
+const adminLoginCancel = document.getElementById('adminLoginCancel');
+if (adminLoginCancel) adminLoginCancel.addEventListener('click', hideAdminLogin);
 
 // Panel controls
-document.getElementById('adminPanelClose').addEventListener('click', hideAdminPanel);
+const adminPanelClose = document.getElementById('adminPanelClose');
+if (adminPanelClose) adminPanelClose.addEventListener('click', hideAdminPanel);
 
-document.getElementById('adminSaveBtn').addEventListener('click', () => {
-  const s = loadAdminSettings();
-  document.querySelectorAll('#adminProjectList input[data-id]').forEach(cb => { s[cb.dataset.id] = cb.checked; });
-  document.querySelectorAll('#adminBadgeList input[data-badge]').forEach(cb => { s['badge_' + cb.dataset.badge] = cb.checked; });
-  saveAdminSettings(s);
-  applyAdminSettings();
-  hideAdminPanel();
-});
+const adminSaveBtn = document.getElementById('adminSaveBtn');
+if (adminSaveBtn) {
+  adminSaveBtn.addEventListener('click', () => {
+    const s = getMergedAdminSettings();
+    document.querySelectorAll('#adminProjectList input[data-id]').forEach(cb => { s[cb.dataset.id] = cb.checked; });
+    document.querySelectorAll('#adminBadgeList input[data-badge]').forEach(cb => { s['badge_' + cb.dataset.badge] = cb.checked; });
+    saveAdminSettings(s);
+    applyAdminSettings();
+    hideAdminPanel();
+  });
+}
 
-document.getElementById('adminLogoutBtn').addEventListener('click', () => {
-  sessionStorage.removeItem(ADMIN_SESSION_KEY);
-  hideAdminPanel();
-});
+// Export admin-settings.json file download
+const adminExportBtn = document.getElementById('adminExportBtn');
+if (adminExportBtn) {
+  adminExportBtn.addEventListener('click', () => {
+    const s = getMergedAdminSettings();
+    document.querySelectorAll('#adminProjectList input[data-id]').forEach(cb => { s[cb.dataset.id] = cb.checked; });
+    document.querySelectorAll('#adminBadgeList input[data-badge]').forEach(cb => { s['badge_' + cb.dataset.badge] = cb.checked; });
+    
+    const jsonStr = JSON.stringify(s, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'admin-settings.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+}
+
+const adminLogoutBtn = document.getElementById('adminLogoutBtn');
+if (adminLogoutBtn) {
+  adminLogoutBtn.addEventListener('click', () => {
+    sessionStorage.removeItem(ADMIN_SESSION_KEY);
+    hideAdminPanel();
+  });
+}
 
 // Close on backdrop click
-adminLoginModal.addEventListener('click', e => { if (e.target === adminLoginModal) hideAdminLogin(); });
-adminPanelModal.addEventListener('click', e => { if (e.target === adminPanelModal) hideAdminPanel(); });
+if (adminLoginModal) adminLoginModal.addEventListener('click', e => { if (e.target === adminLoginModal) hideAdminLogin(); });
+if (adminPanelModal) adminPanelModal.addEventListener('click', e => { if (e.target === adminPanelModal) hideAdminPanel(); });
 
-// Apply on load
-applyAdminSettings();
+// Initialization on DOM load
+initLogoWave();
+fetchAdminConfigFile().then(() => {
+  applyAdminSettings();
+});
+
