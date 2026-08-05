@@ -686,13 +686,6 @@ if (adminLogoutBtn) {
 if (adminLoginModal) adminLoginModal.addEventListener('click', e => { if (e.target === adminLoginModal) hideAdminLogin(); });
 if (adminPanelModal) adminPanelModal.addEventListener('click', e => { if (e.target === adminPanelModal) hideAdminPanel(); });
 
-// Initialization on DOM load
-initLogoWave();
-initProjectUpdateDates();
-fetchAdminConfigFile().then(() => {
-  applyAdminSettings();
-});
-
 // =============================================================
 // --- GITHUB REPO LAST UPDATED DATE FETCHING & CACHING ---
 // =============================================================
@@ -713,7 +706,7 @@ const DEFAULT_REPO_DATES = {
   'JorgeJoseContreras/AHB-AMMSEP': '2026-08-01T20:00:00Z'
 };
 
-const GH_CACHE_KEY = 'gh_repo_updates_cache_v1';
+const GH_CACHE_KEY = 'gh_repo_updates_cache_v2';
 const GH_CACHE_DURATION_MS = 60 * 60 * 1000; // 1 hour cache
 
 function getCachedGitHubUpdates() {
@@ -754,9 +747,9 @@ async function fetchRepoPushedAt(ownerRepo) {
 }
 
 function formatGitHubDate(isoString) {
-  if (!isoString) return null;
+  if (!isoString) return 'Updated recently';
   const date = new Date(isoString);
-  if (isNaN(date.getTime())) return null;
+  if (isNaN(date.getTime())) return 'Updated recently';
 
   const now = new Date();
   const diffMs = now - date;
@@ -784,6 +777,8 @@ function initProjectUpdateDates() {
     if (!match) return;
 
     const ownerRepo = match[1].replace(/\.git$/, '');
+    const initialIso = (cache[ownerRepo] && cache[ownerRepo].pushed_at) || DEFAULT_REPO_DATES[ownerRepo];
+    const initialFormatted = formatGitHubDate(initialIso);
 
     let badge = card.querySelector('.project-updated-badge');
     if (!badge) {
@@ -791,7 +786,7 @@ function initProjectUpdateDates() {
       badge.className = 'project-updated-badge';
       badge.innerHTML = `
         <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-        <span class="updated-date-text">Updated...</span>
+        <span class="updated-date-text">${initialFormatted}</span>
       `;
       const linksContainer = card.querySelector('.project-links');
       if (linksContainer) {
@@ -799,23 +794,28 @@ function initProjectUpdateDates() {
       } else {
         card.querySelector('.project-info').appendChild(badge);
       }
+    } else {
+      const dateTextEl = badge.querySelector('.updated-date-text');
+      if (dateTextEl && initialFormatted) {
+        dateTextEl.textContent = initialFormatted;
+      }
     }
 
-    const dateTextEl = badge.querySelector('.updated-date-text');
-
-    // 1. Show immediate cached/default date
-    const initialIso = (cache[ownerRepo] && cache[ownerRepo].pushed_at) || DEFAULT_REPO_DATES[ownerRepo];
-    if (initialIso) {
-      dateTextEl.textContent = formatGitHubDate(initialIso);
-    }
-
-    // 2. Fetch live date from GitHub API
+    // Fetch live update if public / available
     const livePushedAt = await fetchRepoPushedAt(ownerRepo);
     if (livePushedAt) {
-      dateTextEl.textContent = formatGitHubDate(livePushedAt);
-    } else if (!initialIso) {
-      badge.style.display = 'none';
+      const dateTextEl = badge.querySelector('.updated-date-text');
+      if (dateTextEl) {
+        dateTextEl.textContent = formatGitHubDate(livePushedAt);
+      }
     }
   });
 }
+
+// Initialization on DOM load
+initLogoWave();
+initProjectUpdateDates();
+fetchAdminConfigFile().then(() => {
+  applyAdminSettings();
+});
 
