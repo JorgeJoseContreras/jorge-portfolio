@@ -812,9 +812,41 @@ function initProjectUpdateDates() {
   });
 }
 
+function initCardTilt() {
+  const cards = document.querySelectorAll('.project-card');
+
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      // Tilt max 8 degrees for physical 3D effect
+      const rotateX = ((y - centerY) / centerY) * -8;
+      const rotateY = ((x - centerX) / centerX) * 8;
+
+      const xPct = (x / rect.width) * 100;
+      const yPct = (y / rect.height) * 100;
+
+      card.style.setProperty('--mouse-x', `${xPct}%`);
+      card.style.setProperty('--mouse-y', `${yPct}%`);
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px) scale(1.015)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)';
+      card.style.setProperty('--mouse-x', '50%');
+      card.style.setProperty('--mouse-y', '50%');
+    });
+  });
+}
+
 // Initialization on DOM load
 initLogoWave();
 initProjectUpdateDates();
+initCardTilt();
 fetchAdminConfigFile().then(() => {
   applyAdminSettings();
 });
