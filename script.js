@@ -688,7 +688,134 @@ if (adminPanelModal) adminPanelModal.addEventListener('click', e => { if (e.targ
 
 // Initialization on DOM load
 initLogoWave();
+initProjectUpdateDates();
 fetchAdminConfigFile().then(() => {
   applyAdminSettings();
 });
+
+// =============================================================
+// --- GITHUB REPO LAST UPDATED DATE FETCHING & CACHING ---
+// =============================================================
+
+const DEFAULT_REPO_DATES = {
+  'JorgeJoseContreras/notification-assistant': '2026-08-04T18:00:00Z',
+  'JorgeJoseContreras/jorges-coder-bot': '2026-08-03T01:00:00Z',
+  'JorgeJoseContreras/alpaca-trading-bot': '2026-08-02T22:00:00Z',
+  'JorgeJoseContreras/robinhood-telegram-bot': '2026-08-03T02:00:00Z',
+  'JorgeJoseContreras/kraken-trading-bot': '2026-08-03T02:30:00Z',
+  'JorgeJoseContreras/kalshi-trading-bot': '2026-08-04T02:50:00Z',
+  'Jorge-GSSF/Zengine-Disbursements-Auto-Auth': '2026-08-04T14:46:20Z',
+  'Jorge-GSSF/Mileage-Maps-Generator': '2026-07-30T20:23:16Z',
+  'Jorge-GSSF/zengine-disbursement-monitor': '2026-08-04T18:16:59Z',
+  'Jorge-GSSF/Scholar-Services-App': '2026-07-30T20:15:38Z',
+  'Jorge-GSSF/Bulk-Payments-App': '2026-07-30T20:14:11Z',
+  'Jorge-GSSF/zengine-csv-optimizer': '2026-07-30T20:14:11Z',
+  'JorgeJoseContreras/AHB-AMMSEP': '2026-08-01T20:00:00Z'
+};
+
+const GH_CACHE_KEY = 'gh_repo_updates_cache_v1';
+const GH_CACHE_DURATION_MS = 60 * 60 * 1000; // 1 hour cache
+
+function getCachedGitHubUpdates() {
+  try {
+    const raw = localStorage.getItem(GH_CACHE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch { return {}; }
+}
+
+function setCachedGitHubUpdate(repoKey, pushedAt) {
+  const cache = getCachedGitHubUpdates();
+  cache[repoKey] = { pushed_at: pushedAt, timestamp: Date.now() };
+  try { localStorage.setItem(GH_CACHE_KEY, JSON.stringify(cache)); } catch {}
+}
+
+async function fetchRepoPushedAt(ownerRepo) {
+  const cache = getCachedGitHubUpdates();
+  const cached = cache[ownerRepo];
+  if (cached && (Date.now() - cached.timestamp < GH_CACHE_DURATION_MS)) {
+    return cached.pushed_at;
+  }
+
+  try {
+    const res = await fetch(`https://api.github.com/repos/${ownerRepo}`);
+    if (res.ok) {
+      const data = await res.json();
+      const pushedAt = data.pushed_at || data.updated_at;
+      if (pushedAt) {
+        setCachedGitHubUpdate(ownerRepo, pushedAt);
+        return pushedAt;
+      }
+    }
+  } catch (e) {
+    console.warn(`Could not fetch GitHub API for ${ownerRepo}:`, e);
+  }
+
+  return cached ? cached.pushed_at : null;
+}
+
+function formatGitHubDate(isoString) {
+  if (!isoString) return null;
+  const date = new Date(isoString);
+  if (isNaN(date.getTime())) return null;
+
+  const now = new Date();
+  const diffMs = now - date;
+  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+  const diffDays = Math.floor(diffHours / 24);
+
+  if (diffHours >= 0 && diffHours < 1) return 'Updated just now';
+  if (diffHours >= 1 && diffHours < 24) return `Updated ${diffHours}h ago`;
+  if (diffDays === 1) return 'Updated yesterday';
+  if (diffDays > 1 && diffDays < 7) return `Updated ${diffDays} days ago`;
+
+  return 'Updated ' + date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function initProjectUpdateDates() {
+  const cards = document.querySelectorAll('.project-card');
+  const cache = getCachedGitHubUpdates();
+
+  cards.forEach(async (card) => {
+    const ghLink = card.querySelector('a.project-link[href*="github.com/"]');
+    if (!ghLink) return;
+
+    const href = ghLink.getAttribute('href');
+    const match = href.match(/github\.com\/([^\/]+\/[^\/\s#]+)/);
+    if (!match) return;
+
+    const ownerRepo = match[1].replace(/\.git$/, '');
+
+    let badge = card.querySelector('.project-updated-badge');
+    if (!badge) {
+      badge = document.createElement('div');
+      badge.className = 'project-updated-badge';
+      badge.innerHTML = `
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        <span class="updated-date-text">Updated...</span>
+      `;
+      const linksContainer = card.querySelector('.project-links');
+      if (linksContainer) {
+        linksContainer.parentNode.insertBefore(badge, linksContainer);
+      } else {
+        card.querySelector('.project-info').appendChild(badge);
+      }
+    }
+
+    const dateTextEl = badge.querySelector('.updated-date-text');
+
+    // 1. Show immediate cached/default date
+    const initialIso = (cache[ownerRepo] && cache[ownerRepo].pushed_at) || DEFAULT_REPO_DATES[ownerRepo];
+    if (initialIso) {
+      dateTextEl.textContent = formatGitHubDate(initialIso);
+    }
+
+    // 2. Fetch live date from GitHub API
+    const livePushedAt = await fetchRepoPushedAt(ownerRepo);
+    if (livePushedAt) {
+      dateTextEl.textContent = formatGitHubDate(livePushedAt);
+    } else if (!initialIso) {
+      badge.style.display = 'none';
+    }
+  });
+}
 

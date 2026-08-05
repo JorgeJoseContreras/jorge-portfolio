@@ -696,14 +696,42 @@ section {
 .project-card-desc {
   font-size: 0.95rem;
   color: var(--text-secondary);
-  margin-bottom: var(--space-md);
+  margin-bottom: var(--space-sm);
   flex-grow: 1;
+}
+
+.project-updated-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  font-family: var(--font-body);
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 3px 9px;
+  border-radius: 6px;
+  margin-top: auto;
+  margin-bottom: 12px;
+  width: fit-content;
+  transition: border-color var(--transition-fast), color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.project-card:hover .project-updated-badge {
+  color: var(--text-secondary);
+  border-color: rgba(168, 85, 247, 0.3);
+  background: rgba(168, 85, 247, 0.08);
+}
+
+.project-updated-badge svg {
+  color: var(--accent-secondary);
+  flex-shrink: 0;
 }
 
 .project-links {
   display: flex;
   gap: var(--space-sm);
-  margin-top: auto;
 }
 
 .project-link {
