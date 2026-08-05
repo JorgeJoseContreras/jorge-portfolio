@@ -691,19 +691,19 @@ if (adminPanelModal) adminPanelModal.addEventListener('click', e => { if (e.targ
 // =============================================================
 
 const DEFAULT_REPO_DATES = {
-  'JorgeJoseContreras/notification-assistant': '2026-08-04T18:00:00Z',
-  'JorgeJoseContreras/jorges-coder-bot': '2026-08-03T01:00:00Z',
-  'JorgeJoseContreras/alpaca-trading-bot': '2026-08-02T22:00:00Z',
-  'JorgeJoseContreras/robinhood-telegram-bot': '2026-08-03T02:00:00Z',
-  'JorgeJoseContreras/kraken-trading-bot': '2026-08-03T02:30:00Z',
-  'JorgeJoseContreras/kalshi-trading-bot': '2026-08-04T02:50:00Z',
+  'JorgeJoseContreras/notification-assistant': '2026-08-05T01:32:03Z',
+  'JorgeJoseContreras/jorges-coder-bot': '2026-08-03T00:54:07Z',
+  'JorgeJoseContreras/alpaca-trading-bot': '2026-08-04T22:22:40Z',
+  'JorgeJoseContreras/robinhood-telegram-bot': '2026-08-05T00:44:17Z',
+  'JorgeJoseContreras/kraken-trading-bot': '2026-08-04T22:16:37Z',
+  'JorgeJoseContreras/kalshi-trading-bot': '2026-08-05T01:40:27Z',
   'Jorge-GSSF/Zengine-Disbursements-Auto-Auth': '2026-08-04T14:46:20Z',
   'Jorge-GSSF/Mileage-Maps-Generator': '2026-07-30T20:23:16Z',
   'Jorge-GSSF/zengine-disbursement-monitor': '2026-08-04T18:16:59Z',
   'Jorge-GSSF/Scholar-Services-App': '2026-07-30T20:15:38Z',
   'Jorge-GSSF/Bulk-Payments-App': '2026-07-30T20:14:11Z',
   'Jorge-GSSF/zengine-csv-optimizer': '2026-07-30T20:14:11Z',
-  'JorgeJoseContreras/AHB-AMMSEP': '2026-08-01T20:00:00Z'
+  'JorgeJoseContreras/AHB-AMMSEP': '2026-07-27T02:12:49Z'
 };
 
 const GH_CACHE_KEY = 'gh_repo_updates_cache_v2';
