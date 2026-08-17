@@ -265,7 +265,7 @@ const fetchAlpacaPnL = () => {
   const badge = document.getElementById('alpaca-pnl-badge');
   if (!badge) return;
 
-  fetch('https://alpaca-trading-bot-xw33.onrender.com/api/data')
+  fetch('https://invest.jorgejosecontreras.com/api/data')
     .then(res => {
       if (!res.ok) throw new Error('Response error');
       return res.json();
