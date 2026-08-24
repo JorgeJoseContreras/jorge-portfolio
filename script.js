@@ -832,6 +832,8 @@ function initCardTilt() {
 
       card.style.setProperty('--mouse-x', `${xPct}%`);
       card.style.setProperty('--mouse-y', `${yPct}%`);
+      card.style.setProperty('--mouse-x-px', `${x}px`);
+      card.style.setProperty('--mouse-y-px', `${y}px`);
       card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px) scale(1.015)`;
     });
 
@@ -839,6 +841,8 @@ function initCardTilt() {
       card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)';
       card.style.setProperty('--mouse-x', '50%');
       card.style.setProperty('--mouse-y', '50%');
+      card.style.setProperty('--mouse-x-px', '0px');
+      card.style.setProperty('--mouse-y-px', '0px');
     });
   });
 }
