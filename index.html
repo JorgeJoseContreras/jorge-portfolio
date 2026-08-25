@@ -3,135 +3,154 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Jorge Contreras | Systems Architect & Software Engineer - Autonomous Trading Engines, AI Agents, Edge Infrastructure.">
-  <title>Jorge Contreras | Systems Architect &amp; Software Engineer</title>
+  <meta name="description" content="Jorge Contreras - Personal site, side projects, trading bots, and AI experiments.">
+  <title>Jorge Contreras</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="landing-page">
+<body>
 
-
-  <!-- NAVIGATION HEADER -->
-  <header class="header">
-    <div class="container nav-container">
-      <a href="index.html" class="logo">
-        <span class="logo-mark">&#9650;</span> Jorge Contreras
-      </a>
-
+  <!-- Navigation -->
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand-name">Jorge Contreras</a>
       <nav class="nav-links">
-        <a href="projects.html" class="nav-link nav-highlight">PROJECTS &#8599;</a>
-        <a href="#" class="nav-link" id="navContactLink">CONTACT</a>
-      </nav>
-
-      <div class="header-status-metrics">
-        <span class="status-indicator">
-          <span class="amber-pulse-dot"></span>
-          SYS.ACTIVE
-        </span>
-        <span class="divider">/</span>
-        <span class="miami-clock" id="miamiClock">00:00:00 EST</span>
-      </div>
-
-      <div class="nav-actions">
-        <!-- Theme Toggle -->
-        <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
-          <svg class="sun-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>
-          <svg class="moon-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
+        <a href="projects.html" class="nav-link">Projects</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#contact" class="nav-link" id="navContactLink">Contact</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <span class="theme-icon">◐</span>
         </button>
-      </div>
+      </nav>
     </div>
   </header>
 
-  <!-- SIMPLE FOCUSED HERO SECTION -->
-  <main class="hero-landing-wrapper">
-    <div class="container hero-center-container">
-      
-      <div class="hero-status-pill">
-        <span class="pill-dot"></span>
-        <span class="pill-text">AVAILABLE FOR CONTRACTS &amp; ROLES</span>
-      </div>
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
 
-      <h1 class="hero-title">
-        Software Engineer &amp;<br>
-        <span class="hero-gradient-text">Systems Builder.</span>
-      </h1>
-
-      <p class="hero-subtitle">
-        Building automated trading systems, AI tools, and full-stack software.
-      </p>
-
-      <div class="hero-actions">
-        <a href="projects.html" class="btn-primary">
-          <span>VIEW PROJECTS &#8594;</span>
-        </a>
-        <button class="btn-secondary" id="heroContactBtn">
-          <span>GET IN TOUCH</span>
-        </button>
-      </div>
-
-      <!-- Live Spec Telemetry -->
-      <div class="hero-telemetry-row">
-        <div class="telem-chip">
-          <span class="tc-label">FOCUS:</span>
-          <span class="tc-val">Trading Engines &middot; AI Agents</span>
+      <!-- Hero Statement -->
+      <section class="hero-section">
+        <p class="intro-label">Personal site &amp; side projects</p>
+        <h1 class="hero-headline">
+          I build things for fun &mdash;<br>
+          <span class="highlight-text">trading bots, AI experiments, and side projects.</span>
+        </h1>
+        <p class="hero-bio">
+          I enjoy experimenting with automated market strategies, tinkering with new AI models, and building lightweight tools whenever I get curious about an idea.
+        </p>
+        <div class="hero-cta-group">
+          <a href="projects.html" class="btn-editorial">View Things I've Built &rarr;</a>
+          <button class="btn-text" id="heroContactBtn">Say Hello</button>
         </div>
-        <div class="telem-chip">
-          <span class="tc-label">PROJECTS:</span>
-          <span class="tc-val">10 Live Systems</span>
+      </section>
+
+      <!-- Selected Highlights -->
+      <section class="highlights-section">
+        <div class="section-title-row">
+          <h2 class="section-heading">Recent Highlights</h2>
+          <a href="projects.html" class="view-all-link">All 10 projects &rarr;</a>
         </div>
-        <div class="telem-chip">
-          <span class="tc-label">STACK:</span>
-          <span class="tc-val">Python &middot; TypeScript &middot; Docker</span>
+
+        <div class="highlights-grid">
+          <!-- Highlight 1 -->
+          <div class="highlight-card">
+            <span class="card-meta">Trading &middot; Live</span>
+            <h3 class="card-title">
+              <a href="https://invest.jorgejosecontreras.com" target="_blank" rel="noopener noreferrer">Autonomous Stock Bot &rarr;</a>
+            </h3>
+            <p class="card-desc">
+              A personal automated trade execution bot connected to Alpaca, running 24/7 with real-time websocket order tracking.
+            </p>
+            <div class="card-footer-links">
+              <a href="https://invest.jorgejosecontreras.com" target="_blank" rel="noopener noreferrer" class="link-tag">Live Dashboard</a>
+              <a href="https://github.com/JorgeJoseContreras/stock-bot-v2" target="_blank" rel="noopener noreferrer" class="link-tag">GitHub</a>
+            </div>
+          </div>
+
+          <!-- Highlight 2 -->
+          <div class="highlight-card">
+            <span class="card-meta">AI Experiment</span>
+            <h3 class="card-title">
+              <a href="https://jorgius.com" target="_blank" rel="noopener noreferrer">iMessage AI Responder &rarr;</a>
+            </h3>
+            <p class="card-desc">
+              A private messaging assistant hooked into iMessage that drafts context-aware replies and summaries on the fly.
+            </p>
+            <div class="card-footer-links">
+              <a href="https://jorgius.com" target="_blank" rel="noopener noreferrer" class="link-tag">Live Demo</a>
+              <a href="https://github.com/JorgeJoseContreras/imessage-auto-responder" target="_blank" rel="noopener noreferrer" class="link-tag">GitHub</a>
+            </div>
+          </div>
+
+          <!-- Highlight 3 -->
+          <div class="highlight-card">
+            <span class="card-meta">Prediction Markets</span>
+            <h3 class="card-title">
+              <a href="https://kalshi-trading-bot-70rb.onrender.com" target="_blank" rel="noopener noreferrer">Kalshi Market Bot &rarr;</a>
+            </h3>
+            <p class="card-desc">
+              An experimental bot exploring probabilistic market positions on Kalshi economic and event contracts.
+            </p>
+            <div class="card-footer-links">
+              <a href="https://kalshi-trading-bot-70rb.onrender.com" target="_blank" rel="noopener noreferrer" class="link-tag">Live Demo</a>
+              <a href="https://github.com/JorgeJoseContreras/kalshi-bot" target="_blank" rel="noopener noreferrer" class="link-tag">GitHub</a>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
+
+      <!-- About / Background Section -->
+      <section class="about-section" id="about">
+        <h2 class="section-heading">About Me</h2>
+        <div class="about-content">
+          <p>
+            I've always loved building things from scratch. What starts as a weekend curiosity usually turns into a working bot, a real-time dashboard, or an automation pipeline.
+          </p>
+          <p>
+            Most of my projects revolve around trading APIs (Alpaca, Kalshi, Kraken), large language models (Gemini, Claude, MCP protocols), and running simple, reliable scripts on low-cost headless machines or cloud instances.
+          </p>
+        </div>
+      </section>
 
     </div>
   </main>
 
-  <!-- MINIMAL FOOTER -->
-  <footer class="footer-simple">
-    <div class="container footer-simple-content">
-      <div class="footer-copy">&copy; 2026 Jorge Contreras. All autonomous systems operational.</div>
-      <div class="footer-socials">
-        <a href="https://github.com/JorgeJoseContreras" target="_blank" rel="noopener noreferrer" class="social-link">GitHub &#8599;</a>
-        <a href="https://linkedin.com/in/jorge-contreras" target="_blank" rel="noopener noreferrer" class="social-link">LinkedIn &#8599;</a>
-        <a href="mailto:jorge@jorgejosecontreras.com" class="social-link">Email &#8599;</a>
+  <!-- Footer -->
+  <footer class="site-footer" id="contact">
+    <div class="container footer-wrapper">
+      <div class="footer-left">
+        <p class="footer-title">Jorge Contreras</p>
+        <p class="footer-sub">Building things for fun in Miami, FL.</p>
+      </div>
+      <div class="footer-links">
+        <a href="mailto:jorge@jorgejosecontreras.com">Email</a>
+        <a href="https://github.com/JorgeJoseContreras" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://linkedin.com/in/jorge-contreras" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       </div>
     </div>
   </footer>
 
-  <!-- CONTACT MODAL -->
+  <!-- Contact Modal -->
   <div id="contactModal" class="modal-overlay" style="display:none;">
     <div class="modal-card">
       <div class="modal-header">
-        <h3>// INITIATE CONTACT</h3>
-        <button class="modal-close-btn" id="closeContactBtn">&times;</button>
+        <h3>Send a Note</h3>
+        <button class="modal-close" id="closeContactBtn">&times;</button>
       </div>
       <form id="contactForm" class="modal-form">
         <div class="form-group">
-          <label for="contactName">NAME</label>
+          <label for="contactName">Your Name</label>
           <input type="text" id="contactName" name="name" required autocomplete="off">
         </div>
         <div class="form-group">
-          <label for="contactEmail">EMAIL</label>
+          <label for="contactEmail">Your Email</label>
           <input type="email" id="contactEmail" name="email" required autocomplete="off">
         </div>
         <div class="form-group">
-          <label for="contactMsg">MESSAGE</label>
+          <label for="contactMsg">Message</label>
           <textarea id="contactMsg" name="message" rows="4" required></textarea>
         </div>
-        <button type="submit" class="btn-primary modal-submit">TRANSMIT MESSAGE</button>
+        <button type="submit" class="btn-editorial" style="width:100%;">Send Message</button>
         <div id="contactStatus" class="modal-status"></div>
       </form>
     </div>
