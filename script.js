@@ -179,6 +179,10 @@ const footerContactBtn = document.getElementById('contactFooterBtn');
 if (footerContactBtn) {
   footerContactBtn.addEventListener('click', openModal);
 }
+const heroContactBtn = document.getElementById('heroContactBtn');
+if (heroContactBtn) {
+  heroContactBtn.addEventListener('click', openModal);
+}
 
 // Close modal (via close button)
 if (modalClose) {
@@ -1069,14 +1073,18 @@ function initCommandPalette() {
   if (!modal || !input || !resultsContainer) return;
 
   const actions = [
+    { label: 'Jump to Hero Overview', category: 'Navigation', icon: '⚡', action: () => document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' }) },
+    { label: 'Jump to Capabilities (01-04)', category: 'Navigation', icon: '🏛️', action: () => document.getElementById('capabilities')?.scrollIntoView({ behavior: 'smooth' }) },
+    { label: 'Jump to Production Systems', category: 'Navigation', icon: '🚀', action: () => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' }) },
+    { label: 'Jump to Architecture & Tech Stack', category: 'Navigation', icon: '🛠️', action: () => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }) },
     { label: 'Agentic Stock Trading Bot (Alpaca)', category: 'Project', icon: '📈', action: () => document.getElementById('card-alpaca')?.scrollIntoView({ behavior: 'smooth' }) },
     { label: 'Agentic Prediction Market Bot (Kalshi)', category: 'Project', icon: '🎯', action: () => document.getElementById('card-kalshi')?.scrollIntoView({ behavior: 'smooth' }) },
     { label: 'Autonomous Coding Agent (Telegram)', category: 'Project', icon: '⚡', action: () => document.getElementById('card-adminbot')?.scrollIntoView({ behavior: 'smooth' }) },
     { label: 'Robinhood Crypto Trading Bot', category: 'Project', icon: '🪙', action: () => document.getElementById('card-robinhood')?.scrollIntoView({ behavior: 'smooth' }) },
-    { label: 'Filter: Investments Only', category: 'Filter', icon: '📊', action: () => document.querySelector('.filter-btn[data-filter="investments"]')?.click() },
-    { label: 'Filter: AI Assistants Only', category: 'Filter', icon: '🤖', action: () => document.querySelector('.filter-btn[data-filter="assistants"]')?.click() },
-    { label: 'Filter: Enterprise Systems Only', category: 'Filter', icon: '🏢', action: () => document.querySelector('.filter-btn[data-filter="enterprise"]')?.click() },
-    { label: 'Filter: All Projects', category: 'Filter', icon: '📂', action: () => document.querySelector('.filter-btn[data-filter="all"]')?.click() },
+    { label: 'Filter: Investments Only', category: 'Filter', icon: '📊', action: () => { document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' }); document.querySelector('.filter-btn[data-filter="investments"]')?.click(); } },
+    { label: 'Filter: AI Assistants Only', category: 'Filter', icon: '🤖', action: () => { document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' }); document.querySelector('.filter-btn[data-filter="assistants"]')?.click(); } },
+    { label: 'Filter: Enterprise Systems Only', category: 'Filter', icon: '🏢', action: () => { document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' }); document.querySelector('.filter-btn[data-filter="enterprise"]')?.click(); } },
+    { label: 'Filter: All Projects', category: 'Filter', icon: '📂', action: () => { document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' }); document.querySelector('.filter-btn[data-filter="all"]')?.click(); } },
     { label: 'Toggle Dark / Light Theme', category: 'System', icon: '🌓', action: () => document.getElementById('themeToggle')?.click() },
     { label: 'Open Admin Settings', category: 'System', icon: '⚙️', action: () => document.getElementById('adminTrigger')?.click() },
     { label: 'Contact Jorge Contreras', category: 'Contact', icon: '✉️', action: () => document.getElementById('contactFooterBtn')?.click() }

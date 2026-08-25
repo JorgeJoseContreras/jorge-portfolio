@@ -28,9 +28,15 @@
   <!-- HEADER / NAVIGATION -->
   <header class="header">
     <div class="container nav-container">
-      <a href="#" class="logo" id="logoLink">
+      <a href="#hero" class="logo" id="logoLink">
         Jorge Contreras
       </a>
+
+      <nav class="nav-links">
+        <a href="#capabilities" class="nav-link">Capabilities</a>
+        <a href="#projects" class="nav-link">Systems</a>
+        <a href="#about" class="nav-link">About</a>
+      </nav>
 
       <div class="header-status-metrics">
         <span class="status-indicator">
@@ -72,31 +78,116 @@
   </header>
 
 
-  <!-- PROJECTS SECTION -->
-  <section class="projects" id="projects">
+  <!-- HERO LANDING SECTION -->
+  <section class="hero-landing" id="hero">
     <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span>
+          <span>AUTONOMOUS SYSTEMS & ALGORITHMIC TRADING v2.4</span>
+        </div>
 
-      <!-- Stark Brutalist Intro Header -->
-      <div class="brutalist-intro">
-        <div class="intro-eyebrow">JORGE CONTRERAS / PORTFOLIO v2.0</div>
-        <h1 class="intro-title reveal-text">BUILDING AUTOMATED TRADING ROBOTS, GENERAL AI ASSISTANTS, AND HIGH-VELOCITY ENTERPRISE APPLICATIONS.</h1>
-        <p class="intro-tagline reveal-text">Stop configuring. Start innovating with secure, global edge deployments.</p>
-        
+        <h1 class="hero-title reveal-text">
+          BUILDING AUTONOMOUS TRADING AGENTS & SCALABLE CLOUD ARCHITECTURES.
+        </h1>
+
+        <p class="hero-subtitle reveal-text">
+          Full-stack software engineer specialized in sub-second orderbook execution engines, predictive market algorithms, multi-modal AI agents, and enterprise data pipelines.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#projects" class="hero-btn-primary">
+            <span>Explore Systems</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+          </a>
+          <button class="hero-btn-secondary" id="heroContactBtn">
+            <span>Contact & Inquiries</span>
+          </button>
+        </div>
+
+        <!-- Industrial Telemetry Metric Cards -->
+        <div class="hero-metrics-grid">
+          <div class="metric-card">
+            <div class="metric-val">10+</div>
+            <div class="metric-lbl">ACTIVE SYSTEMS</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">&lt;20ms</div>
+            <div class="metric-lbl">EDGE LATENCY</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">99.9%</div>
+            <div class="metric-lbl">SYSTEM UPTIME</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">24/7</div>
+            <div class="metric-lbl">LIVE EXECUTION</div>
+          </div>
+        </div>
+
         <!-- Kinetic Velocity Marquee Ticker -->
         <div class="velocity-marquee-container">
           <div class="velocity-marquee-track" id="velocityMarquee">
             <span class="marquee-item">/// ALGORITHMIC EXECUTION</span>
             <span class="marquee-item">/// AUTONOMOUS TRADING AGENTS</span>
-            <span class="marquee-item">/// EDGE CLOUD INFRASTRUCTURE</span>
-            <span class="marquee-item">/// HIGH FREQUENCY WEBSOCKETS</span>
-            <span class="marquee-item">/// FULL STACK ARCHITECTURE</span>
             <span class="marquee-item">/// PREDICTION MARKET BOT</span>
+            <span class="marquee-item">/// REALTIME WEBSOCKETS</span>
+            <span class="marquee-item">/// EDGE CLOUD INFRASTRUCTURE</span>
+            <span class="marquee-item">/// ENTERPRISE AUTOMATION</span>
             <span class="marquee-item">/// ALGORITHMIC EXECUTION</span>
             <span class="marquee-item">/// AUTONOMOUS TRADING AGENTS</span>
-            <span class="marquee-item">/// EDGE CLOUD INFRASTRUCTURE</span>
-            <span class="marquee-item">/// HIGH FREQUENCY WEBSOCKETS</span>
+            <span class="marquee-item">/// PREDICTION MARKET BOT</span>
+            <span class="marquee-item">/// REALTIME WEBSOCKETS</span>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- CAPABILITIES / PILLARS SECTION -->
+  <section class="capabilities-section" id="capabilities">
+    <div class="container">
+      <div class="section-header-block">
+        <span class="section-tag">/ 01 — CAPABILITIES</span>
+        <h2 class="section-title reveal-text">ARCHITECTED FOR SCALE, VELOCITY, AND PRECISION.</h2>
+      </div>
+
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-num">01</div>
+          <h3 class="pillar-title">Quantitative & Algorithmic Trading</h3>
+          <p class="pillar-desc">Sub-second orderbook execution and adaptive market making bots connected via low-latency WebSockets to Alpaca, Robinhood, and Kalshi.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-num">02</div>
+          <h3 class="pillar-title">Autonomous Agentic AI</h3>
+          <p class="pillar-desc">Conversational LLM agents integrated with native desktop notification pipelines, continuous self-testing, and automated task execution.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-num">03</div>
+          <h3 class="pillar-title">Edge Cloud Infrastructure</h3>
+          <p class="pillar-desc">Containerized Docker microservices, automated health watchdogs, and zero-downtime Render deployments spanning global CDN nodes.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-num">04</div>
+          <h3 class="pillar-title">Enterprise Workflow Automation</h3>
+          <p class="pillar-desc">Custom data synchronization pipelines, financial disbursement monitors, and AI spreadsheet optimization platforms.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- PROJECTS SECTION -->
+  <section class="projects-section" id="projects">
+    <div class="container">
+      <div class="section-header-block">
+        <span class="section-tag">/ 02 — PRODUCTION SYSTEMS</span>
+        <h2 class="section-title reveal-text">DEPLOYED AGENTS & PRODUCTION CODEBASES.</h2>
       </div>
 
       <div class="project-filters">
@@ -409,7 +500,61 @@
     </div>
   </section>
 
+  <!-- ABOUT & TECH STACK SECTION -->
+  <section class="about-section" id="about">
+    <div class="container">
+      <div class="section-header-block">
+        <span class="section-tag">/ 03 — ARCHITECTURE & STACK</span>
+        <h2 class="section-title reveal-text">MODERN TOOLING FOR REAL-TIME AUTONOMOUS SYSTEMS.</h2>
+      </div>
 
+      <div class="about-grid">
+        <div class="about-card">
+          <h3 class="about-card-title">Core Languages & Runtimes</h3>
+          <div class="tech-tags">
+            <span class="tech-tag">Python 3.12+</span>
+            <span class="tech-tag">Rust</span>
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">JavaScript / ES6+</span>
+            <span class="tech-tag">Bash / POSIX</span>
+          </div>
+        </div>
+
+        <div class="about-card">
+          <h3 class="about-card-title">Trading & Financial APIs</h3>
+          <div class="tech-tags">
+            <span class="tech-tag">Alpaca Markets API</span>
+            <span class="tech-tag">Kalshi Prediction WSS</span>
+            <span class="tech-tag">Robinhood MCP</span>
+            <span class="tech-tag">Financial Modeling Prep</span>
+            <span class="tech-tag">Orderbook Streaming</span>
+          </div>
+        </div>
+
+        <div class="about-card">
+          <h3 class="about-card-title">AI & Agent Orchestration</h3>
+          <div class="tech-tags">
+            <span class="tech-tag">Google Gemini API</span>
+            <span class="tech-tag">Anthropic Claude</span>
+            <span class="tech-tag">Autonomous Coding Agents</span>
+            <span class="tech-tag">Telegram Bot API</span>
+            <span class="tech-tag">Computer Vision</span>
+          </div>
+        </div>
+
+        <div class="about-card">
+          <h3 class="about-card-title">Cloud, Edge & CI/CD</h3>
+          <div class="tech-tags">
+            <span class="tech-tag">Docker</span>
+            <span class="tech-tag">Render Cloud</span>
+            <span class="tech-tag">FastAPI</span>
+            <span class="tech-tag">WebSockets</span>
+            <span class="tech-tag">Self-Healing Watchdogs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <footer class="footer">
     <div class="container footer-content" style="flex-direction: column; gap: var(--space-sm);">
