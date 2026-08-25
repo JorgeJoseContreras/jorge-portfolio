@@ -240,7 +240,6 @@
   }
 
   // --- INITIALIZE ALL MODULES ---
-  init3DParticleOceanWave();
   initProjectFilters();
   initLiveClock();
   initThemeToggle();
