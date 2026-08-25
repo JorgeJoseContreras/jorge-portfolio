@@ -3,111 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Jorge Contreras - Old School UNIX Command Terminal">
-  <title>jorge@contreras-node: ~ (sh)</title>
+  <meta name="description" content="Jorge Contreras - Terminal">
+  <title>jorge@terminal:~$</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="terminal-body" data-theme="green">
+<body class="terminal-body">
 
-  <!-- CRT Scanline & Screen Glow -->
-  <div class="crt-overlay"></div>
-
-  <!-- TERMINAL WINDOW -->
-  <div class="terminal-wrapper">
-    
-    <!-- Window Title Bar -->
-    <header class="terminal-titlebar">
-      <div class="window-controls">
-        <span class="control-dot dot-red" title="Close"></span>
-        <span class="control-dot dot-yellow" title="Minimize"></span>
-        <span class="control-dot dot-green" title="Maximize"></span>
-      </div>
-      <div class="window-title">
-        <span>guest@jorge-contreras-node: ~ (sh) -- 80x24</span>
-      </div>
-      <div class="window-status">
-        <span class="status-dot"></span>
-        <span id="clockDisplay">00:00:00 EST</span>
-      </div>
-    </header>
-
-    <!-- Quick Command Shortcut Bar -->
-    <div class="quick-cmd-bar">
-      <span class="quick-label">CMDS:</span>
-      <button class="cmd-chip" data-cmd="help">[ 1: help ]</button>
-      <button class="cmd-chip" data-cmd="projects">[ 2: projects ]</button>
-      <button class="cmd-chip" data-cmd="about">[ 3: about ]</button>
-      <button class="cmd-chip" data-cmd="skills">[ 4: skills ]</button>
-      <button class="cmd-chip" data-cmd="contact">[ 5: contact ]</button>
-      <button class="cmd-chip" data-cmd="theme">[ 6: theme ]</button>
-      <button class="cmd-chip" data-cmd="clear">[ 7: clear ]</button>
+  <main class="terminal-screen" id="terminalScreen">
+    <div class="terminal-output" id="terminalOutput"></div>
+    <div class="terminal-prompt-line" id="promptLine">
+      <span class="prompt-user">jorge@terminal</span><span class="prompt-symbol">:~$</span>
+      <input 
+        type="text" 
+        id="cliInput" 
+        class="cli-input" 
+        autofocus 
+        autocomplete="off" 
+        autocorrect="off" 
+        autocapitalize="off" 
+        spellcheck="false" 
+        aria-label="Terminal Command Line"
+      />
+      <span class="cursor-block">&#9608;</span>
     </div>
-
-    <!-- Terminal Screen Output -->
-    <main class="terminal-screen" id="terminalScreen">
-      <div class="terminal-output" id="terminalOutput">
-        <!-- Output will be dynamically typed here by script.js -->
-      </div>
-
-      <!-- Live CLI Prompt -->
-      <div class="terminal-input-line" id="promptLine">
-        <span class="prompt-user">guest@jorgecontreras</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-dollar">$</span>
-        <input 
-          type="text" 
-          id="cliInput" 
-          class="cli-input" 
-          autofocus 
-          autocomplete="off" 
-          autocorrect="off" 
-          autocapitalize="off" 
-          spellcheck="false"
-          aria-label="Terminal Command Input"
-        />
-        <span class="cursor-block">_</span>
-      </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="terminal-footer">
-      <div class="footer-left">
-        <span>STATUS: 100% OPERATIONAL</span>
-        <span class="footer-divider">|</span>
-        <span>LATENCY: &lt;18MS</span>
-      </div>
-      <div class="footer-right">
-        <span>TAB: Auto-complete | Up/Down: History</span>
-      </div>
-    </footer>
-
-  </div>
-
-  <!-- CONTACT MODAL -->
-  <div id="contactModal" class="terminal-modal-overlay">
-    <div class="terminal-modal-box">
-      <div class="modal-header">
-        <span>// INITIATE_CONTACT_TRANSMISSION</span>
-        <button class="modal-close" id="closeContactBtn">[X]</button>
-      </div>
-      <form id="contactForm" class="modal-form">
-        <div class="form-row">
-          <label for="contactName">NAME:</label>
-          <input type="text" id="contactName" name="name" required autocomplete="off" />
-        </div>
-        <div class="form-row">
-          <label for="contactEmail">EMAIL:</label>
-          <input type="email" id="contactEmail" name="email" required autocomplete="off" />
-        </div>
-        <div class="form-row">
-          <label for="contactMsg">MESSAGE:</label>
-          <textarea id="contactMsg" name="message" rows="4" required></textarea>
-        </div>
-        <div class="form-actions">
-          <button type="submit" class="modal-submit-btn">[ TRANSMIT MESSAGE ]</button>
-        </div>
-        <div id="contactStatus" class="modal-status"></div>
-      </form>
-    </div>
-  </div>
+  </main>
 
   <script src="script.js"></script>
 </body>
