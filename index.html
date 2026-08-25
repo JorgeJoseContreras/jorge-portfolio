@@ -3,28 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Jorge Contreras - Terminal Matrix">
+  <meta name="description" content="Jorge Contreras - Terminal">
   <title>jorge@terminal:~$</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="terminal-body">
 
-  <!-- CRT TV Filter & Phosphor Scanline Overlay -->
+  <!-- CRT TV Filter & Scanlines -->
   <div class="crt-overlay"></div>
 
   <!-- Fullscreen Terminal Screen -->
   <main class="terminal-screen" id="terminalScreen">
     <div class="terminal-output" id="terminalOutput"></div>
     
-    <!-- Command Prompt Line -->
-    <div class="terminal-prompt-line" id="promptLine">
+    <div class="terminal-prompt-line" id="promptLine" style="display:none;">
       <span class="prompt-user">jorge@terminal</span><span class="prompt-symbol">:~$</span>
       <div class="cli-input-container">
         <input 
           type="text" 
           id="cliInput" 
           class="cli-input" 
-          autofocus 
           autocomplete="off" 
           autocorrect="off" 
           autocapitalize="off" 

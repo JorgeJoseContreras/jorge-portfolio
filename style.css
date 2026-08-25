@@ -1,5 +1,5 @@
 /* ==========================================================================
-   MATRIX RETRO CRT TERMINAL - JORGE CONTRERAS
+   SIMPLE RETRO CRT TYPEWRITER TERMINAL - JORGE CONTRERAS
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
@@ -13,125 +13,91 @@
 html, body {
   width: 100%;
   height: 100%;
-  background-color: #030403;
+  background-color: #000000;
   color: #00ff66;
   font-family: 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
-  font-size: 14.5px;
-  line-height: 1.55;
+  font-size: 15px;
+  line-height: 1.8;
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* --- CRT TV FILTER & SCANLINE OVERLAY --- */
+/* CRT Scanline & TV Vignette Overlay */
 .crt-overlay {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 999;
   background: 
-    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
-    linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.22) 50%),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 255, 0, 0.02));
   background-size: 100% 3px, 6px 100%;
-  box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.85);
+  box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.85);
 }
 
-/* Fullscreen Terminal Viewport */
+/* Fullscreen Terminal Viewport with Generous Spacing */
 .terminal-screen {
   width: 100vw;
   height: 100vh;
-  padding: 24px 32px 60px 32px;
-  background-color: #030403;
+  padding: 36px 44px 80px 44px;
+  background-color: #000000;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 4px;
 }
 
 .terminal-screen::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
-
 .terminal-screen::-webkit-scrollbar-track {
-  background: #030403;
+  background: #000000;
 }
-
 .terminal-screen::-webkit-scrollbar-thumb {
-  background: #004d1a;
+  background: #003311;
   border-radius: 2px;
 }
-
 .terminal-screen::-webkit-scrollbar-thumb:hover {
   background: #00ff66;
 }
 
-/* Output Buffer */
+/* Terminal Output Buffer */
 .terminal-output {
   display: flex;
   flex-direction: column;
-  gap: 3px;
 }
 
-/* Terminal Line Styles with Phosphor Glow */
+/* 1 Line Per Item with Clean Spacing */
 .term-line {
   white-space: pre-wrap;
   word-break: break-word;
   color: #00ff66;
-  text-shadow: 0 0 6px rgba(0, 255, 102, 0.35);
+  text-shadow: 0 0 6px rgba(0, 255, 102, 0.4);
+  margin: 4px 0;
+}
+
+.term-line.header {
+  color: #ffb000;
+  font-weight: 700;
+  text-shadow: 0 0 6px rgba(255, 176, 0, 0.4);
+  margin-top: 14px;
+  margin-bottom: 6px;
+}
+
+.term-line.title {
+  color: #00ff66;
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 8px;
 }
 
 .term-line.dim {
-  color: #008833;
+  color: #007728;
   text-shadow: none;
+  margin: 2px 0;
 }
 
-.term-line.accent {
-  color: #ffb000;
-  text-shadow: 0 0 6px rgba(255, 176, 0, 0.35);
-}
-
-.term-line.cyan {
-  color: #00f3ff;
-  text-shadow: 0 0 6px rgba(0, 243, 255, 0.35);
-}
-
-.term-line.white {
-  color: #e5e7eb;
-}
-
-.term-line.alert {
-  color: #ff3344;
-}
-
-/* Project Entry Box */
-.project-entry {
-  margin: 6px 0 10px 0;
-  padding: 8px 12px;
-  border-left: 2px solid #00ff66;
-  background: rgba(0, 255, 102, 0.02);
-}
-
-.project-title {
-  color: #ffb000;
-  font-weight: 700;
-  font-size: 0.96rem;
-}
-
-.project-tag {
-  color: #008833;
-  font-size: 0.85rem;
-}
-
-.project-desc {
-  color: #e5e7eb;
-  margin: 2px 0 4px 0;
-  font-size: 0.9rem;
-}
-
-.project-links {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-  margin-top: 4px;
+.term-line.spacer {
+  height: 14px;
 }
 
 /* Clickable Links */
@@ -140,7 +106,6 @@ html, body {
   text-decoration: underline;
   cursor: pointer;
   font-weight: 600;
-  font-size: 0.88rem;
   transition: all 0.15s ease;
 }
 
@@ -150,19 +115,19 @@ html, body {
   text-shadow: 0 0 8px #00f3ff;
 }
 
-/* Command Prompt Line */
+/* Interactive Prompt Line */
 .terminal-prompt-line {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 8px;
-  padding-bottom: 30px;
+  margin-top: 16px;
+  padding-bottom: 40px;
 }
 
 .prompt-user {
   color: #00ff66;
   font-weight: 700;
-  text-shadow: 0 0 6px rgba(0, 255, 102, 0.45);
+  text-shadow: 0 0 6px rgba(0, 255, 102, 0.5);
 }
 
 .prompt-symbol {
@@ -182,20 +147,18 @@ html, body {
   outline: none;
   color: #ffffff;
   font-family: inherit;
-  font-size: 14.5px;
+  font-size: 15px;
   caret-color: #00ff66;
   text-shadow: 0 0 6px rgba(0, 255, 102, 0.4);
 }
 
 @media (max-width: 640px) {
   .terminal-screen {
-    padding: 16px 14px 40px 14px;
-    font-size: 13px;
+    padding: 20px 16px 50px 16px;
+    font-size: 13.5px;
+    line-height: 1.65;
   }
   .cli-input {
-    font-size: 13px;
-  }
-  .project-links {
-    gap: 8px;
+    font-size: 13.5px;
   }
 }
