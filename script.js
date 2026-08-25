@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SLEEK MODERN PORTFOLIO ENGINE - JORGE CONTRERAS
+   SHARED JAVASCRIPT MODULE - JORGE CONTRERAS
    ========================================================================== */
 
 (function () {
@@ -120,10 +120,12 @@
     render();
   }
 
-  // --- 2. PROJECT CATEGORY FILTERING ---
+  // --- 2. PROJECT CATEGORY FILTERING (projects.html) ---
   function initProjectFilters() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     const projectCards = document.querySelectorAll('.project-card');
+
+    if (!filterButtons.length || !projectCards.length) return;
 
     filterButtons.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -152,29 +154,7 @@
     });
   }
 
-  // --- 3. 3D CARD TILT EFFECT ---
-  function initCardTilt() {
-    const cards = document.querySelectorAll('.project-card, .matrix-card');
-    cards.forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotateX = ((y - centerY) / centerY) * -5;
-        const rotateY = ((x - centerX) / centerX) * 5;
-
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
-      });
-
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
-      });
-    });
-  }
-
-  // --- 4. LIVE EST CLOCK ---
+  // --- 3. LIVE EST CLOCK ---
   function initLiveClock() {
     const clockEl = document.getElementById('miamiClock');
     if (!clockEl) return;
@@ -192,20 +172,7 @@
     update();
   }
 
-  // --- 5. SCROLL PROGRESS BAR ---
-  function initScrollProgressBar() {
-    const bar = document.getElementById('scrollProgress');
-    if (!bar) return;
-
-    window.addEventListener('scroll', () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (scrollTop / docHeight) * 100;
-      bar.style.width = `${progress}%`;
-    });
-  }
-
-  // --- 6. THEME TOGGLE ---
+  // --- 4. THEME TOGGLE ---
   function initThemeToggle() {
     const toggleBtn = document.getElementById('themeToggle');
     if (!toggleBtn) return;
@@ -222,7 +189,7 @@
     }
   }
 
-  // --- 7. CONTACT MODAL ---
+  // --- 5. CONTACT MODAL ---
   function initContactModal() {
     const modal = document.getElementById('contactModal');
     const openBtns = [document.getElementById('navContactLink'), document.getElementById('heroContactBtn')];
@@ -272,104 +239,11 @@
     }
   }
 
-  // --- 8. COMMAND PALETTE (Cmd+K) ---
-  function initCommandPalette() {
-    const modal = document.getElementById('cmdPaletteModal');
-    const input = document.getElementById('cmdPaletteInput');
-    const results = document.getElementById('cmdPaletteResults');
-    const trigger = document.getElementById('cmdKTrigger');
-
-    if (!modal || !input || !results) return;
-
-    const actions = [
-      { name: "Explore Systems & Trading Bots", desc: "Jump to portfolio systems", action: () => location.hash = "#projects" },
-      { name: "Core Engineering Matrix", desc: "View architectural specs", action: () => location.hash = "#specs" },
-      { name: "Technical Stack & Infrastructure", desc: "View technologies and APIs", action: () => location.hash = "#stack" },
-      { name: "Open Live Trading Portal", desc: "invest.jorgejosecontreras.com", action: () => window.open("https://invest.jorgejosecontreras.com", "_blank") },
-      { name: "Open GitHub Profile", desc: "github.com/JorgeJoseContreras", action: () => window.open("https://github.com/JorgeJoseContreras", "_blank") },
-      { name: "Initiate Contact", desc: "Send an encrypted message", action: () => { document.getElementById('contactModal').style.display = 'flex'; } },
-      { name: "Toggle Dark / Light Theme", desc: "Switch visual appearance", action: () => document.getElementById('themeToggle').click() }
-    ];
-
-    let filtered = [...actions];
-    let selectedIndex = 0;
-
-    function renderActions() {
-      results.innerHTML = '';
-      filtered.forEach((act, idx) => {
-        const item = document.createElement('div');
-        item.className = 'cmd-item' + (idx === selectedIndex ? ' selected' : '');
-        item.innerHTML = `<div><strong>${act.name}</strong> <span style="font-size:0.75rem;color:var(--text-muted)">- ${act.desc}</span></div>`;
-        item.addEventListener('click', () => {
-          modal.style.display = 'none';
-          act.action();
-        });
-        results.appendChild(item);
-      });
-    }
-
-    function openPalette() {
-      modal.style.display = 'flex';
-      input.value = '';
-      filtered = [...actions];
-      selectedIndex = 0;
-      renderActions();
-      input.focus();
-    }
-
-    if (trigger) trigger.addEventListener('click', openPalette);
-
-    window.addEventListener('keydown', (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        if (modal.style.display === 'flex') {
-          modal.style.display = 'none';
-        } else {
-          openPalette();
-        }
-      } else if (e.key === 'Escape' && modal.style.display === 'flex') {
-        modal.style.display = 'none';
-      }
-    });
-
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) modal.style.display = 'none';
-    });
-
-    input.addEventListener('input', () => {
-      const q = input.value.toLowerCase().trim();
-      filtered = actions.filter(a => a.name.toLowerCase().includes(q) || a.desc.toLowerCase().includes(q));
-      selectedIndex = 0;
-      renderActions();
-    });
-
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        selectedIndex = (selectedIndex + 1) % filtered.length;
-        renderActions();
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        selectedIndex = (selectedIndex - 1 + filtered.length) % filtered.length;
-        renderActions();
-      } else if (e.key === 'Enter') {
-        e.preventDefault();
-        if (filtered[selectedIndex]) {
-          modal.style.display = 'none';
-          filtered[selectedIndex].action();
-        }
-      }
-    });
-  }
-
   // --- INITIALIZE ALL MODULES ---
   init3DParticleOceanWave();
   initProjectFilters();
-  initCardTilt();
   initLiveClock();
-  initScrollProgressBar();
   initThemeToggle();
   initContactModal();
-  initCommandPalette();
 
 })();

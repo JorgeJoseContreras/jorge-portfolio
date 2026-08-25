@@ -4,31 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Jorge Contreras | Systems Architect & Software Engineer - Autonomous Trading Engines, AI Agents, Edge Infrastructure.">
-  <title>Jorge Contreras | Systems Architect & Software Engineer</title>
+  <title>Jorge Contreras | Systems Architect &amp; Software Engineer</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-
-  <!-- Top Scroll Progress Bar -->
-  <div id="scrollProgress" class="scroll-progress-bar"></div>
+<body class="landing-page">
 
   <!-- Dynamic 3D Particle Ocean Canvas Background -->
   <div class="particle-canvas-container">
     <canvas id="matrixCanvas"></canvas>
   </div>
 
-  <!-- HEADER / NAVIGATION BAR -->
+  <!-- NAVIGATION HEADER -->
   <header class="header">
     <div class="container nav-container">
-      <a href="#hero" class="logo" id="logoLink">
+      <a href="index.html" class="logo">
         <span class="logo-mark">&#9650;</span> Jorge Contreras
       </a>
 
       <nav class="nav-links">
-        <a href="#specs" class="nav-link">SPECS</a>
-        <a href="#projects" class="nav-link">PORTFOLIO</a>
-        <a href="#stack" class="nav-link">STACK</a>
-        <a href="#contact" class="nav-link" id="navContactLink">CONTACT</a>
+        <a href="projects.html" class="nav-link nav-highlight">PROJECTS &#8599;</a>
+        <a href="#" class="nav-link" id="navContactLink">CONTACT</a>
       </nav>
 
       <div class="header-status-metrics">
@@ -41,12 +36,6 @@
       </div>
 
       <div class="nav-actions">
-        <!-- Command Palette Trigger Button -->
-        <button class="cmd-k-trigger" id="cmdKTrigger" aria-label="Open Command Menu">
-          <span class="cmd-k-text">EXECUTE</span>
-          <kbd class="cmd-k-badge">&#8984;K</kbd>
-        </button>
-
         <!-- Theme Toggle -->
         <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
           <svg class="sun-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -68,14 +57,13 @@
     </div>
   </header>
 
-
-  <!-- HERO SECTION -->
-  <section class="hero-section" id="hero">
-    <div class="container hero-container">
+  <!-- SIMPLE FOCUSED HERO SECTION -->
+  <main class="hero-landing-wrapper">
+    <div class="container hero-center-container">
       
       <div class="hero-status-pill">
         <span class="pill-dot"></span>
-        <span class="pill-text">PRODUCTION SYSTEMS // 2026</span>
+        <span class="pill-text">SYSTEMS ARCHITECT // 2026</span>
       </div>
 
       <h1 class="hero-title">
@@ -88,436 +76,37 @@
       </p>
 
       <div class="hero-actions">
-        <a href="#projects" class="btn-primary">
-          <span>EXPLORE SYSTEMS &#8595;</span>
+        <a href="projects.html" class="btn-primary">
+          <span>VIEW PROJECTS &#8594;</span>
         </a>
         <button class="btn-secondary" id="heroContactBtn">
-          <span>CONTACT US</span>
+          <span>GET IN TOUCH</span>
         </button>
       </div>
 
-      <!-- Telemetry Spec Chips -->
+      <!-- Live Spec Telemetry -->
       <div class="hero-telemetry-row">
         <div class="telem-chip">
           <span class="tc-label">EXECUTION:</span>
           <span class="tc-val">&lt;18ms Sub-Second WSS</span>
         </div>
         <div class="telem-chip">
-          <span class="tc-label">INFRASTRUCTURE:</span>
-          <span class="tc-val">Docker Containerized</span>
+          <span class="tc-label">DEPLOYMENTS:</span>
+          <span class="tc-val">10 Production Systems</span>
         </div>
         <div class="telem-chip">
-          <span class="tc-label">TARGETS:</span>
+          <span class="tc-label">BROKERS:</span>
           <span class="tc-val">Alpaca &middot; Kalshi &middot; Robinhood</span>
         </div>
       </div>
 
     </div>
-  </section>
+  </main>
 
-
-  <!-- CORE CAPABILITIES MATRIX -->
-  <section class="section specs-section" id="specs">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">// ARCHITECTURAL_SPECIFICATIONS</span>
-        <h2 class="section-title">Core Engineering Matrix</h2>
-        <p class="section-subtitle">Technical parameters and execution profiles across autonomous production systems.</p>
-      </div>
-
-      <div class="matrix-grid">
-        <div class="matrix-card">
-          <div class="matrix-card-header">
-            <span class="cell-id">[SYS.01]</span>
-            <span class="cell-label">// QUANTITATIVE_EXECUTION</span>
-          </div>
-          <h3 class="matrix-title">Sub-Second Orderbook Arbitrage</h3>
-          <p class="matrix-desc">Adaptive market making, bid-ask spread harvesting, and sentiment evaluation engines integrated directly with Alpaca Markets and Kalshi Prediction WebSocket feeds.</p>
-          <div class="matrix-specs">
-            <div class="spec-row"><span class="sk">STACK:</span><span class="sv">Python 3.12 / AsyncIO / WebSockets</span></div>
-            <div class="spec-row"><span class="sk">LATENCY:</span><span class="sv">&lt; 20ms Edge Routing</span></div>
-            <div class="spec-row"><span class="sk">FEEDS:</span><span class="sv">Alpaca &middot; Kalshi &middot; Robinhood MCP</span></div>
-          </div>
-        </div>
-
-        <div class="matrix-card">
-          <div class="matrix-card-header">
-            <span class="cell-id">[SYS.02]</span>
-            <span class="cell-label">// AUTONOMOUS_AGENTS</span>
-          </div>
-          <h3 class="matrix-title">Self-Healing Developer Bots</h3>
-          <p class="matrix-desc">Multi-modal AI agents operating 24/7 on local mini-PCs and headless cloud instances with native OS notification hooks, live research browsers, and self-testing deploy pipelines.</p>
-          <div class="matrix-specs">
-            <div class="spec-row"><span class="sk">ENGINE:</span><span class="sv">Google Gemini / Custom Agent Loop</span></div>
-            <div class="spec-row"><span class="sk">CHANNELS:</span><span class="sv">Telegram Bot API / iMessage Hook</span></div>
-            <div class="spec-row"><span class="sk">CAPABILITY:</span><span class="sv">Code Refactor, Git Push, Render Deploy</span></div>
-          </div>
-        </div>
-
-        <div class="matrix-card">
-          <div class="matrix-card-header">
-            <span class="cell-id">[SYS.03]</span>
-            <span class="cell-label">// CLOUD_INFRASTRUCTURE</span>
-          </div>
-          <h3 class="matrix-title">Edge Microservices &amp; CI/CD</h3>
-          <p class="matrix-desc">Containerized Docker microservices, automated health watchdogs, log streaming servers, and automated webhook deployments spanning global CDN nodes.</p>
-          <div class="matrix-specs">
-            <div class="spec-row"><span class="sk">RUNTIMES:</span><span class="sv">Docker / FastAPI / Gunicorn / Bash</span></div>
-            <div class="spec-row"><span class="sk">UPTIME:</span><span class="sv">99.98% Monitored</span></div>
-            <div class="spec-row"><span class="sk">EDGE:</span><span class="sv">Render Cloud / Oregon-1 Nodes</span></div>
-          </div>
-        </div>
-
-        <div class="matrix-card">
-          <div class="matrix-card-header">
-            <span class="cell-id">[SYS.04]</span>
-            <span class="cell-label">// WORKFLOW_AUTOMATION</span>
-          </div>
-          <h3 class="matrix-title">Enterprise Data &amp; Finance</h3>
-          <p class="matrix-desc">Custom data synchronization pipelines, financial disbursement trackers, and automated spreadsheet cleanup tools designed for zero-error department operations.</p>
-          <div class="matrix-specs">
-            <div class="spec-row"><span class="sk">INTEGRATION:</span><span class="sv">Zengine REST API / Webhooks</span></div>
-            <div class="spec-row"><span class="sk">PROCESSING:</span><span class="sv">AI Spreadsheet Normalization</span></div>
-            <div class="spec-row"><span class="sk">AUDITING:</span><span class="sv">Zero-Error Financial Verification</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- PRODUCTION SYSTEMS DIRECTORY (PROJECTS) -->
-  <section class="section projects-section" id="projects">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">// PRODUCTION_DIRECTORY</span>
-        <h2 class="section-title">Deployed Agents &amp; Systems</h2>
-        <p class="section-subtitle">Active algorithmic trading robots, AI assistants, and enterprise cloud workflows.</p>
-      </div>
-
-      <!-- Category Filter Tabs -->
-      <div class="project-filters">
-        <button class="filter-btn active" data-filter="all">ALL [10]</button>
-        <button class="filter-btn" data-filter="investments">INVESTMENTS</button>
-        <button class="filter-btn" data-filter="assistants">ASSISTANTS</button>
-        <button class="filter-btn" data-filter="enterprise">ENTERPRISE</button>
-      </div>
-
-      <!-- Project Cards Grid -->
-      <div class="projects-grid" id="projectsGrid">
-
-        <!-- 1. Stock Bot -->
-        <article class="project-card" data-category="investments">
-          <div class="card-glow"></div>
-          <div class="card-content">
-            <div class="card-top">
-              <span class="card-category-tag">INVESTMENTS</span>
-              <div class="card-tech-badges">
-                <span class="tech-badge">Python</span>
-                <span class="tech-badge">Alpaca WSS</span>
-                <span class="tech-badge">AsyncIO</span>
-              </div>
-            </div>
-            <h3 class="card-title">Autonomous Trading Engine</h3>
-            <p class="card-desc">Sub-second orderbook arbitrage, market making, and automated trade execution bot running 24/7 on cloud instances with live risk monitoring.</p>
-            <div class="card-links">
-              <a href="https://invest.jorgejosecontreras.com" target="_blank" rel="noopener noreferrer" class="card-link-primary">
-                Live Portal &#8599;
-              </a>
-              <a href="https://github.com/JorgeJoseContreras/stock-bot-v2" target="_blank" rel="noopener noreferrer" class="card-link-secondary">
-                GitHub Repo &#8599;
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- 2. iMessage Assistant -->
-        <article class="project-card" data-category="assistants">
-          <div class="card-glow"></div>
-          <div class="card-content">
-            <div class="card-top">
-              <span class="card-category-tag">ASSISTANTS</span>
-              <div class="card-tech-badges">
-                <span class="tech-badge">Python</span>
-                <span class="tech-badge">Gemini API</span>
-                <span class="tech-badge">Docker</span>
-              </div>
-            </div>
-            <h3 class="card-title">iMessage AI Assistant</h3>
-            <p class="card-desc">An intelligent messaging co-pilot that scans, digests, and reacts to incoming iMessage notifications in real-time with context-aware responses.</p>
-            <div class="card-links">
-              <a href="https://jorgius.com" target="_blank" rel="noopener noreferrer" class="card-link-primary">
-                Live Demo &#8599;
-              </a>
-              <a href="https://github.com/JorgeJoseContreras/imessage-auto-responder" target="_blank" rel="noopener noreferrer" class="card-link-secondary">
-                GitHub Repo &#8599;
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- 3. Kalshi Bot -->
-        <article class="project-card" data-category="investments">
-          <div class="card-glow"></div>
-          <div class="card-content">
-            <div class="card-top">
-              <span class="card-category-tag">INVESTMENTS</span>
-              <div class="card-tech-badges">
-                <span class="tech-badge">Python</span>
-                <span class="tech-badge">Kalshi API</span>
-                <span class="tech-badge">WebSockets</span>
-              </div>
-            </div>
-            <h3 class="card-title">Kalshi Prediction Bot</h3>
-            <p class="card-desc">Autonomous AI agent trading prediction market contracts on Kalshi, executing probabilistic orderbook positions on economics and events.</p>
-            <div class="card-links">
-              <a href="https://kalshi-trading-bot-70rb.onrender.com" target="_blank" rel="noopener noreferrer" class="card-link-primary">
-                Live Demo &#8599;
-              </a>
-              <a href="https://github.com/JorgeJoseContreras/kalshi-bot" target="_blank" rel="noopener noreferrer" class="card-link-secondary">
-                GitHub Repo &#8599;
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- 4. Telegram Bot -->
-        <article class="project-card" data-category="assistants">
-          <div class="card-glow"></div>
-          <div class="card-content">
-            <div class="card-top">
-              <span class="card-category-tag">ASSISTANTS</span>
-              <div class="card-tech-badges">
-                <span class="tech-badge">Python</span>
-                <span class="tech-badge">Telegram API</span>
-                <span class="tech-badge">Render CI</span>
-              </div>
-            </div>
-            <h3 class="card-title">Telegram Developer Bot</h3>
-            <p class="card-desc">An interactive Telegram bot executing remote health checks, system commands, and deployment notifications directly from encrypted chat.</p>
-            <div class="card-links">
-              <a href="https://github.com/JorgeJoseContreras/telegram-bot" target="_blank" rel="noopener noreferrer" class="card-link-secondary">
-                GitHub Repo &#8599;
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- 5. Robinhood MCP -->
-        <article class="project-card" data-category="investments">
-          <div class="card-glow"></div>
-          <div class="card-content">
-            <div class="card-top">
-              <span class="card-category-tag">INVESTMENTS</span>
-              <div class="card-tech-badges">
-                <span class="tech-badge">TypeScript</span>
-                <span class="tech-badge">MCP Protocol</span>
-                <span class="tech-badge">Robinhood</span>
-              </div>
-            </div>
-            <h3 class="card-title">Robinhood MCP Server</h3>
-            <p class="card-desc">Model Context Protocol integration providing Claude and Gemini direct tooling to monitor positions and stream live brokerage market stats.</p>
-            <div class="card-links">
-              <a href="https://robinhood-bot-v2.onrender.com" target="_blank" rel="noopener noreferrer" class="card-link-primary">
-                Live Demo &#8599;
-              </a>
-              <a href="https://github.com/JorgeJoseContreras/robinhood-mcp" target="_blank" rel="noopener noreferrer" class="card-link-secondary">
-                GitHub Repo &#8599;
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- 6. Kraken Bot -->
-        <article class="project-card" data-category="investments">
-          <div class="card-glow"></div>
-          <div class="card-content">
-            <div class="card-top">
-              <span class="card-category-tag">INVESTMENTS</span>
-              <div class="card-tech-badges">
-                <span class="tech-badge">Python</span>
-                <span class="tech-badge">Kraken API</span>
-                <span class="tech-badge">Gemini AI</span>
-              </div>
-            </div>
-            <h3 class="card-title">Agentic Crypto Trading Bot</h3>
-            <p class="card-desc">Autonomous cryptocurrency trading bot utilizing AI sentiment analysis and programmatic execution to navigate volatile digital asset markets.</p>
-            <div class="card-links">
-              <a href="https://kraken-trading-bot-lafb.onrender.com" target="_blank" rel="noopener noreferrer" class="card-link-primary">
-                Live Demo &#8599;
-              </a>
-              <a href="https://github.com/JorgeJoseContreras/kraken-trading-bot" target="_blank" rel="noopener noreferrer" class="card-link-secondary">
-                GitHub Repo &#8599;
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- 7. Zengine Integration -->
-        <article class="project-card" data-category="enterprise">
-          <div class="card-glow"></div>
-          <div class="card-content">
-            <div class="card-top">
-              <span class="card-category-tag">ENTERPRISE</span>
-              <div class="card-tech-badges">
-                <span class="tech-badge">Python</span>
-                <span class="tech-badge">REST API</span>
-                <span class="tech-badge">OAuth2</span>
-              </div>
-            </div>
-            <h3 class="card-title">Zengine Integration Pipeline</h3>
-            <p class="card-desc">High-throughput data extraction and bi-directional synchronization tool connecting enterprise databases to Zengine REST endpoints.</p>
-            <div class="card-links">
-              <a href="https://github.com/JorgeJoseContreras/zengine-integration" target="_blank" rel="noopener noreferrer" class="card-link-secondary">
-                GitHub Repo &#8599;
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- 8. Disbursement Tracker -->
-        <article class="project-card" data-category="enterprise">
-          <div class="card-glow"></div>
-          <div class="card-content">
-            <div class="card-top">
-              <span class="card-category-tag">ENTERPRISE</span>
-              <div class="card-tech-badges">
-                <span class="tech-badge">Python</span>
-                <span class="tech-badge">Pandas</span>
-                <span class="tech-badge">Automation</span>
-              </div>
-            </div>
-            <h3 class="card-title">Disbursement Ledger Pipeline</h3>
-            <p class="card-desc">Batch payment processor verifying check registers, ACH disbursements, and zero-error accounting reconciliations.</p>
-            <div class="card-links">
-              <a href="https://github.com/JorgeJoseContreras/scholarship-disbursement" target="_blank" rel="noopener noreferrer" class="card-link-secondary">
-                GitHub Repo &#8599;
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- 9. Clean Sheet AI -->
-        <article class="project-card" data-category="enterprise">
-          <div class="card-glow"></div>
-          <div class="card-content">
-            <div class="card-top">
-              <span class="card-category-tag">ENTERPRISE</span>
-              <div class="card-tech-badges">
-                <span class="tech-badge">TypeScript</span>
-                <span class="tech-badge">Gemini API</span>
-                <span class="tech-badge">Excel</span>
-              </div>
-            </div>
-            <h3 class="card-title">Clean Sheet AI</h3>
-            <p class="card-desc">Spreadsheet normalization platform utilizing LLMs to sanitize messy CSV records and repair missing database fields.</p>
-            <div class="card-links">
-              <a href="https://github.com/JorgeJoseContreras/clean-sheet" target="_blank" rel="noopener noreferrer" class="card-link-secondary">
-                GitHub Repo &#8599;
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- 10. Admin Coding Bot -->
-        <article class="project-card" data-category="assistants">
-          <div class="card-glow"></div>
-          <div class="card-content">
-            <div class="card-top">
-              <span class="card-category-tag">ASSISTANTS</span>
-              <div class="card-tech-badges">
-                <span class="tech-badge">Python</span>
-                <span class="tech-badge">Mini-PC</span>
-                <span class="tech-badge">Render API</span>
-              </div>
-            </div>
-            <h3 class="card-title">Admin Coding Bot</h3>
-            <p class="card-desc">Self-healing autonomous developer agent capable of live code refactoring, automated testing, and triggering Render edge deployments.</p>
-            <div class="card-links">
-              <a href="https://bot-log-streamer.onrender.com/" target="_blank" rel="noopener noreferrer" class="card-link-primary">
-                Live Stream &#8599;
-              </a>
-              <a href="https://github.com/JorgeJoseContreras/jorges-coder-bot" target="_blank" rel="noopener noreferrer" class="card-link-secondary">
-                GitHub Repo &#8599;
-              </a>
-            </div>
-          </div>
-        </article>
-
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ARCHITECTURE & TECH STACK -->
-  <section class="section stack-section" id="stack">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">// ARCHITECTURE_AND_STACK</span>
-        <h2 class="section-title">Technical Infrastructure</h2>
-        <p class="section-subtitle">Core engineering runtimes, models, and protocols powering active production systems.</p>
-      </div>
-
-      <div class="stack-grid">
-        <div class="stack-card">
-          <h3 class="stack-card-title">// LANGUAGES &amp; RUNTIMES</h3>
-          <div class="tech-tags">
-            <span class="tech-tag">Python 3.12</span>
-            <span class="tech-tag">Rust</span>
-            <span class="tech-tag">TypeScript</span>
-            <span class="tech-tag">AsyncIO</span>
-            <span class="tech-tag">FastAPI</span>
-            <span class="tech-tag">Bash / POSIX</span>
-          </div>
-        </div>
-
-        <div class="stack-card">
-          <h3 class="stack-card-title">// TRADING &amp; FINANCIAL APIS</h3>
-          <div class="tech-tags">
-            <span class="tech-tag">Alpaca Markets WSS</span>
-            <span class="tech-tag">Kalshi Prediction API</span>
-            <span class="tech-tag">Robinhood MCP</span>
-            <span class="tech-tag">WebSockets</span>
-            <span class="tech-tag">Polygon.io</span>
-          </div>
-        </div>
-
-        <div class="stack-card">
-          <h3 class="stack-card-title">// AGENTIC &amp; AI FRAMEWORKS</h3>
-          <div class="tech-tags">
-            <span class="tech-tag">Google Gemini API</span>
-            <span class="tech-tag">Claude 3.5 Sonnet</span>
-            <span class="tech-tag">MCP Protocol</span>
-            <span class="tech-tag">Multi-Modal Vision</span>
-            <span class="tech-tag">Autonomous Loops</span>
-          </div>
-        </div>
-
-        <div class="stack-card">
-          <h3 class="stack-card-title">// CLOUD &amp; EDGE TOPOLOGY</h3>
-          <div class="tech-tags">
-            <span class="tech-tag">Docker Containers</span>
-            <span class="tech-tag">Render Cloud</span>
-            <span class="tech-tag">Headless Linux</span>
-            <span class="tech-tag">Telegram Bot API</span>
-            <span class="tech-tag">Global CDN</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- FOOTER -->
-  <footer class="footer" id="contact">
-    <div class="container footer-content">
-      <div class="footer-left">
-        <div class="footer-logo">
-          <span class="logo-mark">&#9650;</span> Jorge Contreras
-        </div>
-        <p class="footer-copy">&copy; 2026 Jorge Contreras. All autonomous systems operational.</p>
-      </div>
-
+  <!-- MINIMAL FOOTER -->
+  <footer class="footer-simple">
+    <div class="container footer-simple-content">
+      <div class="footer-copy">&copy; 2026 Jorge Contreras. All autonomous systems operational.</div>
       <div class="footer-socials">
         <a href="https://github.com/JorgeJoseContreras" target="_blank" rel="noopener noreferrer" class="social-link">GitHub &#8599;</a>
         <a href="https://linkedin.com/in/jorge-contreras" target="_blank" rel="noopener noreferrer" class="social-link">LinkedIn &#8599;</a>
@@ -525,7 +114,6 @@
       </div>
     </div>
   </footer>
-
 
   <!-- CONTACT MODAL -->
   <div id="contactModal" class="modal-overlay" style="display:none;">
@@ -550,24 +138,6 @@
         <button type="submit" class="btn-primary modal-submit">TRANSMIT MESSAGE</button>
         <div id="contactStatus" class="modal-status"></div>
       </form>
-    </div>
-  </div>
-
-
-  <!-- GLOBAL COMMAND PALETTE (Cmd+K) -->
-  <div id="cmdPaletteModal" class="cmd-palette-overlay" style="display:none;">
-    <div class="cmd-palette-container">
-      <div class="cmd-palette-search">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input type="text" id="cmdPaletteInput" placeholder="Type a command or search systems..." autocomplete="off" spellcheck="false">
-        <kbd class="cmd-esc-badge">ESC</kbd>
-      </div>
-      <div class="cmd-palette-results" id="cmdPaletteResults"></div>
-      <div class="cmd-palette-footer">
-        <span class="cmd-tip"><kbd>&#8593;</kbd><kbd>&#8595;</kbd> Navigate</span>
-        <span class="cmd-tip"><kbd>&#8629;</kbd> Select</span>
-        <span class="cmd-tip"><kbd>ESC</kbd> Close</span>
-      </div>
     </div>
   </div>
 
