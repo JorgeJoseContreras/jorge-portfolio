@@ -9,6 +9,9 @@
 </head>
 <body>
 
+  <!-- Top Scroll Progress Bar -->
+  <div id="scrollProgress" class="scroll-progress-bar"></div>
+
   <!-- Modernist Blueprint Dot-Matrix Canvas Background -->
   <div class="brutalist-grid-overlay">
     <canvas id="matrixCanvas"></canvas>
@@ -39,6 +42,13 @@
       </div>
 
       <div class="nav-actions">
+        <!-- Quick Command Palette Launcher Button -->
+        <button class="cmd-k-trigger" id="cmdKTrigger" aria-label="Open Command Menu">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <span class="cmd-k-text">Search</span>
+          <kbd class="cmd-k-badge">⌘K</kbd>
+        </button>
+
         <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
           <!-- Sun Icon (for dark mode -> transitions to light) -->
           <svg class="sun-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -71,6 +81,99 @@
         <div class="intro-eyebrow">JORGE CONTRERAS / PORTFOLIO v2.0</div>
         <h1 class="intro-title reveal-text">BUILDING AUTOMATED TRADING ROBOTS, GENERAL AI ASSISTANTS, AND HIGH-VELOCITY ENTERPRISE APPLICATIONS.</h1>
         <p class="intro-tagline reveal-text">Stop configuring. Start innovating with secure, global edge deployments.</p>
+        
+        <!-- Kinetic Velocity Marquee Ticker -->
+        <div class="velocity-marquee-container">
+          <div class="velocity-marquee-track" id="velocityMarquee">
+            <span class="marquee-item">/// ALGORITHMIC EXECUTION</span>
+            <span class="marquee-item">/// AUTONOMOUS TRADING AGENTS</span>
+            <span class="marquee-item">/// EDGE CLOUD INFRASTRUCTURE</span>
+            <span class="marquee-item">/// HIGH FREQUENCY WEBSOCKETS</span>
+            <span class="marquee-item">/// FULL STACK ARCHITECTURE</span>
+            <span class="marquee-item">/// PREDICTION MARKET BOT</span>
+            <span class="marquee-item">/// ALGORITHMIC EXECUTION</span>
+            <span class="marquee-item">/// AUTONOMOUS TRADING AGENTS</span>
+            <span class="marquee-item">/// EDGE CLOUD INFRASTRUCTURE</span>
+            <span class="marquee-item">/// HIGH FREQUENCY WEBSOCKETS</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Architecture Code Terminal Showcase -->
+      <div class="code-terminal-section reveal">
+        <div class="terminal-window">
+          <div class="terminal-header">
+            <div class="terminal-controls">
+              <span class="term-dot term-close"></span>
+              <span class="term-dot term-min"></span>
+              <span class="term-dot term-max"></span>
+            </div>
+            <div class="terminal-tabs">
+              <button class="term-tab active" data-tab="agent">TradingAgent.py</button>
+              <button class="term-tab" data-tab="kalshi">KalshiMarketBot.rs</button>
+              <button class="term-tab" data-tab="deploy">DeployPipeline.sh</button>
+            </div>
+            <div class="terminal-action">
+              <button class="term-copy-btn" id="termCopyBtn" title="Copy snippet">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <span id="copyLabel">Copy</span>
+              </button>
+            </div>
+          </div>
+          <div class="terminal-body">
+            <pre class="terminal-code active" id="tabContent-agent"><code><span class="tok-k">import</span> asyncio
+<span class="tok-k">from</span> alpaca.trading.client <span class="tok-k">import</span> TradingClient
+<span class="tok-k">from</span> core.agents <span class="tok-k">import</span> AutonomousExecutionEngine
+
+<span class="tok-c"># Initializing Autonomous Market Making Agent</span>
+<span class="tok-v">agent</span> = AutonomousExecutionEngine(
+    strategy=<span class="tok-s">"Adaptive_Spread_Arbitrage"</span>,
+    risk_tolerance=<span class="tok-n">0.02</span>,
+    realtime_telemetry=<span class="tok-k">True</span>
+)
+
+<span class="tok-k">async def</span> <span class="tok-f">main</span>():
+    <span class="tok-k">await</span> agent.connect_orderbook_stream(symbols=[<span class="tok-s">"SPY"</span>, <span class="tok-s">"QQQ"</span>, <span class="tok-s">"NVDA"</span>])
+    <span class="tok-k">await</span> agent.execute_continuous_arbitrage_loop()
+
+<span class="tok-k">if</span> __name__ == <span class="tok-s">"__main__"</span>:
+    asyncio.run(main())</code></pre>
+            <pre class="terminal-code" id="tabContent-kalshi"><code><span class="tok-k">use</span> kalshi_wss::{KalshiStream, MarketOrder, OrderSide};
+<span class="tok-k">use</span> tokio::time::{interval, Duration};
+
+<span class="tok-c">// High-velocity async prediction market orderbook watcher</span>
+<span class="tok-k">#[tokio::main]</span>
+<span class="tok-k">async fn</span> <span class="tok-f">main</span>() -> Result&lt;(), Box&lt;<span class="tok-k">dyn</span> std::error::Error&gt;&gt; {
+    <span class="tok-k">let mut</span> client = KalshiStream::connect_production(<span class="tok-s">"wss://api.kalshi.com/v1"</span>).<span class="tok-k">await</span>?;
+    client.subscribe_ticker(<span class="tok-s">"PRES-2028-WINNER"</span>).<span class="tok-k">await</span>?;
+
+    <span class="tok-k">while let Some</span>(event) = client.next_event().<span class="tok-k">await</span> {
+        <span class="tok-k">if</span> event.probability_delta &gt; <span class="tok-n">0.05</span> {
+            client.place_order(MarketOrder::new(OrderSide::Yes, <span class="tok-n">500</span>)).<span class="tok-k">await</span>?;
+        }
+    }
+    Ok(())
+}</code></pre>
+            <pre class="terminal-code" id="tabContent-deploy"><code><span class="tok-c">#!/usr/bin/env bash</span>
+<span class="tok-c"># Continuous Edge Deployment Pipeline</span>
+<span class="tok-k">set</span> -euo pipefail
+
+<span class="tok-v">SERVICE_ID</span>=<span class="tok-s">"srv-d9hvptm7r5hc739io7ig"</span>
+<span class="tok-v">API_ENDPOINT</span>=<span class="tok-s">"https://api.render.com/v1/services/${SERVICE_ID}/deploys"</span>
+
+echo <span class="tok-s">"🚀 Triggering edge build deployment..."</span>
+curl -X POST <span class="tok-s">"${API_ENDPOINT}"</span> \
+     -H <span class="tok-s">"Authorization: Bearer ${RENDER_API_KEY}"</span> \
+     -H <span class="tok-s">"Accept: application/json"</span> | jq .status
+
+echo <span class="tok-s">"⚡ Synchronizing global CDN edge routes..."</span>
+echo <span class="tok-s">"✅ Status: All operational (latency &lt; 20ms)"</span></code></pre>
+          </div>
+          <div class="terminal-footer">
+            <span class="term-status-live"><span class="pulse-dot"></span> LIVE EXECUTION LOGS</span>
+            <span class="term-latency">OREGON-1 (LATENCY: 14ms)</span>
+          </div>
+        </div>
       </div>
 
       <div class="project-filters">
@@ -485,6 +588,31 @@
       </div>
     </div>
   </div>
+
+  <!-- Global Command Palette Modal (Cmd + K) -->
+  <div id="cmdPaletteModal" class="cmd-palette-overlay" style="display:none;">
+    <div class="cmd-palette-container">
+      <div class="cmd-palette-search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="cmdPaletteInput" placeholder="Type a command or search projects..." autocomplete="off" spellcheck="false">
+        <kbd class="cmd-esc-badge">ESC</kbd>
+      </div>
+      <div class="cmd-palette-results" id="cmdPaletteResults"></div>
+      <div class="cmd-palette-footer">
+        <span class="cmd-tip"><kbd>↑</kbd><kbd>↓</kbd> Navigate</span>
+        <span class="cmd-tip"><kbd>↵</kbd> Select</span>
+        <span class="cmd-tip"><kbd>ESC</kbd> Close</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Realtime Telemetry HUD Bar (Bottom) -->
+  <aside class="telemetry-hud-bar">
+    <div class="hud-item"><span class="hud-label">COORDS:</span> <span id="hudCoords">X: 0 Y: 0</span></div>
+    <div class="hud-item"><span class="hud-label">SCROLL:</span> <span id="hudScroll">0%</span></div>
+    <div class="hud-item"><span class="hud-label">TELEMETRY:</span> <span class="hud-val">LATENCY 14ms</span></div>
+    <div class="hud-item hud-hide-mobile"><span class="hud-label">SYS:</span> <span class="hud-val">READY</span></div>
+  </aside>
 
   <script src="script.js"></script>
 </body>

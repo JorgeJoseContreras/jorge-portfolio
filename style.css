@@ -1415,4 +1415,394 @@ textarea.form-control {
   color: #ef4444;
 }
 
+/* ==========================================================================
+   MAXIMALIST VERCEL & LINEAR-GRADE BRUTALIST COMPONENTS
+   ========================================================================== */
+
+/* --- TOP SCROLL PROGRESS BAR --- */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+  width: 0%;
+  z-index: 1001;
+  transition: width 0.1s ease-out;
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.7);
+}
+
+/* --- CMD + K QUICK TRIGGER --- */
+.cmd-k-trigger {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  transition: all var(--transition-fast);
+}
+
+.cmd-k-trigger:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--accent-secondary);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.cmd-k-badge {
+  padding: 2px 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+  font-size: 0.7rem;
+  font-family: inherit;
+}
+
+/* --- KINETIC VELOCITY MARQUEE TICKER --- */
+.velocity-marquee-container {
+  overflow: hidden;
+  width: 100%;
+  padding: var(--space-sm) 0;
+  margin-top: var(--space-lg);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.015);
+  white-space: nowrap;
+}
+
+.velocity-marquee-track {
+  display: inline-flex;
+  gap: 2.5rem;
+  will-change: transform;
+}
+
+.marquee-item {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* --- CODE & ARCHITECTURE TERMINAL SHOWCASE --- */
+.code-terminal-section {
+  margin-bottom: var(--space-xxl);
+}
+
+.terminal-window {
+  background: #09090b;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  box-shadow: 6px 6px 0px 0px var(--border-color);
+  overflow: hidden;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.terminal-window:hover {
+  border-color: var(--accent-secondary);
+  box-shadow: 8px 8px 0px 0px var(--accent-secondary);
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid var(--border-color);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.terminal-controls {
+  display: flex;
+  gap: 6px;
+}
+
+.term-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.term-close { background: #ef4444; }
+.term-min { background: #eab308; }
+.term-max { background: #22c55e; }
+
+.terminal-tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.term-tab {
+  padding: 5px 12px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.term-tab.active, .term-tab:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.term-copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.term-copy-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--accent-secondary);
+  background: rgba(168, 85, 247, 0.1);
+}
+
+.terminal-body {
+  padding: 20px 24px;
+  min-height: 240px;
+  background: #040406;
+}
+
+.terminal-code {
+  display: none;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: #e4e4e7;
+  overflow-x: auto;
+}
+
+.terminal-code.active {
+  display: block;
+  animation: fadeIn 0.25s ease forwards;
+}
+
+.tok-k { color: #c084fc; font-weight: 600; } /* Keywords (purple) */
+.tok-f { color: #60a5fa; } /* Function */
+.tok-s { color: #34d399; } /* Strings (green) */
+.tok-n { color: #f59e0b; } /* Numbers (orange) */
+.tok-c { color: #71717a; font-style: italic; } /* Comments */
+.tok-v { color: #f472b6; } /* Variables */
+
+.terminal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border-top: 1px solid var(--border-color);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.term-status-live {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #10b981;
+}
+
+/* --- PRECISION CORNER REGISTRATION CROSSHAIRS --- */
+.card-crosshair {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: all var(--transition-fast);
+  opacity: 0.35;
+  z-index: 2;
+}
+
+.ch-tl { top: 4px; left: 6px; }
+.ch-tr { top: 4px; right: 6px; }
+.ch-bl { bottom: 4px; left: 6px; }
+.ch-br { bottom: 4px; right: 6px; }
+
+.project-card:hover .card-crosshair {
+  color: var(--accent-secondary);
+  opacity: 1;
+  transform: scale(1.3);
+}
+
+/* --- COMMAND PALETTE SPOTLIGHT MODAL --- */
+.cmd-palette-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 15vh;
+}
+
+.cmd-palette-container {
+  background: #09090b;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  width: 580px;
+  max-width: 92vw;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(168, 85, 247, 0.15);
+  overflow: hidden;
+  animation: cmdSlideDown 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cmdSlideDown {
+  from { opacity: 0; transform: translateY(-12px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.cmd-palette-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+.cmd-palette-search input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-family: var(--font-body);
+}
+
+.cmd-esc-badge {
+  padding: 2px 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.cmd-palette-results {
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.cmd-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  transition: all 0.1s ease;
+}
+
+.cmd-item-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cmd-item.selected, .cmd-item:hover {
+  background: rgba(168, 85, 247, 0.15);
+  color: var(--text-primary);
+}
+
+.cmd-item-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--accent-secondary);
+  padding: 2px 6px;
+  background: rgba(168, 85, 247, 0.1);
+  border-radius: 3px;
+}
+
+.cmd-palette-footer {
+  display: flex;
+  gap: 16px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border-top: 1px solid var(--border-color);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.cmd-tip kbd {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 1px 4px;
+  border-radius: 3px;
+  margin-right: 3px;
+}
+
+/* --- BOTTOM REALTIME TELEMETRY HUD BAR --- */
+.telemetry-hud-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  z-index: 90;
+}
+
+.hud-item {
+  display: flex;
+  gap: 6px;
+}
+
+.hud-label {
+  color: var(--text-secondary);
+}
+
+.hud-val {
+  color: var(--accent-secondary);
+}
+
+@media (max-width: 640px) {
+  .hud-hide-mobile { display: none; }
+}
+
 

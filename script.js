@@ -996,6 +996,219 @@ function initScrollReveal() {
   revealTexts.forEach(el => observer.observe(el));
 }
 
+function initCornerCrosshairs() {
+  const cards = document.querySelectorAll('.project-card');
+  cards.forEach(card => {
+    if (!card.querySelector('.card-crosshair')) {
+      const tl = document.createElement('span');
+      tl.className = 'card-crosshair ch-tl';
+      tl.textContent = '+';
+      const tr = document.createElement('span');
+      tr.className = 'card-crosshair ch-tr';
+      tr.textContent = '+';
+      const bl = document.createElement('span');
+      bl.className = 'card-crosshair ch-bl';
+      bl.textContent = '+';
+      const br = document.createElement('span');
+      br.className = 'card-crosshair ch-br';
+      br.textContent = '+';
+      card.appendChild(tl);
+      card.appendChild(tr);
+      card.appendChild(bl);
+      card.appendChild(br);
+    }
+  });
+}
+
+function initVelocityMarquee() {
+  const track = document.getElementById('velocityMarquee');
+  if (!track) return;
+
+  let pos = 0;
+  let baseSpeed = 0.8;
+  let currentSpeed = baseSpeed;
+  let lastScrollY = window.scrollY;
+
+  window.addEventListener('scroll', () => {
+    const scrollDelta = Math.abs(window.scrollY - lastScrollY);
+    currentSpeed = baseSpeed + scrollDelta * 0.15;
+    lastScrollY = window.scrollY;
+  });
+
+  function step() {
+    pos -= currentSpeed;
+    currentSpeed += (baseSpeed - currentSpeed) * 0.05;
+    
+    if (pos <= -track.offsetWidth / 2) {
+      pos = 0;
+    }
+    track.style.transform = `translateX(${pos}px)`;
+    requestAnimationFrame(step);
+  }
+  step();
+}
+
+function initCodeTerminal() {
+  const tabs = document.querySelectorAll('.term-tab');
+  const codeBlocks = document.querySelectorAll('.terminal-code');
+  const copyBtn = document.getElementById('termCopyBtn');
+  const copyLabel = document.getElementById('copyLabel');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      codeBlocks.forEach(c => c.classList.remove('active'));
+      tab.classList.add('active');
+      const tabId = tab.getAttribute('data-tab');
+      const targetContent = document.getElementById(`tabContent-${tabId}`);
+      if (targetContent) targetContent.classList.add('active');
+    });
+  });
+
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      const activeCode = document.querySelector('.terminal-code.active');
+      if (activeCode) {
+        navigator.clipboard.writeText(activeCode.textContent).then(() => {
+          if (copyLabel) copyLabel.textContent = 'Copied!';
+          setTimeout(() => {
+            if (copyLabel) copyLabel.textContent = 'Copy';
+          }, 2000);
+        });
+      }
+    });
+  }
+}
+
+function initTelemetryHUD() {
+  const coordsEl = document.getElementById('hudCoords');
+  const scrollEl = document.getElementById('hudScroll');
+  const progressBar = document.getElementById('scrollProgress');
+
+  window.addEventListener('mousemove', (e) => {
+    if (coordsEl) coordsEl.textContent = `X: ${e.clientX} Y: ${e.clientY}`;
+  });
+
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPct = docHeight > 0 ? Math.min(100, Math.round((scrollTop / docHeight) * 100)) : 0;
+    
+    if (scrollEl) scrollEl.textContent = `${scrollPct}%`;
+    if (progressBar) progressBar.style.width = `${scrollPct}%`;
+  });
+}
+
+function initCommandPalette() {
+  const modal = document.getElementById('cmdPaletteModal');
+  const input = document.getElementById('cmdPaletteInput');
+  const resultsContainer = document.getElementById('cmdPaletteResults');
+  const triggerBtn = document.getElementById('cmdKTrigger');
+
+  if (!modal || !input || !resultsContainer) return;
+
+  const actions = [
+    { label: 'Agentic Stock Trading Bot (Alpaca)', category: 'Project', icon: '📈', action: () => document.getElementById('card-alpaca')?.scrollIntoView({ behavior: 'smooth' }) },
+    { label: 'Agentic Prediction Market Bot (Kalshi)', category: 'Project', icon: '🎯', action: () => document.getElementById('card-kalshi')?.scrollIntoView({ behavior: 'smooth' }) },
+    { label: 'Autonomous Coding Agent (Telegram)', category: 'Project', icon: '⚡', action: () => document.getElementById('card-adminbot')?.scrollIntoView({ behavior: 'smooth' }) },
+    { label: 'Robinhood Crypto Trading Bot', category: 'Project', icon: '🪙', action: () => document.getElementById('card-robinhood')?.scrollIntoView({ behavior: 'smooth' }) },
+    { label: 'Filter: Investments Only', category: 'Filter', icon: '📊', action: () => document.querySelector('.filter-btn[data-filter="investments"]')?.click() },
+    { label: 'Filter: AI Assistants Only', category: 'Filter', icon: '🤖', action: () => document.querySelector('.filter-btn[data-filter="assistants"]')?.click() },
+    { label: 'Filter: Enterprise Systems Only', category: 'Filter', icon: '🏢', action: () => document.querySelector('.filter-btn[data-filter="enterprise"]')?.click() },
+    { label: 'Filter: All Projects', category: 'Filter', icon: '📂', action: () => document.querySelector('.filter-btn[data-filter="all"]')?.click() },
+    { label: 'Toggle Dark / Light Theme', category: 'System', icon: '🌓', action: () => document.getElementById('themeToggle')?.click() },
+    { label: 'Open Admin Settings', category: 'System', icon: '⚙️', action: () => document.getElementById('adminTrigger')?.click() },
+    { label: 'Contact Jorge Contreras', category: 'Contact', icon: '✉️', action: () => document.getElementById('contactFooterBtn')?.click() }
+  ];
+
+  let selectedIndex = 0;
+  let filteredActions = [...actions];
+
+  function renderActions() {
+    resultsContainer.innerHTML = '';
+    if (filteredActions.length === 0) {
+      resultsContainer.innerHTML = '<div style="padding:16px;text-align:center;color:var(--text-muted);font-size:0.9rem;">No matching commands found.</div>';
+      return;
+    }
+    filteredActions.forEach((item, idx) => {
+      const el = document.createElement('div');
+      el.className = `cmd-item ${idx === selectedIndex ? 'selected' : ''}`;
+      el.innerHTML = `
+        <div class="cmd-item-left">
+          <span>${item.icon}</span>
+          <span>${item.label}</span>
+        </div>
+        <span class="cmd-item-badge">${item.category}</span>
+      `;
+      el.addEventListener('click', () => {
+        closePalette();
+        item.action();
+      });
+      resultsContainer.appendChild(el);
+    });
+  }
+
+  function openPalette() {
+    modal.style.display = 'flex';
+    input.value = '';
+    filteredActions = [...actions];
+    selectedIndex = 0;
+    renderActions();
+    setTimeout(() => input.focus(), 50);
+  }
+
+  function closePalette() {
+    modal.style.display = 'none';
+  }
+
+  if (triggerBtn) {
+    triggerBtn.addEventListener('click', openPalette);
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      if (modal.style.display === 'flex') {
+        closePalette();
+      } else {
+        openPalette();
+      }
+    }
+    if (e.key === 'Escape' && modal.style.display === 'flex') {
+      closePalette();
+    }
+  });
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closePalette();
+  });
+
+  input.addEventListener('input', (e) => {
+    const q = e.target.value.toLowerCase().trim();
+    filteredActions = actions.filter(a => a.label.toLowerCase().includes(q) || a.category.toLowerCase().includes(q));
+    selectedIndex = 0;
+    renderActions();
+  });
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      selectedIndex = (selectedIndex + 1) % filteredActions.length;
+      renderActions();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      selectedIndex = (selectedIndex - 1 + filteredActions.length) % filteredActions.length;
+      renderActions();
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (filteredActions[selectedIndex]) {
+        closePalette();
+        filteredActions[selectedIndex].action();
+      }
+    }
+  });
+}
+
 // Initialization on DOM load
 initLogoWave();
 initProjectUpdateDates();
@@ -1004,6 +1217,11 @@ initScrollReveal();
 initDotMatrix();
 initCardColumnScrollParallax();
 initLiveClock();
+initCornerCrosshairs();
+initVelocityMarquee();
+initCodeTerminal();
+initTelemetryHUD();
+initCommandPalette();
 fetchAdminConfigFile().then(() => {
   applyAdminSettings();
 });
