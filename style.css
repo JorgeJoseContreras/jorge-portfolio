@@ -1491,143 +1491,6 @@ textarea.form-control {
   text-transform: uppercase;
 }
 
-/* --- CODE & ARCHITECTURE TERMINAL SHOWCASE --- */
-.code-terminal-section {
-  margin-bottom: var(--space-xxl);
-}
-
-.terminal-window {
-  background: #09090b;
-  border: 2px solid var(--border-color);
-  border-radius: var(--radius-sm);
-  box-shadow: 6px 6px 0px 0px var(--border-color);
-  overflow: hidden;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.terminal-window:hover {
-  border-color: var(--accent-secondary);
-  box-shadow: 8px 8px 0px 0px var(--accent-secondary);
-}
-
-.terminal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 16px;
-  background: rgba(255, 255, 255, 0.03);
-  border-bottom: 1px solid var(--border-color);
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.terminal-controls {
-  display: flex;
-  gap: 6px;
-}
-
-.term-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
-
-.term-close { background: #ef4444; }
-.term-min { background: #eab308; }
-.term-max { background: #22c55e; }
-
-.terminal-tabs {
-  display: flex;
-  gap: 4px;
-}
-
-.term-tab {
-  padding: 5px 12px;
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.term-tab.active, .term-tab:hover {
-  color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.12);
-}
-
-.term-copy-btn {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 4px 10px;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.term-copy-btn:hover {
-  color: var(--text-primary);
-  border-color: var(--accent-secondary);
-  background: rgba(168, 85, 247, 0.1);
-}
-
-.terminal-body {
-  padding: 20px 24px;
-  min-height: 240px;
-  background: #040406;
-}
-
-.terminal-code {
-  display: none;
-  font-family: var(--font-mono);
-  font-size: 0.88rem;
-  line-height: 1.65;
-  color: #e4e4e7;
-  overflow-x: auto;
-}
-
-.terminal-code.active {
-  display: block;
-  animation: fadeIn 0.25s ease forwards;
-}
-
-.tok-k { color: #c084fc; font-weight: 600; } /* Keywords (purple) */
-.tok-f { color: #60a5fa; } /* Function */
-.tok-s { color: #34d399; } /* Strings (green) */
-.tok-n { color: #f59e0b; } /* Numbers (orange) */
-.tok-c { color: #71717a; font-style: italic; } /* Comments */
-.tok-v { color: #f472b6; } /* Variables */
-
-.terminal-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 16px;
-  background: rgba(255, 255, 255, 0.02);
-  border-top: 1px solid var(--border-color);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.term-status-live {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: #10b981;
-}
-
 /* --- PRECISION CORNER REGISTRATION CROSSHAIRS --- */
 .card-crosshair {
   position: absolute;
@@ -1637,19 +1500,19 @@ textarea.form-control {
   color: var(--text-muted);
   pointer-events: none;
   transition: all var(--transition-fast);
-  opacity: 0.35;
+  opacity: 0.25;
   z-index: 2;
 }
 
-.ch-tl { top: 4px; left: 6px; }
-.ch-tr { top: 4px; right: 6px; }
-.ch-bl { bottom: 4px; left: 6px; }
-.ch-br { bottom: 4px; right: 6px; }
+.ch-tl { top: 6px; left: 8px; }
+.ch-tr { top: 6px; right: 8px; }
+.ch-bl { bottom: 6px; left: 8px; }
+.ch-br { bottom: 6px; right: 8px; }
 
 .project-card:hover .card-crosshair {
   color: var(--accent-secondary);
-  opacity: 1;
-  transform: scale(1.3);
+  opacity: 0.8;
+  transform: scale(1.2);
 }
 
 /* --- COMMAND PALETTE SPOTLIGHT MODAL --- */
@@ -1765,44 +1628,6 @@ textarea.form-control {
   padding: 1px 4px;
   border-radius: 3px;
   margin-right: 3px;
-}
-
-/* --- BOTTOM REALTIME TELEMETRY HUD BAR --- */
-.telemetry-hud-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 28px;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-top: 1px solid var(--border-color);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  z-index: 90;
-}
-
-.hud-item {
-  display: flex;
-  gap: 6px;
-}
-
-.hud-label {
-  color: var(--text-secondary);
-}
-
-.hud-val {
-  color: var(--accent-secondary);
-}
-
-@media (max-width: 640px) {
-  .hud-hide-mobile { display: none; }
 }
 
 

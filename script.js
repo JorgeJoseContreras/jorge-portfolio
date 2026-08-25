@@ -1048,54 +1048,15 @@ function initVelocityMarquee() {
   step();
 }
 
-function initCodeTerminal() {
-  const tabs = document.querySelectorAll('.term-tab');
-  const codeBlocks = document.querySelectorAll('.terminal-code');
-  const copyBtn = document.getElementById('termCopyBtn');
-  const copyLabel = document.getElementById('copyLabel');
-
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      codeBlocks.forEach(c => c.classList.remove('active'));
-      tab.classList.add('active');
-      const tabId = tab.getAttribute('data-tab');
-      const targetContent = document.getElementById(`tabContent-${tabId}`);
-      if (targetContent) targetContent.classList.add('active');
-    });
-  });
-
-  if (copyBtn) {
-    copyBtn.addEventListener('click', () => {
-      const activeCode = document.querySelector('.terminal-code.active');
-      if (activeCode) {
-        navigator.clipboard.writeText(activeCode.textContent).then(() => {
-          if (copyLabel) copyLabel.textContent = 'Copied!';
-          setTimeout(() => {
-            if (copyLabel) copyLabel.textContent = 'Copy';
-          }, 2000);
-        });
-      }
-    });
-  }
-}
-
-function initTelemetryHUD() {
-  const coordsEl = document.getElementById('hudCoords');
-  const scrollEl = document.getElementById('hudScroll');
+function initScrollProgressBar() {
   const progressBar = document.getElementById('scrollProgress');
-
-  window.addEventListener('mousemove', (e) => {
-    if (coordsEl) coordsEl.textContent = `X: ${e.clientX} Y: ${e.clientY}`;
-  });
+  if (!progressBar) return;
 
   window.addEventListener('scroll', () => {
     const scrollTop = window.scrollY;
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
     const scrollPct = docHeight > 0 ? Math.min(100, Math.round((scrollTop / docHeight) * 100)) : 0;
-    
-    if (scrollEl) scrollEl.textContent = `${scrollPct}%`;
-    if (progressBar) progressBar.style.width = `${scrollPct}%`;
+    progressBar.style.width = `${scrollPct}%`;
   });
 }
 
@@ -1219,8 +1180,7 @@ initCardColumnScrollParallax();
 initLiveClock();
 initCornerCrosshairs();
 initVelocityMarquee();
-initCodeTerminal();
-initTelemetryHUD();
+initScrollProgressBar();
 initCommandPalette();
 fetchAdminConfigFile().then(() => {
   applyAdminSettings();
