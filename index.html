@@ -3,694 +3,109 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Personal Portfolio of Jorge Contreras - Creative Developer & Software Engineer showcasing interactive, modern web applications and cloud architectures.">
-  <title>Jorge Contreras | Creative Developer & Software Engineer</title>
+  <meta name="description" content="Jorge Contreras - Old School UNIX Command Terminal">
+  <title>jorge@contreras-node: ~ (sh)</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="terminal-body" data-theme="green">
 
-  <!-- Top Scroll Progress Bar -->
-  <div id="scrollProgress" class="scroll-progress-bar"></div>
+  <!-- CRT Scanline & Screen Glow -->
+  <div class="crt-overlay"></div>
 
-  <!-- Modernist Blueprint Dot-Matrix Canvas Background -->
-  <div class="brutalist-grid-overlay">
-    <canvas id="matrixCanvas"></canvas>
+  <!-- TERMINAL WINDOW -->
+  <div class="terminal-wrapper">
+    
+    <!-- Window Title Bar -->
+    <header class="terminal-titlebar">
+      <div class="window-controls">
+        <span class="control-dot dot-red" title="Close"></span>
+        <span class="control-dot dot-yellow" title="Minimize"></span>
+        <span class="control-dot dot-green" title="Maximize"></span>
+      </div>
+      <div class="window-title">
+        <span>guest@jorge-contreras-node: ~ (sh) -- 80x24</span>
+      </div>
+      <div class="window-status">
+        <span class="status-dot"></span>
+        <span id="clockDisplay">00:00:00 EST</span>
+      </div>
+    </header>
+
+    <!-- Quick Command Shortcut Bar -->
+    <div class="quick-cmd-bar">
+      <span class="quick-label">CMDS:</span>
+      <button class="cmd-chip" data-cmd="help">[ 1: help ]</button>
+      <button class="cmd-chip" data-cmd="projects">[ 2: projects ]</button>
+      <button class="cmd-chip" data-cmd="about">[ 3: about ]</button>
+      <button class="cmd-chip" data-cmd="skills">[ 4: skills ]</button>
+      <button class="cmd-chip" data-cmd="contact">[ 5: contact ]</button>
+      <button class="cmd-chip" data-cmd="theme">[ 6: theme ]</button>
+      <button class="cmd-chip" data-cmd="clear">[ 7: clear ]</button>
+    </div>
+
+    <!-- Terminal Screen Output -->
+    <main class="terminal-screen" id="terminalScreen">
+      <div class="terminal-output" id="terminalOutput">
+        <!-- Output will be dynamically typed here by script.js -->
+      </div>
+
+      <!-- Live CLI Prompt -->
+      <div class="terminal-input-line" id="promptLine">
+        <span class="prompt-user">guest@jorgecontreras</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-dollar">$</span>
+        <input 
+          type="text" 
+          id="cliInput" 
+          class="cli-input" 
+          autofocus 
+          autocomplete="off" 
+          autocorrect="off" 
+          autocapitalize="off" 
+          spellcheck="false"
+          aria-label="Terminal Command Input"
+        />
+        <span class="cursor-block">_</span>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="terminal-footer">
+      <div class="footer-left">
+        <span>STATUS: 100% OPERATIONAL</span>
+        <span class="footer-divider">|</span>
+        <span>LATENCY: &lt;18MS</span>
+      </div>
+      <div class="footer-right">
+        <span>TAB: Auto-complete | Up/Down: History</span>
+      </div>
+    </footer>
+
   </div>
 
-  <!-- Background Decorative Glowing Blobs -->
-  <div class="bg-glows">
-    <div class="glow-1"></div>
-    <div class="glow-2"></div>
-    <div class="glow-3"></div>
-    <div class="glow-4"></div>
-  </div>
-
-  <!-- HEADER / LUXURY EDITORIAL NAV -->
-  <header class="header">
-    <div class="container nav-container">
-      <a href="#hero" class="logo" id="logoLink">
-        <span class="logo-mark">▲</span> Jorge Contreras
-      </a>
-
-      <nav class="nav-links">
-        <a href="#matrix" class="nav-link">SPECS</a>
-        <a href="#projects" class="nav-link">PORTFOLIO</a>
-        <a href="#about" class="nav-link">ABOUT</a>
-        <a href="#contact" class="nav-link" id="navContactLink">CONTACT</a>
-      </nav>
-
-      <div class="header-status-metrics">
-        <span class="status-indicator">
-          <span class="amber-pulse-dot"></span>
-          SYS.ACTIVE
-        </span>
-        <span class="divider">/</span>
-        <span class="miami-clock" id="miamiClock">EST 00:00:00</span>
+  <!-- CONTACT MODAL -->
+  <div id="contactModal" class="terminal-modal-overlay">
+    <div class="terminal-modal-box">
+      <div class="modal-header">
+        <span>// INITIATE_CONTACT_TRANSMISSION</span>
+        <button class="modal-close" id="closeContactBtn">[X]</button>
       </div>
-
-      <div class="nav-actions">
-        <!-- Gold Command Menu Launcher -->
-        <button class="cmd-k-trigger gold-trigger" id="cmdKTrigger" aria-label="Open Command Menu">
-          <span class="cmd-k-text">EXECUTE</span>
-          <kbd class="cmd-k-badge">⌘K</kbd>
-        </button>
-
-        <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
-          <svg class="sun-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>
-          <svg class="moon-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-        </button>
-      </div>
-    </div>
-  </header>
-
-
-  <!-- LUXURY EDITORIAL HERO SECTION -->
-  <section class="hero-landing" id="hero">
-    <div class="container">
-      <div class="hero-content hero-editorial-center">
-        
-        <!-- Amber Status Pill (Matching Reference) -->
-        <div class="amber-status-pill">
-          <span class="amber-glow-dot"></span>
-          <span class="pill-text">BETA RELEASE // 2026 SYSTEMS</span>
+      <form id="contactForm" class="modal-form">
+        <div class="form-row">
+          <label for="contactName">NAME:</label>
+          <input type="text" id="contactName" name="name" required autocomplete="off" />
         </div>
-
-        <h1 class="hero-editorial-title reveal-text">
-          Architecting the<br>
-          <span class="serif-italic">future</span> of intelligence
-        </h1>
-
-        <p class="hero-editorial-sub reveal-text">
-          Through autonomous algorithmic execution strategies, multi-modal AI agents, and resilient cloud edge infrastructure that outperform the market.
-        </p>
-
-        <!-- Chamfered Gold Action Button (Matching Reference) -->
-        <div class="hero-editorial-actions">
-          <a href="#projects" class="gold-chamfer-btn">
-            <span>[EXPLORE SYSTEMS]</span>
-          </a>
-          <button class="ghost-chamfer-btn" id="heroContactBtn">
-            <span>[CONTACT US]</span>
-          </button>
+        <div class="form-row">
+          <label for="contactEmail">EMAIL:</label>
+          <input type="email" id="contactEmail" name="email" required autocomplete="off" />
         </div>
-
-        <!-- Spec Telemetry Metrics -->
-        <div class="editorial-telemetry-row">
-          <div class="telem-chip">
-            <span class="tc-label">EXECUTION:</span>
-            <span class="tc-val">&lt;18ms Sub-Second WSS</span>
-          </div>
-          <div class="telem-chip">
-            <span class="tc-label">INFRASTRUCTURE:</span>
-            <span class="tc-val">Docker Containerized</span>
-          </div>
-          <div class="telem-chip">
-            <span class="tc-label">TARGETS:</span>
-            <span class="tc-val">Alpaca · Kalshi · Robinhood</span>
-          </div>
+        <div class="form-row">
+          <label for="contactMsg">MESSAGE:</label>
+          <textarea id="contactMsg" name="message" rows="4" required></textarea>
         </div>
-
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ENGINEERING SYSTEM MATRIX (CAPABILITIES) -->
-  <section class="capabilities-section" id="matrix">
-    <div class="container">
-      <div class="section-header-block">
-        <span class="section-tag">// ARCHITECTURAL_SPECIFICATIONS</span>
-        <h2 class="section-title reveal-text">CORE ENGINEERING MATRIX.</h2>
-        <p class="section-subtitle">Technical parameters and execution profiles across autonomous production systems.</p>
-      </div>
-
-      <div class="matrix-grid">
-        <!-- SYS.01 -->
-        <div class="matrix-cell">
-          <div class="matrix-cell-header">
-            <span class="cell-id">[SYS.01]</span>
-            <span class="cell-label">// QUANTITATIVE_EXECUTION</span>
-          </div>
-          <h3 class="matrix-cell-title">Sub-Second Orderbook Arbitrage</h3>
-          <p class="matrix-cell-desc">Adaptive market making, bid-ask spread harvesting, and sentiment evaluation engines integrated directly with Alpaca Markets and Kalshi Prediction WebSocket feeds.</p>
-          <div class="matrix-specs">
-            <div class="spec-row"><span class="sk">STACK:</span><span class="sv">Python 3.12 / AsyncIO / WebSockets</span></div>
-            <div class="spec-row"><span class="sk">LATENCY:</span><span class="sv">&lt; 20ms Edge Routing</span></div>
-            <div class="spec-row"><span class="sk">FEEDS:</span><span class="sv">Alpaca · Kalshi · Robinhood MCP</span></div>
-          </div>
+        <div class="form-actions">
+          <button type="submit" class="modal-submit-btn">[ TRANSMIT MESSAGE ]</button>
         </div>
-
-        <!-- SYS.02 -->
-        <div class="matrix-cell">
-          <div class="matrix-cell-header">
-            <span class="cell-id">[SYS.02]</span>
-            <span class="cell-label">// AUTONOMOUS_AGENTS</span>
-          </div>
-          <h3 class="matrix-cell-title">Self-Healing Developer Bots</h3>
-          <p class="matrix-cell-desc">Multi-modal AI agents operating 24/7 on local mini-PCs and headless cloud instances with native OS notification hooks, live research browsers, and self-testing deploy pipelines.</p>
-          <div class="matrix-specs">
-            <div class="spec-row"><span class="sk">ENGINE:</span><span class="sv">Google Gemini / Custom Agent Loop</span></div>
-            <div class="spec-row"><span class="sk">CHANNELS:</span><span class="sv">Telegram Bot API / iMessage Hook</span></div>
-            <div class="spec-row"><span class="sk">CAPABILITY:</span><span class="sv">Code Refactor, Git Push, Render Deploy</span></div>
-          </div>
-        </div>
-
-        <!-- SYS.03 -->
-        <div class="matrix-cell">
-          <div class="matrix-cell-header">
-            <span class="cell-id">[SYS.03]</span>
-            <span class="cell-label">// CLOUD_INFRASTRUCTURE</span>
-          </div>
-          <h3 class="matrix-cell-title">Edge Microservices & CI/CD</h3>
-          <p class="matrix-cell-desc">Containerized Docker microservices, automated health watchdogs, log streaming servers, and automated webhook deployments spanning global CDN nodes.</p>
-          <div class="matrix-specs">
-            <div class="spec-row"><span class="sk">RUNTIMES:</span><span class="sv">Docker / FastAPI / Gunicorn / Bash</span></div>
-            <div class="spec-row"><span class="sk">UPTIME:</span><span class="sv">99.98% Monitored</span></div>
-            <div class="spec-row"><span class="sk">EDGE:</span><span class="sv">Render Cloud / Oregon-1 Nodes</span></div>
-          </div>
-        </div>
-
-        <!-- SYS.04 -->
-        <div class="matrix-cell">
-          <div class="matrix-cell-header">
-            <span class="cell-id">[SYS.04]</span>
-            <span class="cell-label">// WORKFLOW_AUTOMATION</span>
-          </div>
-          <h3 class="matrix-cell-title">High-Throughput Enterprise Data</h3>
-          <p class="matrix-cell-desc">Custom data synchronization pipelines, financial disbursement trackers, and automated spreadsheet cleanup tools designed for zero-error department operations.</p>
-          <div class="matrix-specs">
-            <div class="spec-row"><span class="sk">INTEGRATION:</span><span class="sv">Zengine REST API / Webhooks</span></div>
-            <div class="spec-row"><span class="sk">PROCESSING:</span><span class="sv">AI Spreadsheet Normalization</span></div>
-            <div class="spec-row"><span class="sk">AUDITING:</span><span class="sv">Zero-Error Financial Verification</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- PROJECTS SECTION -->
-  <section class="projects-section" id="projects">
-    <div class="container">
-      <div class="section-header-block">
-        <span class="section-tag">// PRODUCTION_DIRECTORY</span>
-        <h2 class="section-title reveal-text">DEPLOYED AGENTS & SYSTEMS.</h2>
-        <p class="section-subtitle">Production trading robots, developer assistants, and enterprise data workflows.</p>
-      </div>
-
-      <div class="project-filters">
-        <button class="filter-btn active" data-filter="all">[ ALL_PROJECTS ]</button>
-        <button class="filter-btn" data-filter="investments">[ INVESTMENTS ]</button>
-        <button class="filter-btn" data-filter="assistants">[ ASSISTANTS ]</button>
-        <button class="filter-btn" data-filter="enterprise">[ ENTERPRISE ]</button>
-        <button class="filter-btn" data-filter="hobby">[ HOBBY ]</button>
-      </div>
-
-      <div class="projects-grid">
-        
-        <!-- Project 1: iMessage AI Assistant -->
-        <article class="project-card reveal" data-category="assistants" id="card-imessage">
-          <div class="project-info">
-            <div class="project-tags">
-              <span class="project-tag">Python</span>
-              <span class="project-tag">Dockerfile</span>
-            </div>
-            <h3 class="project-card-title">iMessage AI Assistant</h3>
-            <p class="project-card-desc">An intelligent messaging co-pilot that scans, digests, and reacts to incoming iMessage notifications in real-time.</p>
-            <div class="project-links">
-              <a href="https://github.com/JorgeJoseContreras/notification-assistant" target="_blank" class="project-link">
-                GitHub 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-              </a>
-              <a href="https://jorgius.com" target="_blank" class="project-link">
-                Live Demo 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Project: Admin Coding Bot -->
-        <article class="project-card reveal" data-category="assistants" id="card-adminbot">
-          <div class="project-info">
-            <div class="project-tags">
-              <span class="project-tag">Python</span>
-              <span class="project-tag">Procfile</span>
-            </div>
-            <h3 class="project-card-title">Admin Coding Bot</h3>
-            <p class="project-card-desc">An autonomous developer agent running locally on a Mini PC, capable of writing, testing, and deploying code to Render, managing GitHub repositories, browsing the web to perform live research, configuring GoDaddy domains, editing its own source code on-the-fly, and streaming live execution logs to a web interface.</p>
-            <div class="project-links">
-              <a href="https://github.com/JorgeJoseContreras/jorges-coder-bot" target="_blank" class="project-link">
-                GitHub 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-              </a>
-              <a href="https://bot-log-streamer.onrender.com/" target="_blank" class="project-link">
-                Live Demo 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Project 2: Agentic Stock Trading Bot -->
-        <article class="project-card reveal" data-category="investments" id="card-alpaca">
-          <div class="project-info">
-            <div class="project-tags">
-              <span class="project-tag">Python</span>
-            </div>
-            <h3 class="project-card-title" style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px;">
-              Agentic Stock Trading Bot
-              <span id="alpaca-pnl-badge" style="display: inline-block; font-size: 0.8rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; font-family: monospace; background-color: rgba(255, 255, 255, 0.05); color: #9ca3af; border: 1px solid rgba(255, 255, 255, 0.1);">...%</span>
-            </h3>
-            <p class="project-card-desc">An automated trading system utilizing Gemini AI to evaluate news sentiment and execute trades via Alpaca. Features a local desktop interface and a headless cloud mode, fully controllable via Telegram.</p>
-            <div class="project-links">
-              <a href="https://github.com/JorgeJoseContreras/alpaca-trading-bot" target="_blank" class="project-link">
-                GitHub 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-              </a>
-              <a href="https://invest.jorgejosecontreras.com/" target="_blank" class="project-link">
-                Live Demo 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
-            </div>
-          </div>
-        </article>
- 
-        <!-- Project 3: Telegram Stock Trading Bot -->
-        <article class="project-card reveal" data-category="investments" id="card-robinhood">
-          <div class="project-info">
-            <div class="project-tags">
-              <span class="project-tag">JavaScript</span>
-              <span class="project-tag">CSS</span>
-              <span class="project-tag">HTML</span>
-            </div>
-            <h3 class="project-card-title" style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px;">
-              Telegram Stock Trading Bot
-              <span id="robinhood-pnl-badge" style="display: inline-block; font-size: 0.8rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; font-family: monospace; background-color: rgba(255, 255, 255, 0.05); color: #9ca3af; border: 1px solid rgba(255, 255, 255, 0.1);">...%</span>
-            </h3>
-            <p class="project-card-desc">A secure conversational interface integrating Gemini AI and a Robinhood MCP server via Telegram, enabling natural-language execution of live brokerage transactions. This live instance is deployed for and managed by another user — not Jorge.</p>
-            <div class="project-links">
-              <a href="https://github.com/JorgeJoseContreras/robinhood-telegram-bot" target="_blank" class="project-link">
-                GitHub 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-              </a>
-              <a href="https://robinhood-bot-v2.onrender.com" target="_blank" class="project-link">
-                Live Demo 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Project: Agentic Crypto Trading Bot -->
-        <article class="project-card reveal" data-category="investments" id="card-kraken">
-          <div class="project-info">
-            <div class="project-tags">
-              <span class="project-tag">Python</span>
-              <span class="project-tag">Gemini AI</span>
-            </div>
-            <h3 class="project-card-title" style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px;">
-              Agentic Crypto Trading Bot
-              <span id="kraken-pnl-badge" style="display: inline-block; font-size: 0.8rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; font-family: monospace; background-color: rgba(255, 255, 255, 0.05); color: #9ca3af; border: 1px solid rgba(255, 255, 255, 0.1);">...%</span>
-            </h3>
-            <p class="project-card-desc">An autonomous cryptocurrency trading bot utilizing AI sentiment analysis and programmatic execution to navigate volatile digital asset markets.</p>
-            <div class="project-links">
-              <a href="https://github.com/JorgeJoseContreras/kraken-trading-bot" target="_blank" class="project-link">
-                GitHub 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-              </a>
-              <a href="https://kraken-trading-bot-lafb.onrender.com" target="_blank" class="project-link">
-                Live Demo 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Project: Agentic Prediction Market Bot -->
-        <article class="project-card reveal" data-category="investments" id="card-kalshi">
-          <div class="project-info">
-            <div class="project-tags">
-              <span class="project-tag">Python</span>
-              <span class="project-tag">Gemini AI</span>
-            </div>
-            <h3 class="project-card-title" style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px;">
-              Agentic Prediction Market Bot
-              <span id="kalshi-pnl-badge" style="display: inline-block; font-size: 0.8rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; font-family: monospace; background-color: rgba(255, 255, 255, 0.05); color: #9ca3af; border: 1px solid rgba(255, 255, 255, 0.1);">...%</span>
-            </h3>
-            <p class="project-card-desc">An autonomous AI agent that trades real-money prediction market contracts on Kalshi, using Gemini AI to analyze events and execute probabilistic positions on politics, economics, and world events.</p>
-            <div class="project-links">
-              <a href="https://github.com/JorgeJoseContreras/kalshi-trading-bot" target="_blank" class="project-link">
-                GitHub 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-              </a>
-              <a href="https://kalshi-trading-bot-70rb.onrender.com" target="_blank" class="project-link">
-                Live Demo 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Project 4: Scholarship Disbursement Report Authorization Automation -->
-        <article class="project-card reveal" data-category="enterprise" id="card-scholarship">
-          <div class="project-info">
-            <div class="project-tags">
-              <span class="project-tag">Python</span>
-              <span class="project-tag">Batchfile</span>
-            </div>
-            <h3 class="project-card-title">Scholarship Disbursement Report Authorization Automation</h3>
-            <p class="project-card-desc">An enterprise automation system that streamlines the review and authorization of Zengine scholarship disbursement reports, reducing manual overhead and ensuring compliance through intelligent document workflows.</p>
-            <div class="project-links">
-              <a href="https://github.com/Jorge-GSSF/Zengine-Disbursements-Auto-Auth" target="_blank" class="project-link">
-                GitHub 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-              </a>
-              <a href="#" class="project-link" id="scholarshipDemoTrigger">
-                Request Demo 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Project 5: Automated Mileage Report Generator -->
-        <article class="project-card reveal" data-category="enterprise" id="card-mileage">
-          <div class="project-info">
-            <div class="project-tags">
-              <span class="project-tag">Python</span>
-              <span class="project-tag">Batchfile</span>
-            </div>
-            <h3 class="project-card-title">Automated Mileage Report Generator</h3>
-            <p class="project-card-desc">A productivity tool that accepts route data via spreadsheet upload or manual entry, captures route screenshots from Google Maps in headless mode, and compiles them into a professionally formatted PDF mileage report.</p>
-            <div class="project-links">
-              <a href="https://github.com/Jorge-GSSF/Mileage-Maps-Generator" target="_blank" class="project-link">
-                GitHub 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-              </a>
-              <a href="#" class="project-link" id="mileageDemoTrigger">
-                Request Demo 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Project 6: Zengine Disbursements Monitor -->
-        <article class="project-card reveal" data-category="assistants enterprise" id="card-zengine-monitor">
-          <div class="project-info">
-            <div class="project-tags">
-              <span class="project-tag">Python</span>
-            </div>
-            <h3 class="project-card-title">Zengine Disbursements Monitor</h3>
-            <p class="project-card-desc">An automated monitoring system that tracks Zengine disbursements, checking for discrepancies and triggering real-time validation alerts for financial teams.</p>
-            <div class="project-links">
-              <a href="https://github.com/Jorge-GSSF/zengine-disbursement-monitor" target="_blank" class="project-link">
-                GitHub 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-              </a>
-              <a href="#" class="project-link" id="zengineMonitorDemoTrigger">
-                Request Demo 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Project 7: Scholar Services Zengine App -->
-        <article class="project-card reveal" data-category="enterprise" id="card-scholar-services">
-          <div class="project-info">
-            <div class="project-tags">
-              <span class="project-tag">Python</span>
-            </div>
-            <h3 class="project-card-title">Scholar Services Zengine App</h3>
-            <p class="project-card-desc">An enterprise web application built to streamline operations for Scholar Services Departments by providing an optimized, user-friendly portal for viewing and interacting with Zengine workspace data.</p>
-            <div class="project-links">
-              <a href="https://github.com/Jorge-GSSF/Scholar-Services-App" target="_blank" class="project-link">
-                GitHub 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-              </a>
-              <a href="#" class="project-link" id="scholarServicesDemoTrigger">
-                Request Demo 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Project 8: Zengine Live Form Data Editor -->
-        <article class="project-card reveal" data-category="enterprise" id="card-bulk-payments">
-          <div class="project-info">
-            <div class="project-tags">
-              <span class="project-tag">Python</span>
-              <span class="project-tag">Batchfile</span>
-            </div>
-            <h3 class="project-card-title">Zengine Live Form Data Editor</h3>
-            <p class="project-card-desc">An enterprise application designed to customize and enhance the visualization of the 'Disbursement Allocations' custom form in Zengine, simplifying complex workspace interactions for scholarship funds.</p>
-            <div class="project-links">
-              <a href="https://github.com/Jorge-GSSF/Bulk-Payments-App" target="_blank" class="project-link">
-                GitHub 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-              </a>
-              <a href="#" class="project-link" id="bulkPaymentsDemoTrigger">
-                Request Demo 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Project 9: Zengine CSV Optimizer -->
-        <article class="project-card reveal" data-category="enterprise" id="card-csv-optimizer">
-          <div class="project-info">
-            <div class="project-tags">
-              <span class="project-tag">Python</span>
-              <span class="project-tag">Batchfile</span>
-            </div>
-            <h3 class="project-card-title">Zengine CSV Optimizer</h3>
-            <p class="project-card-desc">A data processing utility that optimizes and cleans spreadsheet files for importing into Zengine, utilizing integrations with AI model APIs for automated data validation and formatting.</p>
-            <div class="project-links">
-              <a href="https://github.com/Jorge-GSSF/zengine-csv-optimizer" target="_blank" class="project-link">
-                GitHub 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-              </a>
-              <a href="#" class="project-link" id="csvOptimizerDemoTrigger">
-                Request Demo 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Project 10: Automated Multi-Modal Social Engagement Pipeline -->
-        <article class="project-card reveal" data-category="hobby" id="card-social">
-          <div class="project-info">
-            <div class="project-tags">
-              <span class="project-tag">Python</span>
-              <span class="project-tag">Batchfile</span>
-            </div>
-            <h3 class="project-card-title">Automated Multi-Modal Social Engagement Pipeline</h3>
-            <p class="project-card-desc">An AI-driven mobile app runner with offline/cloud vision analysis, automated Telegram remote commands, and real-time GUI tracking.</p>
-            <div class="project-links">
-              <a href="https://github.com/JorgeJoseContreras/AHB-AMMSEP" target="_blank" class="project-link">
-                GitHub 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-              </a>
-              <a href="#" class="project-link" id="contactDemoTrigger">
-                Request Demo 
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
-            </div>
-          </div>
-        </article>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT & TECH STACK SECTION -->
-  <section class="about-section" id="about">
-    <div class="container">
-      <div class="section-header-block">
-        <span class="section-tag">/ 03 — ARCHITECTURE & STACK</span>
-        <h2 class="section-title reveal-text">MODERN TOOLING FOR REAL-TIME AUTONOMOUS SYSTEMS.</h2>
-      </div>
-
-      <div class="about-grid">
-        <div class="about-card">
-          <h3 class="about-card-title">Core Languages & Runtimes</h3>
-          <div class="tech-tags">
-            <span class="tech-tag">Python 3.12+</span>
-            <span class="tech-tag">Rust</span>
-            <span class="tech-tag">TypeScript</span>
-            <span class="tech-tag">JavaScript / ES6+</span>
-            <span class="tech-tag">Bash / POSIX</span>
-          </div>
-        </div>
-
-        <div class="about-card">
-          <h3 class="about-card-title">Trading & Financial APIs</h3>
-          <div class="tech-tags">
-            <span class="tech-tag">Alpaca Markets API</span>
-            <span class="tech-tag">Kalshi Prediction WSS</span>
-            <span class="tech-tag">Robinhood MCP</span>
-            <span class="tech-tag">Financial Modeling Prep</span>
-            <span class="tech-tag">Orderbook Streaming</span>
-          </div>
-        </div>
-
-        <div class="about-card">
-          <h3 class="about-card-title">AI & Agent Orchestration</h3>
-          <div class="tech-tags">
-            <span class="tech-tag">Google Gemini API</span>
-            <span class="tech-tag">Anthropic Claude</span>
-            <span class="tech-tag">Autonomous Coding Agents</span>
-            <span class="tech-tag">Telegram Bot API</span>
-            <span class="tech-tag">Computer Vision</span>
-          </div>
-        </div>
-
-        <div class="about-card">
-          <h3 class="about-card-title">Cloud, Edge & CI/CD</h3>
-          <div class="tech-tags">
-            <span class="tech-tag">Docker</span>
-            <span class="tech-tag">Render Cloud</span>
-            <span class="tech-tag">FastAPI</span>
-            <span class="tech-tag">WebSockets</span>
-            <span class="tech-tag">Self-Healing Watchdogs</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="container footer-content" style="flex-direction: column; gap: var(--space-sm);">
-      <button class="project-link contact-trigger-btn" id="contactFooterBtn" style="font-weight: 600; cursor: pointer; font-size: 1rem;">
-        Contact Me
-      </button>
-      <div class="footer-socials" style="display: flex; gap: var(--space-md); margin-top: 5px;">
-        <a href="https://www.linkedin.com/in/jorgejcontreras/" target="_blank" aria-label="LinkedIn" class="project-link" style="color: var(--text-muted); transition: color var(--transition-fast);">
-          <svg fill="currentColor" width="20" height="20" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-        </a>
-        <a href="https://github.com/JorgeJoseContreras" target="_blank" aria-label="GitHub" class="project-link" style="color: var(--text-muted); transition: color var(--transition-fast);">
-          <svg fill="currentColor" width="20" height="20" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482C19.138 20.193 22 16.436 22 12.017 22 6.484 17.522 2 12 2z"/></svg>
-        </a>
-        <a href="https://www.youtube.com/@JorgeJoseContreras" target="_blank" aria-label="YouTube" class="project-link" style="color: var(--text-muted); transition: color var(--transition-fast);">
-          <svg fill="currentColor" width="20" height="20" viewBox="0 0 24 24"><path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.518 3.545 12 3.545 12 3.545s-7.519 0-9.388.507a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.87.507 9.388.507 9.388.507s7.519 0 9.388-.507a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-        </a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Contact Modal / Popup -->
-  <div class="modal-overlay" id="contactModal">
-    <div class="modal-content">
-      <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
-      <h3 class="modal-title" id="modalTitle">Request Live Demo</h3>
-      <p class="modal-desc" id="modalDesc">The Automated Multi-Modal Social Engagement Pipeline (AHB) runs locally on a connected emulator. Submit your contact details below to request a live demo or get detail sheets sent to your inbox!</p>
-      
-      <form id="contactForm">
-        <!-- We use an AJAX submit to Web3Forms -->
-        <input type="hidden" name="access_key" id="web3FormsKey" value="ebde9e87-c5fe-4d67-9014-66eb79850fe4">
-        <input type="hidden" name="subject" id="web3FormsSubject" value="Live Demo Request - AHB App">
-        <input type="checkbox" name="botcheck" style="display: none;">
-
-        <div class="form-group">
-          <label for="formName" class="form-label">Name</label>
-          <input type="text" name="name" id="formName" class="form-input" placeholder="Your Name" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="formEmail" class="form-label">Email Address</label>
-          <input type="email" name="email" id="formEmail" class="form-input" placeholder="you@example.com" required>
-        </div>
-
-        <div class="form-group">
-          <label for="formMessage" class="form-label" id="formMessageLabel">Message / Request Detail</label>
-          <textarea name="message" id="formMessage" class="form-textarea" placeholder="Hi Jorge, I'd like to schedule a live demo or ask about..." rows="4" required></textarea>
-        </div>
-
-        <button type="submit" class="submit-btn" id="formSubmitBtn">Send Message</button>
+        <div id="contactStatus" class="modal-status"></div>
       </form>
-      <div id="formStatus" class="form-status"></div>
-    </div>
-  </div>
-
-  <!-- Back to top floating button -->
-  <button class="back-to-top" id="backToTop" aria-label="Scroll to top">
-    <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-      <polyline points="18 15 12 9 6 15"></polyline>
-    </svg>
-  </button>
-
-  <!-- Hidden Admin Trigger (bottom-left corner) -->
-  <div id="adminTrigger" style="position:fixed;bottom:0;left:0;width:50px;height:50px;z-index:9998;cursor:default;"></div>
-
-  <!-- Admin Login Modal -->
-  <div id="adminLoginModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center;backdrop-filter:blur(4px);">
-    <div style="background:var(--bg-card,#1a1a2e);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:32px;width:320px;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
-      <h3 style="margin:0 0 8px;color:var(--text-primary,#fff);font-size:1.1rem;">Admin Access</h3>
-      <p style="margin:0 0 20px;color:var(--text-muted,#888);font-size:0.85rem;">Enter password to continue</p>
-      <input type="password" id="adminPasswordInput" placeholder="Password" style="width:100%;box-sizing:border-box;padding:10px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:#fff;font-size:0.95rem;margin-bottom:12px;outline:none;">
-      <div id="adminLoginError" style="color:#EF4444;font-size:0.8rem;margin-bottom:12px;display:none;">Incorrect password.</div>
-      <div style="display:flex;gap:10px;">
-        <button id="adminLoginSubmit" style="flex:1;padding:10px;border-radius:8px;border:none;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:600;cursor:pointer;">Login</button>
-        <button id="adminLoginCancel" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:var(--text-muted,#888);cursor:pointer;">Cancel</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Admin Panel Modal -->
-  <div id="adminPanelModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center;backdrop-filter:blur(4px);overflow-y:auto;">
-    <div style="background:var(--bg-card,#1a1a2e);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:32px;width:440px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,0.5);margin:20px auto;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
-        <h3 style="margin:0;color:var(--text-primary,#fff);font-size:1.1rem;">⚙️ Admin Settings</h3>
-        <button id="adminPanelClose" style="background:transparent;border:none;color:var(--text-muted,#888);font-size:1.4rem;cursor:pointer;line-height:1;">&times;</button>
-      </div>
-
-      <p style="margin:0 0 16px;color:var(--text-muted,#888);font-size:0.8rem;text-transform:uppercase;letter-spacing:.05em;">Show / Hide Projects</p>
-      <div id="adminProjectList" style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;"></div>
-
-      <p style="margin:0 0 16px;color:var(--text-muted,#888);font-size:0.8rem;text-transform:uppercase;letter-spacing:.05em;">Investment P&L Badges</p>
-      <div id="adminBadgeList" style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;"></div>
-
-      <div style="display:flex;flex-direction:column;gap:10px;">
-        <div style="display:flex;gap:10px;">
-          <button id="adminSaveBtn" style="flex:1;padding:10px;border-radius:8px;border:none;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:600;cursor:pointer;">Save & Apply</button>
-          <button id="adminExportBtn" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(139,92,246,0.4);background:rgba(139,92,246,0.1);color:#a855f7;font-weight:600;cursor:pointer;">Export Config File 💾</button>
-        </div>
-        <button id="adminLogoutBtn" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(239,68,68,0.4);background:transparent;color:#EF4444;cursor:pointer;">Logout</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Global Command Palette Modal (Cmd + K) -->
-  <div id="cmdPaletteModal" class="cmd-palette-overlay" style="display:none;">
-    <div class="cmd-palette-container">
-      <div class="cmd-palette-search">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input type="text" id="cmdPaletteInput" placeholder="Type a command or search projects..." autocomplete="off" spellcheck="false">
-        <kbd class="cmd-esc-badge">ESC</kbd>
-      </div>
-      <div class="cmd-palette-results" id="cmdPaletteResults"></div>
-      <div class="cmd-palette-footer">
-        <span class="cmd-tip"><kbd>↑</kbd><kbd>↓</kbd> Navigate</span>
-        <span class="cmd-tip"><kbd>↵</kbd> Select</span>
-        <span class="cmd-tip"><kbd>ESC</kbd> Close</span>
-      </div>
     </div>
   </div>
 

@@ -1,1193 +1,456 @@
-// JavaScript for Jorge Contreras Portfolio
+/* ==========================================================================
+   RETRO UNIX COMMAND TERMINAL ENGINE - JORGE CONTRERAS OS
+   ========================================================================== */
 
-// --- THEME TOGGLE SYSTEM ---
-const themeToggle = document.getElementById('themeToggle');
-const savedTheme = localStorage.getItem('theme') || 'dark';
-document.documentElement.setAttribute('data-theme', savedTheme);
+(function () {
+  'use strict';
 
-themeToggle.addEventListener('click', () => {
-  const currentTheme = document.documentElement.getAttribute('data-theme');
-  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', newTheme);
-  localStorage.setItem('theme', newTheme);
-});
+  // DOM Elements
+  const terminalScreen = document.getElementById('terminalScreen');
+  const terminalOutput = document.getElementById('terminalOutput');
+  const cliInput = document.getElementById('cliInput');
+  const clockDisplay = document.getElementById('clockDisplay');
+  const cmdChips = document.querySelectorAll('.cmd-chip');
+  const contactModal = document.getElementById('contactModal');
+  const closeContactBtn = document.getElementById('closeContactBtn');
+  const contactForm = document.getElementById('contactForm');
+  const contactStatus = document.getElementById('contactStatus');
 
+  // Command History
+  const history = [];
+  let historyIndex = -1;
 
-// --- REVEAL ON SCROLL (INTERSECTION OBSERVER) ---
-const revealElements = document.querySelectorAll('.reveal');
-const revealObserver = new IntersectionObserver((entries, observer) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('active');
-      observer.unobserve(entry.target); // Reveal only once
+  // Project Database
+  const projects = [
+    {
+      id: "stock-bot",
+      name: "Autonomous Trading Engine",
+      cat: "INVESTMENTS",
+      tech: "Python 3.12, Alpaca WSS, AsyncIO, Pandas",
+      desc: "Sub-second orderbook arbitrage, market making, and automated trade execution bot running 24/7 on cloud instances.",
+      github: "https://github.com/JorgeJoseContreras/stock-bot-v2",
+      demo: "https://invest.jorgejosecontreras.com"
+    },
+    {
+      id: "imessage-ai",
+      name: "iMessage AI Assistant",
+      cat: "ASSISTANTS",
+      tech: "Python, Gemini AI, AppleScript, Docker",
+      desc: "Intelligent messaging co-pilot scanning, digesting, and reacting to incoming iMessage notifications in real-time.",
+      github: "https://github.com/JorgeJoseContreras/imessage-auto-responder",
+      demo: "https://jorgius.com"
+    },
+    {
+      id: "telegram-bot",
+      name: "Telegram Developer Bot",
+      cat: "ASSISTANTS",
+      tech: "Python, Telegram API, Render CI/CD",
+      desc: "Interactive Telegram bot executing remote health checks, system commands, and deployment notifications.",
+      github: "https://github.com/JorgeJoseContreras/telegram-bot",
+      demo: null
+    },
+    {
+      id: "kalshi-bot",
+      name: "Kalshi Prediction Bot",
+      cat: "INVESTMENTS",
+      tech: "Python, Kalshi API, WebSockets, Gemini AI",
+      desc: "Autonomous AI agent trading prediction market contracts on Kalshi, executing probabilistic orderbook positions.",
+      github: "https://github.com/JorgeJoseContreras/kalshi-bot",
+      demo: "https://kalshi-trading-bot-70rb.onrender.com"
+    },
+    {
+      id: "robinhood-mcp",
+      name: "Robinhood MCP Server",
+      cat: "INVESTMENTS",
+      tech: "TypeScript, MCP Protocol, Robinhood API",
+      desc: "Model Context Protocol integration providing Claude and Gemini direct tooling to monitor positions and stream market stats.",
+      github: "https://github.com/JorgeJoseContreras/robinhood-mcp",
+      demo: "https://robinhood-bot-v2.onrender.com"
+    },
+    {
+      id: "kraken-bot",
+      name: "Agentic Crypto Trading Bot",
+      cat: "INVESTMENTS",
+      tech: "Python, Kraken API, Gemini AI",
+      desc: "Autonomous cryptocurrency trading bot utilizing AI sentiment analysis and programmatic execution.",
+      github: "https://github.com/JorgeJoseContreras/kraken-trading-bot",
+      demo: "https://kraken-trading-bot-lafb.onrender.com"
+    },
+    {
+      id: "zengine-sync",
+      name: "Zengine Integration Pipeline",
+      cat: "ENTERPRISE",
+      tech: "Python, REST API, OAuth2, Webhooks",
+      desc: "High-throughput data extraction and bi-directional synchronization tool connecting enterprise databases to Zengine.",
+      github: "https://github.com/JorgeJoseContreras/zengine-integration",
+      demo: null
+    },
+    {
+      id: "disbursement-tracker",
+      name: "Disbursement Ledger Pipeline",
+      cat: "ENTERPRISE",
+      tech: "Python, Pandas, Financial Auditing",
+      desc: "Batch payment processor verifying check registers, ACH disbursements, and accounting reconciliations.",
+      github: "https://github.com/JorgeJoseContreras/scholarship-disbursement",
+      demo: null
+    },
+    {
+      id: "clean-sheet",
+      name: "Clean Sheet AI",
+      cat: "ENTERPRISE",
+      tech: "TypeScript, Gemini API, Excel Engine",
+      desc: "Spreadsheet normalization platform utilizing LLMs to sanitize messy CSV records and fix missing values.",
+      github: "https://github.com/JorgeJoseContreras/clean-sheet",
+      demo: null
+    },
+    {
+      id: "coder-bot",
+      name: "Admin Coding Bot",
+      cat: "ASSISTANTS",
+      tech: "Python, Headless Mini-PC, Render API",
+      desc: "Self-healing autonomous developer agent capable of editing source files, testing, and triggering Render edge deploys.",
+      github: "https://github.com/JorgeJoseContreras/jorges-coder-bot",
+      demo: "https://bot-log-streamer.onrender.com/"
     }
-  });
-}, {
-  threshold: 0.15,
-  rootMargin: '0px 0px -50px 0px'
-});
-
-revealElements.forEach(element => {
-  revealObserver.observe(element);
-});
-
-// --- BACK TO TOP BUTTON ---
-const backToTopBtn = document.getElementById('backToTop');
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 500) {
-    backToTopBtn.classList.add('show');
-  } else {
-    backToTopBtn.classList.remove('show');
-  }
-});
-
-backToTopBtn.addEventListener('click', () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-});
-
-// --- PROJECTS FILTERING ---
-const filterButtons = document.querySelectorAll('.filter-btn');
-const projectCards = document.querySelectorAll('.project-card');
-
-filterButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    // Update active button
-    filterButtons.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    const filterValue = btn.getAttribute('data-filter');
-
-    projectCards.forEach(card => {
-      const category = card.getAttribute('data-category') || '';
-      const categories = category.split(' ');
-      if (filterValue === 'all' || categories.includes(filterValue)) {
-        card.style.display = 'flex';
-        // Trigger reflow for animation
-        card.style.animation = 'none';
-        card.offsetHeight; // Reflow
-        card.style.animation = 'fadeIn 0.4s ease forwards';
-      } else {
-        card.style.display = 'none';
-      }
-    });
-  });
-});
-
-// --- LIVE DEMO CONTACT MODAL ---
-const contactModal = document.getElementById('contactModal');
-const demoTrigger = document.getElementById('contactDemoTrigger');
-const scholarshipTrigger = document.getElementById('scholarshipDemoTrigger');
-const mileageTrigger = document.getElementById('mileageDemoTrigger');
-const zengineMonitorTrigger = document.getElementById('zengineMonitorDemoTrigger');
-const scholarServicesTrigger = document.getElementById('scholarServicesDemoTrigger');
-const bulkPaymentsTrigger = document.getElementById('bulkPaymentsDemoTrigger');
-const csvOptimizerTrigger = document.getElementById('csvOptimizerDemoTrigger');
-const modalClose = document.getElementById('modalClose');
-const contactForm = document.getElementById('contactForm');
-const formSubmitBtn = document.getElementById('formSubmitBtn');
-const formStatus = document.getElementById('formStatus');
-
-// Open modal
-const openModal = (e) => {
-  e.preventDefault();
-  
-  const modalTitle = document.getElementById('modalTitle');
-  const modalDesc = document.getElementById('modalDesc');
-  const web3FormsSubject = document.getElementById('web3FormsSubject');
-  const formMessageLabel = document.getElementById('formMessageLabel');
-  const formMessage = document.getElementById('formMessage');
-  
-  if (e.currentTarget.id === 'contactDemoTrigger') {
-    modalTitle.textContent = 'Request Live Demo';
-    modalDesc.textContent = 'The Automated Multi-Modal Social Engagement Pipeline (AHB) runs locally on a connected emulator. Submit your contact details below to request a live demo or get detail sheets sent to your inbox!';
-    web3FormsSubject.value = 'Live Demo Request - AHB App';
-    formMessageLabel.textContent = 'Message / Request Detail';
-    formMessage.placeholder = "Hi Jorge, I'd like to schedule a live demo or ask about...";
-  } else if (e.currentTarget.id === 'scholarshipDemoTrigger') {
-    modalTitle.textContent = 'Request Access';
-    modalDesc.textContent = 'The Scholarship Disbursement Report Authorization Automation is an enterprise system. Submit your details below to request a demo or learn more about how it works.';
-    web3FormsSubject.value = 'Demo Request - Scholarship Disbursement Automation';
-    formMessageLabel.textContent = 'Message / Request Detail';
-    formMessage.placeholder = "Hi Jorge, I'd like to learn more about the Scholarship Disbursement Automation...";
-  } else if (e.currentTarget.id === 'mileageDemoTrigger') {
-    modalTitle.textContent = 'Request a Demo';
-    modalDesc.textContent = 'The Automated Mileage Report Generator is available for demonstration. Submit your details below and I will reach out to walk you through the tool!';
-    web3FormsSubject.value = 'Demo Request - Mileage Report Generator';
-    formMessageLabel.textContent = 'Message / Request Detail';
-    formMessage.placeholder = "Hi Jorge, I'd like to see a demo of the Mileage Report Generator...";
-  } else if (e.currentTarget.id === 'zengineMonitorDemoTrigger') {
-    modalTitle.textContent = 'Request Access';
-    modalDesc.textContent = 'The Zengine Disbursements Monitor tracks financial disbursements in real-time. Submit your details below to request more info or schedule a systems walk-through.';
-    web3FormsSubject.value = 'Demo Request - Zengine Disbursements Monitor';
-    formMessageLabel.textContent = 'Message / Request Detail';
-    formMessage.placeholder = "Hi Jorge, I'd like to learn more about the Zengine Disbursements Monitor...";
-  } else if (e.currentTarget.id === 'scholarServicesDemoTrigger') {
-    modalTitle.textContent = 'Request Access';
-    modalDesc.textContent = 'The Scholar Services App provides an optimized data workspace interface for departments. Submit your details below to schedule a workflow walkthrough.';
-    web3FormsSubject.value = 'Demo Request - Scholar Services App';
-    formMessageLabel.textContent = 'Message / Request Detail';
-    formMessage.placeholder = "Hi Jorge, I'd like to request a demo of the Scholar Services App...";
-  } else if (e.currentTarget.id === 'bulkPaymentsDemoTrigger') {
-    modalTitle.textContent = 'Request Access';
-    modalDesc.textContent = 'The Bulk Payments App is designed to simplify disbursement allocation forms inside Zengine. Submit your details below to see how it can optimize payment runs.';
-    web3FormsSubject.value = 'Demo Request - Bulk Payments App';
-    formMessageLabel.textContent = 'Message / Request Detail';
-    formMessage.placeholder = "Hi Jorge, I'd like to request a demo of the Bulk Payments App...";
-  } else if (e.currentTarget.id === 'csvOptimizerDemoTrigger') {
-    modalTitle.textContent = 'Request Access';
-    modalDesc.textContent = 'The Zengine CSV Optimizer leverages AI tools to clean and format spreadsheet uploads. Submit your details below to request access or detailed setup guides.';
-    web3FormsSubject.value = 'Demo Request - Zengine CSV Optimizer';
-    formMessageLabel.textContent = 'Message / Request Detail';
-    formMessage.placeholder = "Hi Jorge, I'd like to request a demo or info on the CSV Optimizer...";
-  } else {
-    modalTitle.textContent = 'Contact Me';
-    modalDesc.textContent = "Have a project in mind, a question about my work, or just want to connect? Send a message below and I'll get back to you shortly!";
-    web3FormsSubject.value = 'Contact Form Submission - Portfolio';
-    formMessageLabel.textContent = 'Your Message';
-    formMessage.placeholder = "Hi Jorge, I'd like to reach out regarding...";
-  }
-
-  contactModal.classList.add('show');
-  document.body.style.overflow = 'hidden'; // Lock background scrolling
-};
-
-if (demoTrigger) {
-  demoTrigger.addEventListener('click', openModal);
-}
-if (scholarshipTrigger) {
-  scholarshipTrigger.addEventListener('click', openModal);
-}
-if (mileageTrigger) {
-  mileageTrigger.addEventListener('click', openModal);
-}
-if (zengineMonitorTrigger) {
-  zengineMonitorTrigger.addEventListener('click', openModal);
-}
-if (scholarServicesTrigger) {
-  scholarServicesTrigger.addEventListener('click', openModal);
-}
-if (bulkPaymentsTrigger) {
-  bulkPaymentsTrigger.addEventListener('click', openModal);
-}
-if (csvOptimizerTrigger) {
-  csvOptimizerTrigger.addEventListener('click', openModal);
-}
-const footerContactBtn = document.getElementById('contactFooterBtn');
-if (footerContactBtn) {
-  footerContactBtn.addEventListener('click', openModal);
-}
-const heroContactBtn = document.getElementById('heroContactBtn');
-if (heroContactBtn) {
-  heroContactBtn.addEventListener('click', openModal);
-}
-
-// Close modal (via close button)
-if (modalClose) {
-  modalClose.addEventListener('click', () => {
-    contactModal.classList.remove('show');
-    document.body.style.overflow = '';
-    contactForm.reset();
-    formStatus.className = 'form-status';
-    formStatus.textContent = '';
-  });
-}
-
-// Close modal (via overlay click)
-if (contactModal) {
-  contactModal.addEventListener('click', (e) => {
-    if (e.target === contactModal) {
-      contactModal.classList.remove('show');
-      document.body.style.overflow = '';
-      contactForm.reset();
-      formStatus.className = 'form-status';
-      formStatus.textContent = '';
-    }
-  });
-}
-
-// Submit form via fetch
-if (contactForm) {
-  contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    // Disable button during submit
-    formSubmitBtn.disabled = true;
-    formSubmitBtn.textContent = 'Sending...';
-    formStatus.className = 'form-status';
-    formStatus.textContent = '';
-
-    const formData = new FormData(contactForm);
-    const object = Object.fromEntries(formData);
-    const json = JSON.stringify(object);
-
-    fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: json
-    })
-    .then(async (response) => {
-      let res = await response.json();
-      if (response.status == 200) {
-        formStatus.classList.add('success');
-        formStatus.textContent = 'Message sent successfully! I will reach out soon.';
-        contactForm.reset();
-      } else {
-        console.error(response);
-        formStatus.classList.add('error');
-        formStatus.textContent = res.message || 'Something went wrong. Please try again.';
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      formStatus.classList.add('error');
-      formStatus.textContent = 'Network error. Please try again later.';
-    })
-    .then(() => {
-      formSubmitBtn.disabled = false;
-      formSubmitBtn.textContent = 'Send Message';
-      // Auto-hide modal after 3 seconds on success
-      if (formStatus.classList.contains('success')) {
-        setTimeout(() => {
-          contactModal.classList.remove('show');
-          document.body.style.overflow = '';
-          formStatus.className = 'form-status';
-          formStatus.textContent = '';
-        }, 3000);
-      }
-    });
-  });
-}
-
-// --- LIVE P&L FETCH FOR ALPACA BOT ---
-const fetchAlpacaPnL = () => {
-  const badge = document.getElementById('alpaca-pnl-badge');
-  if (!badge) return;
-
-  fetch('https://invest.jorgejosecontreras.com/api/data')
-    .then(res => {
-      if (!res.ok) throw new Error('Response error');
-      return res.json();
-    })
-    .then(data => {
-      const pnlUsd = data.pnl_usd || 0;
-      const pnlPct = data.pnl_pct || 0;
-      const formattedPct = pnlPct >= 0 ? `+${pnlPct.toFixed(2)}%` : `${pnlPct.toFixed(2)}%`;
-      
-      badge.textContent = formattedPct;
-      
-      if (pnlUsd >= 0) {
-        badge.style.backgroundColor = 'rgba(16, 185, 129, 0.15)'; // light green bg
-        badge.style.color = '#10B981'; // emerald green
-        badge.style.border = '1px solid rgba(16, 185, 129, 0.3)';
-      } else {
-        badge.style.backgroundColor = 'rgba(239, 68, 68, 0.15)'; // light red bg
-        badge.style.color = '#EF4444'; // red
-        badge.style.border = '1px solid rgba(239, 68, 68, 0.3)';
-      }
-    })
-    .catch(err => {
-      console.error('Error fetching Alpaca PnL:', err);
-      // Fallback state
-      badge.textContent = 'Offline';
-      badge.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
-      badge.style.color = '#9ca3af';
-      badge.style.border = '1px solid rgba(255, 255, 255, 0.1)';
-    });
-};
-
-// --- LIVE P&L FETCH FOR ROBINHOOD BOT (via allorigins proxy → /api/portfolio JSON) ---
-const fetchRobinhoodPnL = () => {
-  const badge = document.getElementById('robinhood-pnl-badge');
-  if (!badge) return;
-
-  const targetUrl = encodeURIComponent('https://robinhood-bot-v2.onrender.com/api/portfolio');
-  fetch(`https://api.allorigins.win/get?url=${targetUrl}`)
-    .then(res => {
-      if (!res.ok) throw new Error('Proxy error');
-      return res.json();
-    })
-    .then(proxy => {
-      const data = JSON.parse(proxy.contents);
-      if (data.error) throw new Error(data.error);
-
-      const equity = parseFloat(data.account.equity || data.account.cash || 0);
-      // P&L % from initial $1000 deposit (same formula as the bot dashboard)
-      const pnlPct = ((equity - 1000) / 1000) * 100;
-      const formattedPct = pnlPct >= 0 ? `+${pnlPct.toFixed(2)}%` : `${pnlPct.toFixed(2)}%`;
-
-      badge.textContent = formattedPct;
-
-      if (pnlPct >= 0) {
-        badge.style.backgroundColor = 'rgba(16, 185, 129, 0.15)';
-        badge.style.color = '#10B981';
-        badge.style.border = '1px solid rgba(16, 185, 129, 0.3)';
-      } else {
-        badge.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
-        badge.style.color = '#EF4444';
-        badge.style.border = '1px solid rgba(239, 68, 68, 0.3)';
-      }
-    })
-    .catch(err => {
-      console.error('Error fetching Robinhood PnL:', err);
-      badge.textContent = 'Offline';
-      badge.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
-      badge.style.color = '#9ca3af';
-      badge.style.border = '1px solid rgba(255, 255, 255, 0.1)';
-    });
-};
-
-// --- LIVE P&L FETCH FOR KRAKEN CRYPTO BOT ---
-const fetchKrakenPnL = () => {
-  const badge = document.getElementById('kraken-pnl-badge');
-  if (!badge) return;
-
-  const targetUrl = encodeURIComponent('https://kraken-trading-bot-lafb.onrender.com/health');
-  fetch(`https://api.allorigins.win/get?url=${targetUrl}`)
-    .then(res => {
-      if (!res.ok) throw new Error('Proxy error');
-      return res.json();
-    })
-    .then(proxy => {
-      const data = JSON.parse(proxy.contents);
-      const state = data.state;
-      const balances = state.balances || {};
-      const prices = state.prices || {};
-      const initialDeposit = state.initial_deposit || 100.0;
-
-      // Compute net liquidation: USD cash + all crypto holdings × current price
-      let netLiq = parseFloat(balances['USD'] || 0);
-      for (const [coin, amount] of Object.entries(balances)) {
-        if (coin === 'USD') continue;
-        const price = parseFloat(prices[`${coin}/USD`] || 0);
-        netLiq += parseFloat(amount || 0) * price;
-      }
-
-      const allTimePLPct = initialDeposit > 0 ? ((netLiq - initialDeposit) / initialDeposit) * 100 : 0;
-      const formattedPct = allTimePLPct >= 0 ? `+${allTimePLPct.toFixed(2)}%` : `${allTimePLPct.toFixed(2)}%`;
-
-      badge.textContent = formattedPct;
-
-      if (allTimePLPct >= 0) {
-        badge.style.backgroundColor = 'rgba(16, 185, 129, 0.15)';
-        badge.style.color = '#10B981';
-        badge.style.border = '1px solid rgba(16, 185, 129, 0.3)';
-      } else {
-        badge.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
-        badge.style.color = '#EF4444';
-        badge.style.border = '1px solid rgba(239, 68, 68, 0.3)';
-      }
-    })
-    .catch(err => {
-      console.error('Error fetching Kraken PnL:', err);
-      badge.textContent = 'Offline';
-      badge.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
-      badge.style.color = '#9ca3af';
-      badge.style.border = '1px solid rgba(255, 255, 255, 0.1)';
-    });
-};
-
-// --- LIVE P&L FETCH FOR KALSHI PREDICTION MARKET BOT ---
-const fetchKalshiPnL = () => {
-  const badge = document.getElementById('kalshi-pnl-badge');
-  if (!badge) return;
-
-  const targetUrl = encodeURIComponent('https://kalshi-trading-bot-70rb.onrender.com/api/data');
-  fetch(`https://api.allorigins.win/get?url=${targetUrl}`)
-    .then(res => {
-      if (!res.ok) throw new Error('Proxy error');
-      return res.json();
-    })
-    .then(proxy => {
-      const data = JSON.parse(proxy.contents);
-      if (data.error) throw new Error(data.error);
-
-      const totalPnl = parseFloat(data.total_pnl || 0);
-      const totalDeposits = parseFloat(data.total_deposits || 1);
-      const pnlPct = (totalPnl / totalDeposits) * 100;
-      const formattedPct = pnlPct >= 0 ? `+${pnlPct.toFixed(2)}%` : `${pnlPct.toFixed(2)}%`;
-
-      badge.textContent = formattedPct;
-
-      if (pnlPct >= 0) {
-        badge.style.backgroundColor = 'rgba(16, 185, 129, 0.15)';
-        badge.style.color = '#10B981';
-        badge.style.border = '1px solid rgba(16, 185, 129, 0.3)';
-      } else {
-        badge.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
-        badge.style.color = '#EF4444';
-        badge.style.border = '1px solid rgba(239, 68, 68, 0.3)';
-      }
-    })
-    .catch(err => {
-      console.error('Error fetching Kalshi PnL:', err);
-      badge.textContent = 'Offline';
-      badge.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
-      badge.style.color = '#9ca3af';
-      badge.style.border = '1px solid rgba(255, 255, 255, 0.1)';
-    });
-};
-
-// Run immediately upon script execution since script is loaded at the bottom of the document
-fetchAlpacaPnL();
-fetchRobinhoodPnL();
-fetchKrakenPnL();
-fetchKalshiPnL();
-
-// Poll every 30 seconds
-setInterval(fetchAlpacaPnL, 30000);
-setInterval(fetchRobinhoodPnL, 30000);
-setInterval(fetchKrakenPnL, 30000);
-setInterval(fetchKalshiPnL, 30000);
-
-// =============================================================
-// --- DYNAMIC LOGO LETTER WAVE EFFECT ---
-// =============================================================
-function initLogoWave() {
-  const logoLink = document.getElementById('logoLink');
-  if (!logoLink) return;
-
-  const text = logoLink.textContent.trim();
-  logoLink.innerHTML = '';
-
-  const spans = [];
-  for (let i = 0; i < text.length; i++) {
-    const char = text[i];
-    const span = document.createElement('span');
-    if (char === ' ') {
-      span.className = 'logo-space';
-      span.innerHTML = '&nbsp;';
-    } else {
-      span.className = 'logo-letter';
-      span.textContent = char;
-    }
-    logoLink.appendChild(span);
-    spans.push(span);
-  }
-
-  const radius = 65; // Influence radius in px
-
-  logoLink.addEventListener('mousemove', (e) => {
-    const mouseX = e.clientX;
-    spans.forEach(span => {
-      if (span.classList.contains('logo-space')) return;
-      const rect = span.getBoundingClientRect();
-      const center = rect.left + rect.width / 2;
-      const dist = Math.abs(mouseX - center);
-
-      if (dist < radius) {
-        const factor = Math.cos((dist / radius) * (Math.PI / 2)); // Smooth cosine wave curve
-        const translateY = -14 * factor;
-        const scale = 1 + 0.25 * factor;
-        const rotate = (mouseX < center ? 12 : -12) * factor;
-        span.style.transform = `translateY(${translateY}px) scale(${scale}) rotate(${rotate}deg)`;
-        span.style.filter = `drop-shadow(0 6px 12px rgba(168, 85, 247, ${0.4 * factor}))`;
-      } else {
-        span.style.transform = 'translateY(0) scale(1) rotate(0deg)';
-        span.style.filter = 'none';
-      }
-    });
-  });
-
-  logoLink.addEventListener('mouseleave', () => {
-    spans.forEach(span => {
-      span.style.transform = 'translateY(0) scale(1) rotate(0deg)';
-      span.style.filter = 'none';
-    });
-  });
-}
-
-// =============================================================
-// --- FILE-PERSISTENT ADMIN PANEL SYSTEM ---
-// =============================================================
-
-const ADMIN_PASSWORD = '0138';
-const ADMIN_SESSION_KEY = 'adminSession';
-
-// All projects: [cardId, displayName]
-const ADMIN_PROJECTS = [
-  ['card-imessage',        'iMessage AI Assistant'],
-  ['card-adminbot',        'Admin Coding Bot'],
-  ['card-alpaca',          'Agentic Stock Trading Bot'],
-  ['card-robinhood',       'Telegram Stock Trading Bot'],
-  ['card-kraken',          'Agentic Crypto Trading Bot'],
-  ['card-kalshi',          'Agentic Prediction Market Bot'],
-  ['card-scholarship',     'Scholarship Disbursement Authorization Automation'],
-  ['card-mileage',         'Automated Mileage Report Generator'],
-  ['card-zengine-monitor', 'Zengine Disbursements Monitor'],
-  ['card-scholar-services','Scholar Services Zengine App'],
-  ['card-bulk-payments',   'Zengine Live Form Data Editor'],
-  ['card-csv-optimizer',   'Zengine CSV Optimizer'],
-  ['card-social',          'Automated Multi-Modal Social Engagement Pipeline'],
-];
-
-// Investment badges: [badgeId, displayName]
-const ADMIN_BADGES = [
-  ['alpaca-pnl-badge',   'Alpaca — Agentic Stock Bot'],
-  ['robinhood-pnl-badge','Robinhood — Telegram Stock Bot'],
-  ['kraken-pnl-badge',   'Kraken — Agentic Crypto Bot'],
-  ['kalshi-pnl-badge',   'Kalshi — Prediction Market Bot'],
-];
-
-let fileAdminSettings = {};
-
-async function fetchAdminConfigFile() {
-  try {
-    const res = await fetch('admin-settings.json?t=' + Date.now());
-    if (res.ok) {
-      fileAdminSettings = await res.json();
-    }
-  } catch (e) {
-    console.warn('Could not fetch admin-settings.json:', e);
-  }
-}
-
-function getMergedAdminSettings() {
-  let local = {};
-  try { local = JSON.parse(localStorage.getItem('adminSettings') || '{}'); } catch {}
-  return Object.assign({}, fileAdminSettings, local);
-}
-
-function saveAdminSettings(s) {
-  localStorage.setItem('adminSettings', JSON.stringify(s));
-  fileAdminSettings = Object.assign({}, fileAdminSettings, s);
-}
-
-function applyAdminSettings() {
-  const s = getMergedAdminSettings();
-  ADMIN_PROJECTS.forEach(([id]) => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = (s[id] === false) ? 'none' : '';
-  });
-  ADMIN_BADGES.forEach(([id]) => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = (s['badge_' + id] === false) ? 'none' : '';
-  });
-}
-
-function populateAdminPanel() {
-  const s = getMergedAdminSettings();
-  const projectList = document.getElementById('adminProjectList');
-  projectList.innerHTML = '';
-  ADMIN_PROJECTS.forEach(([id, label]) => {
-    const visible = s[id] !== false;
-    const row = document.createElement('label');
-    row.style.cssText = 'display:flex;align-items:center;gap:12px;cursor:pointer;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);';
-    row.innerHTML = `<input type="checkbox" data-id="${id}" ${visible ? 'checked' : ''} style="width:16px;height:16px;accent-color:#8b5cf6;cursor:pointer;"><span style="color:var(--text-primary,#fff);font-size:0.88rem;flex:1;">${label}</span>`;
-    projectList.appendChild(row);
-  });
-
-  const badgeList = document.getElementById('adminBadgeList');
-  badgeList.innerHTML = '';
-  ADMIN_BADGES.forEach(([id, label]) => {
-    const visible = s['badge_' + id] !== false;
-    const row = document.createElement('label');
-    row.style.cssText = 'display:flex;align-items:center;gap:12px;cursor:pointer;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);';
-    row.innerHTML = `<input type="checkbox" data-badge="${id}" ${visible ? 'checked' : ''} style="width:16px;height:16px;accent-color:#8b5cf6;cursor:pointer;"><span style="color:var(--text-primary,#fff);font-size:0.88rem;flex:1;">${label}</span>`;
-    badgeList.appendChild(row);
-  });
-}
-
-const adminLoginModal = document.getElementById('adminLoginModal');
-const adminPanelModal = document.getElementById('adminPanelModal');
-
-function showAdminLogin() {
-  document.getElementById('adminPasswordInput').value = '';
-  document.getElementById('adminLoginError').style.display = 'none';
-  adminLoginModal.style.display = 'flex';
-  setTimeout(() => document.getElementById('adminPasswordInput').focus(), 50);
-}
-function hideAdminLogin() { adminLoginModal.style.display = 'none'; }
-function showAdminPanel() { populateAdminPanel(); adminPanelModal.style.display = 'flex'; }
-function hideAdminPanel() { adminPanelModal.style.display = 'none'; }
-
-// Hidden bottom-left trigger
-const adminTrigger = document.getElementById('adminTrigger');
-if (adminTrigger) {
-  adminTrigger.addEventListener('click', () => {
-    sessionStorage.getItem(ADMIN_SESSION_KEY) === 'true' ? showAdminPanel() : showAdminLogin();
-  });
-}
-
-// Login logic
-const adminLoginSubmit = document.getElementById('adminLoginSubmit');
-if (adminLoginSubmit) {
-  adminLoginSubmit.addEventListener('click', () => {
-    const val = document.getElementById('adminPasswordInput').value.trim();
-    if (val === ADMIN_PASSWORD) {
-      sessionStorage.setItem(ADMIN_SESSION_KEY, 'true');
-      hideAdminLogin();
-      showAdminPanel();
-    } else {
-      document.getElementById('adminLoginError').style.display = 'block';
-      document.getElementById('adminPasswordInput').value = '';
-      document.getElementById('adminPasswordInput').focus();
-    }
-  });
-}
-
-const adminPasswordInput = document.getElementById('adminPasswordInput');
-if (adminPasswordInput) {
-  adminPasswordInput.addEventListener('keydown', e => {
-    if (e.key === 'Enter') adminLoginSubmit.click();
-  });
-}
-
-const adminLoginCancel = document.getElementById('adminLoginCancel');
-if (adminLoginCancel) adminLoginCancel.addEventListener('click', hideAdminLogin);
-
-// Panel controls
-const adminPanelClose = document.getElementById('adminPanelClose');
-if (adminPanelClose) adminPanelClose.addEventListener('click', hideAdminPanel);
-
-const adminSaveBtn = document.getElementById('adminSaveBtn');
-if (adminSaveBtn) {
-  adminSaveBtn.addEventListener('click', () => {
-    const s = getMergedAdminSettings();
-    document.querySelectorAll('#adminProjectList input[data-id]').forEach(cb => { s[cb.dataset.id] = cb.checked; });
-    document.querySelectorAll('#adminBadgeList input[data-badge]').forEach(cb => { s['badge_' + cb.dataset.badge] = cb.checked; });
-    saveAdminSettings(s);
-    applyAdminSettings();
-    hideAdminPanel();
-  });
-}
-
-// Export admin-settings.json file download
-const adminExportBtn = document.getElementById('adminExportBtn');
-if (adminExportBtn) {
-  adminExportBtn.addEventListener('click', () => {
-    const s = getMergedAdminSettings();
-    document.querySelectorAll('#adminProjectList input[data-id]').forEach(cb => { s[cb.dataset.id] = cb.checked; });
-    document.querySelectorAll('#adminBadgeList input[data-badge]').forEach(cb => { s['badge_' + cb.dataset.badge] = cb.checked; });
-    
-    const jsonStr = JSON.stringify(s, null, 2);
-    const blob = new Blob([jsonStr], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'admin-settings.json';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  });
-}
-
-const adminLogoutBtn = document.getElementById('adminLogoutBtn');
-if (adminLogoutBtn) {
-  adminLogoutBtn.addEventListener('click', () => {
-    sessionStorage.removeItem(ADMIN_SESSION_KEY);
-    hideAdminPanel();
-  });
-}
-
-// Close on backdrop click
-if (adminLoginModal) adminLoginModal.addEventListener('click', e => { if (e.target === adminLoginModal) hideAdminLogin(); });
-if (adminPanelModal) adminPanelModal.addEventListener('click', e => { if (e.target === adminPanelModal) hideAdminPanel(); });
-
-// =============================================================
-// --- GITHUB REPO LAST UPDATED DATE FETCHING & CACHING ---
-// =============================================================
-
-const DEFAULT_REPO_DATES = {
-  'JorgeJoseContreras/notification-assistant': '2026-08-05T01:32:03Z',
-  'JorgeJoseContreras/jorges-coder-bot': '2026-08-03T00:54:07Z',
-  'JorgeJoseContreras/alpaca-trading-bot': '2026-08-04T22:22:40Z',
-  'JorgeJoseContreras/robinhood-telegram-bot': '2026-08-05T00:44:17Z',
-  'JorgeJoseContreras/kraken-trading-bot': '2026-08-04T22:16:37Z',
-  'JorgeJoseContreras/kalshi-trading-bot': '2026-08-05T01:40:27Z',
-  'Jorge-GSSF/Zengine-Disbursements-Auto-Auth': '2026-08-04T14:46:20Z',
-  'Jorge-GSSF/Mileage-Maps-Generator': '2026-07-30T20:23:16Z',
-  'Jorge-GSSF/zengine-disbursement-monitor': '2026-08-04T18:16:59Z',
-  'Jorge-GSSF/Scholar-Services-App': '2026-07-30T20:15:38Z',
-  'Jorge-GSSF/Bulk-Payments-App': '2026-07-30T20:14:11Z',
-  'Jorge-GSSF/zengine-csv-optimizer': '2026-07-30T20:14:11Z',
-  'JorgeJoseContreras/AHB-AMMSEP': '2026-07-27T02:12:49Z'
-};
-
-const GH_CACHE_KEY = 'gh_repo_updates_cache_v2';
-const GH_CACHE_DURATION_MS = 60 * 60 * 1000; // 1 hour cache
-
-function getCachedGitHubUpdates() {
-  try {
-    const raw = localStorage.getItem(GH_CACHE_KEY);
-    return raw ? JSON.parse(raw) : {};
-  } catch { return {}; }
-}
-
-function setCachedGitHubUpdate(repoKey, pushedAt) {
-  const cache = getCachedGitHubUpdates();
-  cache[repoKey] = { pushed_at: pushedAt, timestamp: Date.now() };
-  try { localStorage.setItem(GH_CACHE_KEY, JSON.stringify(cache)); } catch {}
-}
-
-async function fetchRepoPushedAt(ownerRepo) {
-  const cache = getCachedGitHubUpdates();
-  const cached = cache[ownerRepo];
-  if (cached && (Date.now() - cached.timestamp < GH_CACHE_DURATION_MS)) {
-    return cached.pushed_at;
-  }
-
-  try {
-    const res = await fetch(`https://api.github.com/repos/${ownerRepo}`);
-    if (res.ok) {
-      const data = await res.json();
-      const pushedAt = data.pushed_at || data.updated_at;
-      if (pushedAt) {
-        setCachedGitHubUpdate(ownerRepo, pushedAt);
-        return pushedAt;
-      }
-    }
-  } catch (e) {
-    console.warn(`Could not fetch GitHub API for ${ownerRepo}:`, e);
-  }
-
-  return cached ? cached.pushed_at : null;
-}
-
-function formatGitHubDate(isoString) {
-  if (!isoString) return 'Updated recently';
-  const date = new Date(isoString);
-  if (isNaN(date.getTime())) return 'Updated recently';
-
-  const now = new Date();
-  const diffMs = now - date;
-  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-  const diffDays = Math.floor(diffHours / 24);
-
-  if (diffHours >= 0 && diffHours < 1) return 'Updated just now';
-  if (diffHours >= 1 && diffHours < 24) return `Updated ${diffHours}h ago`;
-  if (diffDays === 1) return 'Updated yesterday';
-  if (diffDays > 1 && diffDays < 7) return `Updated ${diffDays} days ago`;
-
-  return 'Updated ' + date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-}
-
-function initProjectUpdateDates() {
-  const cards = document.querySelectorAll('.project-card');
-  const cache = getCachedGitHubUpdates();
-
-  cards.forEach(async (card) => {
-    const ghLink = card.querySelector('a.project-link[href*="github.com/"]');
-    if (!ghLink) return;
-
-    const href = ghLink.getAttribute('href');
-    const match = href.match(/github\.com\/([^\/]+\/[^\/\s#]+)/);
-    if (!match) return;
-
-    const ownerRepo = match[1].replace(/\.git$/, '');
-    const initialIso = (cache[ownerRepo] && cache[ownerRepo].pushed_at) || DEFAULT_REPO_DATES[ownerRepo];
-    const initialFormatted = formatGitHubDate(initialIso);
-
-    let badge = card.querySelector('.project-updated-badge');
-    if (!badge) {
-      badge = document.createElement('div');
-      badge.className = 'project-updated-badge';
-      badge.innerHTML = `
-        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-        <span class="updated-date-text">${initialFormatted}</span>
-      `;
-      const linksContainer = card.querySelector('.project-links');
-      if (linksContainer) {
-        linksContainer.parentNode.insertBefore(badge, linksContainer);
-      } else {
-        card.querySelector('.project-info').appendChild(badge);
-      }
-    } else {
-      const dateTextEl = badge.querySelector('.updated-date-text');
-      if (dateTextEl && initialFormatted) {
-        dateTextEl.textContent = initialFormatted;
-      }
-    }
-
-    // Fetch live update if public / available
-    const livePushedAt = await fetchRepoPushedAt(ownerRepo);
-    if (livePushedAt) {
-      const dateTextEl = badge.querySelector('.updated-date-text');
-      if (dateTextEl) {
-        dateTextEl.textContent = formatGitHubDate(livePushedAt);
-      }
-    }
-  });
-}
-
-function initCardTilt() {
-  const cards = document.querySelectorAll('.project-card');
-
-  cards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      // Tilt max 8 degrees for physical 3D effect
-      const rotateX = ((y - centerY) / centerY) * -8;
-      const rotateY = ((x - centerX) / centerX) * 8;
-
-      const xPct = (x / rect.width) * 100;
-      const yPct = (y / rect.height) * 100;
-
-      card.style.setProperty('--mouse-x', `${xPct}%`);
-      card.style.setProperty('--mouse-y', `${yPct}%`);
-      card.style.setProperty('--mouse-x-px', `${x}px`);
-      card.style.setProperty('--mouse-y-px', `${y}px`);
-      card.style.setProperty('--rotate-x', `${rotateX}deg`);
-      card.style.setProperty('--rotate-y', `${rotateY}deg`);
-      card.style.setProperty('--card-translate-y', `-6px`);
-      card.style.setProperty('--card-scale', `1.015`);
-    });
-
-    card.addEventListener('mouseleave', () => {
-      card.style.setProperty('--mouse-x', '50%');
-      card.style.setProperty('--mouse-y', '50%');
-      card.style.setProperty('--mouse-x-px', '0px');
-      card.style.setProperty('--mouse-y-px', '0px');
-      card.style.setProperty('--rotate-x', '0deg');
-      card.style.setProperty('--rotate-y', '0deg');
-      card.style.setProperty('--card-translate-y', '0px');
-      card.style.setProperty('--card-scale', '1');
-    });
-  });
-}
-
-function init3DParticleOceanWave() {
-  const canvas = document.getElementById('matrixCanvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-
-  let width = canvas.width = window.innerWidth;
-  let height = canvas.height = window.innerHeight;
-
-  let mouseX = 0;
-  let mouseY = 0;
-  let targetMouseX = 0;
-  let targetMouseY = 0;
-
-  window.addEventListener('mousemove', (e) => {
-    targetMouseX = (e.clientX - width / 2) / (width / 2);
-    targetMouseY = (e.clientY - height / 2) / (height / 2);
-  });
-
-  window.addEventListener('mouseleave', () => {
-    targetMouseX = 0;
-    targetMouseY = 0;
-  });
-
-  window.addEventListener('resize', () => {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-  });
-
-  // Dense, expansive 3D particle grid spanning full panoramic horizon
-  const SEPARATION_X = 26;
-  const SEPARATION_Z = 26;
-  const AMOUNT_X = 92;
-  const AMOUNT_Z = 88;
-  const FOV = 520;
-
-  let time = 0;
-
-  function render() {
-    ctx.clearRect(0, 0, width, height);
-
-    // Smooth camera inertia tracking mouse
-    mouseX += (targetMouseX - mouseX) * 0.035;
-    mouseY += (targetMouseY - mouseY) * 0.035;
-
-    time += 0.015;
-
-    const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-
-    // Camera angles designed to fill the entire vertical and horizontal horizon
-    const camPitch = 0.22 + mouseY * 0.12;
-    const cosPitch = Math.cos(camPitch);
-    const sinPitch = Math.sin(camPitch);
-
-    const camYaw = mouseX * 0.22;
-    const cosYaw = Math.cos(camYaw);
-    const sinYaw = Math.sin(camYaw);
-
-    const camY = -110 + mouseY * 45;
-
-    const originX = width / 2;
-    const originY = height * 0.48;
-
-    for (let ix = 0; ix < AMOUNT_X; ix++) {
-      for (let iz = 0; iz < AMOUNT_Z; iz++) {
-        // World coordinates centered around camera
-        const wx0 = (ix - AMOUNT_X / 2) * SEPARATION_X;
-        const wz0 = (iz + 2) * SEPARATION_Z;
-
-        // Multi-octave wave dynamics with lateral horizon sweeping swells
-        const wave1 = Math.sin(ix * 0.11 + time * 1.3) * 46;
-        const wave2 = Math.cos(iz * 0.09 + time * 0.95) * 58;
-        const wave3 = Math.sin((ix * 0.6 + iz * 0.4) * 0.07 + time * 1.6) * 36;
-
-        // Side swells that wrap up the left and right horizon
-        const distFromCenter = Math.abs(ix - AMOUNT_X / 2) / (AMOUNT_X / 2);
-        const sideLift = Math.pow(distFromCenter, 1.8) * 110 * Math.sin(time * 0.8 + iz * 0.06);
-        const horizonBackSwell = Math.sin(wz0 * 0.0018 + time * 0.5) * 60;
-
-        const wy0 = wave1 + wave2 + wave3 + sideLift + horizonBackSwell - camY;
-
-        // Yaw camera rotation
-        const wx = wx0 * cosYaw - wz0 * sinYaw;
-        const wz1 = wx0 * sinYaw + wz0 * cosYaw;
-
-        // Pitch camera rotation
-        const wy = wy0 * cosPitch - wz1 * sinPitch;
-        const wz = wy0 * sinPitch + wz1 * cosPitch;
-
-        if (wz <= 12) continue;
-
-        // Perspective 3D projection
-        const proj = FOV / wz;
-        const screenX = originX + wx * proj;
-        const screenY = originY + wy * proj;
-
-        if (screenX < -40 || screenX > width + 40 || screenY < -40 || screenY > height + 40) {
-          continue;
-        }
-
-        // Depth fog & wave crest brightness
-        const depthFactor = Math.max(0, Math.min(1, (2400 - wz) / 2200));
-        const heightFactor = (wy0 + camY + 90) / 180;
-        const brightness = Math.max(0.04, Math.min(0.96, depthFactor * 0.68 + heightFactor * 0.42));
-
-        const radius = Math.max(0.6, Math.min(2.8, (FOV / wz) * 1.6));
-
-        ctx.beginPath();
-        ctx.arc(screenX, screenY, radius, 0, Math.PI * 2);
-
-        if (isDark) {
-          ctx.fillStyle = `rgba(255, 255, 255, ${brightness * 0.85})`;
-        } else {
-          ctx.fillStyle = `rgba(12, 12, 18, ${brightness * 0.78})`;
-        }
-        ctx.fill();
-      }
-    }
-
-    requestAnimationFrame(render);
-  }
-
-  render();
-}
-
-function initCardColumnScrollParallax() {
-  const cards = document.querySelectorAll('.project-card');
-  
-  window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY;
-    cards.forEach((card, idx) => {
-      const speed = idx % 2 === 0 ? 0.04 : -0.04;
-      const offset = scrollY * speed;
-      if (window.innerWidth > 768) {
-        card.style.setProperty('--scroll-translate-y', `${offset}px`);
-      } else {
-        card.style.setProperty('--scroll-translate-y', `0px`);
-      }
-    });
-  });
-}
-
-function initLiveClock() {
-  const clock = document.getElementById('miamiClock');
-  if (!clock) return;
-  
-  function updateTime() {
-    const now = new Date();
-    const options = {
-      timeZone: 'America/New_York',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false
-    };
-    const timeString = new Intl.DateTimeFormat('en-US', options).format(now);
-    clock.textContent = `EST ${timeString}`;
-  }
-  
-  setInterval(updateTime, 1000);
-  updateTime();
-}
-
-function initScrollReveal() {
-  const revealTexts = document.querySelectorAll('.reveal-text');
-  
-  revealTexts.forEach(el => {
-    const text = el.textContent.trim();
-    const words = text.split(/\s+/);
-    el.innerHTML = '';
-    
-    words.forEach((word, idx) => {
-      const span = document.createElement('span');
-      span.className = 'reveal-word';
-      span.textContent = word;
-      span.style.transitionDelay = `${idx * 40}ms`;
-      el.appendChild(span);
-    });
-  });
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const words = entry.target.querySelectorAll('.reveal-word');
-        words.forEach(word => word.classList.add('revealed'));
-      }
-    });
-  }, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
-  });
-
-  revealTexts.forEach(el => observer.observe(el));
-}
-
-function initScrollProgressBar() {
-  const progressBar = document.getElementById('scrollProgress');
-  if (!progressBar) return;
-
-  window.addEventListener('scroll', () => {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollPct = docHeight > 0 ? Math.min(100, Math.round((scrollTop / docHeight) * 100)) : 0;
-    progressBar.style.width = `${scrollPct}%`;
-  });
-}
-
-function initCommandPalette() {
-  const modal = document.getElementById('cmdPaletteModal');
-  const input = document.getElementById('cmdPaletteInput');
-  const resultsContainer = document.getElementById('cmdPaletteResults');
-  const triggerBtn = document.getElementById('cmdKTrigger');
-
-  if (!modal || !input || !resultsContainer) return;
-
-  const actions = [
-    { label: 'Jump to Hero Overview', category: 'Navigation', icon: '⚡', action: () => document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' }) },
-    { label: 'Jump to Capabilities (01-04)', category: 'Navigation', icon: '🏛️', action: () => document.getElementById('capabilities')?.scrollIntoView({ behavior: 'smooth' }) },
-    { label: 'Jump to Production Systems', category: 'Navigation', icon: '🚀', action: () => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' }) },
-    { label: 'Jump to Architecture & Tech Stack', category: 'Navigation', icon: '🛠️', action: () => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }) },
-    { label: 'Agentic Stock Trading Bot (Alpaca)', category: 'Project', icon: '📈', action: () => document.getElementById('card-alpaca')?.scrollIntoView({ behavior: 'smooth' }) },
-    { label: 'Agentic Prediction Market Bot (Kalshi)', category: 'Project', icon: '🎯', action: () => document.getElementById('card-kalshi')?.scrollIntoView({ behavior: 'smooth' }) },
-    { label: 'Autonomous Coding Agent (Telegram)', category: 'Project', icon: '⚡', action: () => document.getElementById('card-adminbot')?.scrollIntoView({ behavior: 'smooth' }) },
-    { label: 'Robinhood Crypto Trading Bot', category: 'Project', icon: '🪙', action: () => document.getElementById('card-robinhood')?.scrollIntoView({ behavior: 'smooth' }) },
-    { label: 'Filter: Investments Only', category: 'Filter', icon: '📊', action: () => { document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' }); document.querySelector('.filter-btn[data-filter="investments"]')?.click(); } },
-    { label: 'Filter: AI Assistants Only', category: 'Filter', icon: '🤖', action: () => { document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' }); document.querySelector('.filter-btn[data-filter="assistants"]')?.click(); } },
-    { label: 'Filter: Enterprise Systems Only', category: 'Filter', icon: '🏢', action: () => { document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' }); document.querySelector('.filter-btn[data-filter="enterprise"]')?.click(); } },
-    { label: 'Filter: All Projects', category: 'Filter', icon: '📂', action: () => { document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' }); document.querySelector('.filter-btn[data-filter="all"]')?.click(); } },
-    { label: 'Toggle Dark / Light Theme', category: 'System', icon: '🌓', action: () => document.getElementById('themeToggle')?.click() },
-    { label: 'Open Admin Settings', category: 'System', icon: '⚙️', action: () => document.getElementById('adminTrigger')?.click() },
-    { label: 'Contact Jorge Contreras', category: 'Contact', icon: '✉️', action: () => document.getElementById('contactFooterBtn')?.click() }
   ];
 
-  let selectedIndex = 0;
-  let filteredActions = [...actions];
+  // Available CLI commands for autocompletion
+  const availableCommands = [
+    'help', 'projects', 'about', 'skills', 'contact', 'theme', 'clear', 'invest', 'whoami', 'cls', 'cat', 'time', 'status'
+  ];
 
-  function renderActions() {
-    resultsContainer.innerHTML = '';
-    if (filteredActions.length === 0) {
-      resultsContainer.innerHTML = '<div style="padding:16px;text-align:center;color:var(--text-muted);font-size:0.9rem;">No matching commands found.</div>';
-      return;
+  // ASCII Banner Art
+  const asciiBanner = `
+   ___  ____  ____   ____ _____   _____ _____ ____  __  __ 
+  |_  |/ __ \|  _ \ / ___| ____| |_   _| ____|  _ \|  \/  |
+    | | |  | | |_) | |  _|  _|     | | |  _| | |_) | |\/| |
+/\__/ | |__| |  _ <| |_| | |___    | | | |___|  _ <| |  | |
+\____/ \____/|_| \_\\____|_____|   |_| |_____|_| \_\_|  |_|
+  `;
+
+  // Boot lines to type out fast
+  const bootLines = [
+    { text: asciiBanner, type: 'ascii' },
+    { text: "[SYSTEM BOOT] JORGE CONTRERAS UNIX KERNEL v4.2.0-release (x86_64)", type: 'info' },
+    { text: "[INITIALIZING] QUANTUM AGENTIC EXECUTION LOOP .............. [OK]", type: 'dim' },
+    { text: "[BROKERS] ALPACA MARKETS WEBSOCKET FEED .................... [CONNECTED]", type: 'dim' },
+    { text: "[BROKERS] KALSHI PREDICTION ORDERBOOK ...................... [STREAMING]", type: 'dim' },
+    { text: "[BROKERS] ROBINHOOD MCP PROTOCOL SERVER .................... [ONLINE]", type: 'dim' },
+    { text: "[AGENTS] 10 AUTONOMOUS WORKFLOW DEPLOYMENTS ................ [ACTIVE]", type: 'dim' },
+    { text: "[SECURITY] EDGE PROXY LATENCY < 18ms ....................... [VERIFIED]", type: 'dim' },
+    { text: "----------------------------------------------------------------------", type: 'dim' },
+    { text: "Welcome. Type 'help' or click shortcut buttons above to inspect systems.", type: 'accent' },
+    { text: "", type: 'normal' }
+  ];
+
+  // Helper: Append line to terminal output
+  function appendLine(content, className = '') {
+    const div = document.createElement('div');
+    div.className = 'term-line ' + className;
+    if (typeof content === 'string') {
+      div.textContent = content;
+    } else {
+      div.appendChild(content);
     }
-    filteredActions.forEach((item, idx) => {
-      const el = document.createElement('div');
-      el.className = `cmd-item ${idx === selectedIndex ? 'selected' : ''}`;
-      el.innerHTML = `
-        <div class="cmd-item-left">
-          <span>${item.icon}</span>
-          <span>${item.label}</span>
-        </div>
-        <span class="cmd-item-badge">${item.category}</span>
-      `;
-      el.addEventListener('click', () => {
-        closePalette();
-        item.action();
-      });
-      resultsContainer.appendChild(el);
-    });
+    terminalOutput.appendChild(div);
+    scrollToBottom();
+    return div;
   }
 
-  function openPalette() {
-    modal.style.display = 'flex';
-    input.value = '';
-    filteredActions = [...actions];
-    selectedIndex = 0;
-    renderActions();
-    setTimeout(() => input.focus(), 50);
+  function appendHTML(htmlString) {
+    const div = document.createElement('div');
+    div.innerHTML = htmlString;
+    terminalOutput.appendChild(div);
+    scrollToBottom();
+    return div;
   }
 
-  function closePalette() {
-    modal.style.display = 'none';
+  function scrollToBottom() {
+    terminalScreen.scrollTop = terminalScreen.scrollHeight;
   }
 
-  if (triggerBtn) {
-    triggerBtn.addEventListener('click', openPalette);
-  }
-
-  window.addEventListener('keydown', (e) => {
-    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-      e.preventDefault();
-      if (modal.style.display === 'flex') {
-        closePalette();
+  // Fast typewriter for initial boot
+  let bootIndex = 0;
+  function runBootSequence() {
+    if (bootIndex < bootLines.length) {
+      const line = bootLines[bootIndex];
+      if (line.type === 'ascii') {
+        const pre = document.createElement('pre');
+        pre.className = 'term-ascii';
+        pre.textContent = line.text;
+        terminalOutput.appendChild(pre);
       } else {
-        openPalette();
+        appendLine(line.text, line.type);
       }
+      bootIndex++;
+      setTimeout(runBootSequence, 20);
+    } else {
+      cliInput.focus();
     }
-    if (e.key === 'Escape' && modal.style.display === 'flex') {
-      closePalette();
+  }
+
+  // Live Clock
+  function updateClock() {
+    const now = new Date();
+    const estTime = now.toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour12: false });
+    clockDisplay.textContent = estTime + ' EST';
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // Command Implementations
+  const commands = {
+    help: () => {
+      appendLine("AVAILABLE SYSTEM COMMANDS:", "accent");
+      appendLine("  projects, ls         List all production robots, agents & enterprise tools", "white");
+      appendLine("  cat <project_id>     Inspect architectural details of a specific project", "white");
+      appendLine("  about, whoami        Display systems engineer profile & background", "white");
+      appendLine("  skills, specs        Display technical matrix & infrastructure topology", "white");
+      appendLine("  invest               Live dashboard link for Algorithmic Trading Hub", "white");
+      appendLine("  contact              Initiate transmission / get direct contact details", "white");
+      appendLine("  theme [g|amber|cyan] Toggle CRT phosphor color (green, amber, cyan)", "white");
+      appendLine("  time                 Print current system time and uptime", "white");
+      appendLine("  status               Print system telemetry health status", "white");
+      appendLine("  clear, cls           Clear terminal screen", "white");
+    },
+
+    whoami: () => commands.about(),
+
+    about: () => {
+      appendLine("// JORGE CONTRERAS - SYSTEMS ARCHITECT & QUANTITATIVE ENGINEER", "accent");
+      appendLine("----------------------------------------------------------------------", "dim");
+      appendLine("Full-stack systems engineer focused on high-frequency algorithmic orderbook execution,", "white");
+      appendLine("autonomous multi-modal developer agents, and zero-downtime microservices on global edge networks.", "white");
+      appendLine("");
+      appendLine("PHILOSOPHY: Zero hype, pure execution. Autonomous systems should self-heal,", "info");
+      appendLine("trade with sub-second precision, and run silently on headless infrastructure 24/7/365.", "info");
+      appendLine("----------------------------------------------------------------------", "dim");
+    },
+
+    skills: () => {
+      appendLine("// CORE ENGINEERING MATRIX", "accent");
+      appendLine("----------------------------------------------------------------------", "dim");
+      appendLine("LANGUAGES & RUNTIMES: Python 3.12, Rust, TypeScript, AsyncIO, FastAPI, Bash", "white");
+      appendLine("TRADING PROTOCOLS:   Alpaca Markets WSS, Kalshi Prediction API, Robinhood MCP, Polygon.io", "white");
+      appendLine("AI & AGENT CORES:    Google Gemini API, Claude 3.5 Sonnet, MCP Protocol, Multi-Modal Vision", "white");
+      appendLine("EDGE INFRASTRUCTURE: Docker Containers, Render Cloud, Headless Linux Mini-PCs, Telegram Bot API", "white");
+      appendLine("----------------------------------------------------------------------", "dim");
+    },
+
+    ls: () => commands.projects(),
+
+    projects: () => {
+      appendLine("// PRODUCTION DEPLOYMENTS & REPOSITORIES (10 ACTIVE)", "accent");
+      appendLine("----------------------------------------------------------------------", "dim");
+      
+      projects.forEach((p, idx) => {
+        let linksHtml = '';
+        if (p.github) {
+          linksHtml += `<a href="${p.github}" target="_blank" rel="noopener noreferrer" class="term-link">[GITHUB]</a> `;
+        }
+        if (p.demo) {
+          linksHtml += `<a href="${p.demo}" target="_blank" rel="noopener noreferrer" class="term-link">[LIVE DEMO]</a>`;
+        }
+
+        const cardHtml = `
+          <div class="term-card">
+            <div class="term-card-title">[${idx + 1}] ${p.name} <span style="font-size:0.75rem;color:var(--term-cyan)">// ${p.cat}</span></div>
+            <div class="term-card-desc">${p.desc}</div>
+            <div style="font-size:0.78rem;color:var(--term-muted)">STACK: ${p.tech}</div>
+            <div class="term-links">${linksHtml}</div>
+          </div>
+        `;
+        appendHTML(cardHtml);
+      });
+      appendLine("Type 'cat <id>' (e.g. 'cat stock-bot') to inspect full technical telemetry.", "dim");
+    },
+
+    cat: (args) => {
+      if (!args || args.length === 0) {
+        appendLine("Usage: cat <project_id> (e.g. 'cat stock-bot', 'cat kalshi-bot')", "alert");
+        return;
+      }
+      const query = args[0].toLowerCase();
+      const proj = projects.find(p => p.id.includes(query) || p.name.toLowerCase().includes(query));
+      if (!proj) {
+        appendLine(`cat: ${args[0]}: No such project file. Type 'projects' to list valid IDs.`, "alert");
+        return;
+      }
+      appendLine(`// INSPECTING: ${proj.name.toUpperCase()}`, "accent");
+      appendLine(`CATEGORY:    ${proj.cat}`, "white");
+      appendLine(`STACK:       ${proj.tech}`, "white");
+      appendLine(`DESCRIPTION: ${proj.desc}`, "white");
+      if (proj.github) appendLine(`SOURCE:      ${proj.github}`, "info");
+      if (proj.demo) appendLine(`LIVE PORTAL: ${proj.demo}`, "info");
+    },
+
+    invest: () => {
+      appendLine("// ALGORITHMIC TRADING ENGINE DASHBOARD", "accent");
+      appendLine("Live portal: https://invest.jorgejosecontreras.com", "info");
+      window.open("https://invest.jorgejosecontreras.com", "_blank");
+    },
+
+    time: () => {
+      const now = new Date();
+      appendLine(`CURRENT SYSTEM TIME: ${now.toUTCString()} (EST: ${clockDisplay.textContent})`, "white");
+      appendLine("SYSTEM UPTIME:       99.98% Across Render Edge Nodes", "white");
+    },
+
+    status: () => {
+      appendLine("// SYSTEM TELEMETRY HEALTH STATUS", "accent");
+      appendLine("KERNEL:       Linux x86_64 [STABLE]", "white");
+      appendLine("CPU USAGE:    14.2% [NOMINAL]", "white");
+      appendLine("MEMORY:       4.1 GB / 16.0 GB", "white");
+      appendLine("EDGE NODES:   ACTIVE (Oregon, Frankfurt, Virginia)", "white");
+    },
+
+    theme: (args) => {
+      const body = document.body;
+      const current = body.getAttribute('data-theme') || 'green';
+      let next = 'green';
+      if (args && args.length > 0) {
+        const choice = args[0].toLowerCase();
+        if (choice === 'amber' || choice === 'a') next = 'amber';
+        else if (choice === 'cyan' || choice === 'c' || choice === 'blue') next = 'cyan';
+        else next = 'green';
+      } else {
+        if (current === 'green') next = 'amber';
+        else if (current === 'amber') next = 'cyan';
+        else next = 'green';
+      }
+      body.setAttribute('data-theme', next);
+      appendLine(`[THEME SWITCHED] Active phosphor mode: ${next.toUpperCase()}`, "accent");
+    },
+
+    contact: () => {
+      appendLine("// INITIATING CONTACT PROTOCOL", "accent");
+      appendLine("Direct Email:    jorge@jorgejosecontreras.com", "white");
+      appendLine("GitHub Profile:  https://github.com/JorgeJoseContreras", "info");
+      appendLine("LinkedIn:        https://linkedin.com/in/jorge-contreras", "info");
+      appendLine("Opening transmission modal...", "dim");
+      contactModal.classList.add('active');
+    },
+
+    clear: () => {
+      terminalOutput.innerHTML = '';
+    },
+    cls: () => commands.clear(),
+
+    sudo: () => {
+      appendLine("Permission denied: Jorge has locked root access to agentic trading loop.", "alert");
     }
-  });
+  };
 
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) closePalette();
-  });
+  // Process user input string
+  function executeCommand(inputStr) {
+    const raw = inputStr.trim();
+    if (!raw) return;
 
-  input.addEventListener('input', (e) => {
-    const q = e.target.value.toLowerCase().trim();
-    filteredActions = actions.filter(a => a.label.toLowerCase().includes(q) || a.category.toLowerCase().includes(q));
-    selectedIndex = 0;
-    renderActions();
-  });
+    // Echo input line
+    const echoLine = document.createElement('div');
+    echoLine.className = 'term-line';
+    echoLine.innerHTML = `<span class="prompt-user">guest@jorgecontreras</span><span class="prompt-separator">:</span><span class="prompt-path">~</span><span class="prompt-dollar">$</span> <span class="term-white">${raw}</span>`;
+    terminalOutput.appendChild(echoLine);
 
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      selectedIndex = (selectedIndex + 1) % filteredActions.length;
-      renderActions();
+    history.push(raw);
+    historyIndex = history.length;
+
+    const parts = raw.split(/\s+/);
+    const cmd = parts[0].toLowerCase();
+    const args = parts.slice(1);
+
+    if (commands[cmd]) {
+      commands[cmd](args);
+    } else {
+      appendLine(`sh: command not found: ${cmd}. Type 'help' to see available commands.`, 'alert');
+    }
+
+    scrollToBottom();
+  }
+
+  // Keyboard events on Input
+  cliInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const val = cliInput.value;
+      cliInput.value = '';
+      executeCommand(val);
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
-      selectedIndex = (selectedIndex - 1 + filteredActions.length) % filteredActions.length;
-      renderActions();
-    } else if (e.key === 'Enter') {
+      if (history.length > 0 && historyIndex > 0) {
+        historyIndex--;
+        cliInput.value = history[historyIndex] || '';
+      }
+    } else if (e.key === 'ArrowDown') {
       e.preventDefault();
-      if (filteredActions[selectedIndex]) {
-        closePalette();
-        filteredActions[selectedIndex].action();
+      if (historyIndex < history.length - 1) {
+        historyIndex++;
+        cliInput.value = history[historyIndex] || '';
+      } else {
+        historyIndex = history.length;
+        cliInput.value = '';
+      }
+    } else if (e.key === 'Tab') {
+      e.preventDefault();
+      const current = cliInput.value.trim().toLowerCase();
+      if (current) {
+        const match = availableCommands.find(c => c.startsWith(current));
+        if (match) {
+          cliInput.value = match;
+        }
       }
     }
   });
-}
 
-// Initialization on DOM load
-initLogoWave();
-initProjectUpdateDates();
-initCardTilt();
-initScrollReveal();
-init3DParticleOceanWave();
-initCardColumnScrollParallax();
-initLiveClock();
-initScrollProgressBar();
-initCommandPalette();
-fetchAdminConfigFile().then(() => {
-  applyAdminSettings();
-});
+  // Quick Command buttons
+  cmdChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const cmd = chip.getAttribute('data-cmd');
+      if (cmd) {
+        executeCommand(cmd);
+        cliInput.focus();
+      }
+    });
+  });
 
+  // Keep focus on input when clicking terminal
+  terminalScreen.addEventListener('click', (e) => {
+    if (!window.getSelection().toString() && !e.target.closest('a') && !e.target.closest('button')) {
+      cliInput.focus();
+    }
+  });
+
+  // Contact Modal Handlers
+  closeContactBtn.addEventListener('click', () => {
+    contactModal.classList.remove('active');
+    cliInput.focus();
+  });
+
+  contactModal.addEventListener('click', (e) => {
+    if (e.target === contactModal) {
+      contactModal.classList.remove('active');
+      cliInput.focus();
+    }
+  });
+
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    contactStatus.textContent = 'TRANSMITTING VIA ENCRYPTED PACKET...';
+    contactStatus.style.color = 'var(--term-cyan)';
+
+    setTimeout(() => {
+      contactStatus.textContent = 'TRANSMISSION RECEIVED [OK]. Thank you!';
+      contactStatus.style.color = 'var(--term-green)';
+      setTimeout(() => {
+        contactModal.classList.remove('active');
+        contactForm.reset();
+        contactStatus.textContent = '';
+        appendLine("[SYSTEM NOTICE] Message transmitted successfully to Jorge.", "accent");
+        cliInput.focus();
+      }, 1500);
+    }, 800);
+  });
+
+  // Start fast boot sequence on load
+  runBootSequence();
+
+})();
