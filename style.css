@@ -219,20 +219,60 @@ ul {
 .brutalist-grid-overlay {
   position: fixed;
   inset: 0;
-  background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 60px 60px;
   pointer-events: none;
   z-index: -2;
-  opacity: 0.85;
   transition: opacity 0.5s ease;
 }
 
-[data-theme="light"] .brutalist-grid-overlay {
-  background-image: 
-    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+#matrixCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* --- STATUS BAR METRICS --- */
+.header-status-metrics {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  background-color: #10b981;
+  border-radius: 50%;
+  animation: pulse-green 1.5s infinite alternate;
+}
+
+@keyframes pulse-green {
+  0% { transform: scale(0.9); opacity: 0.5; }
+  100% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 8px #10b981; }
+}
+
+.header-status-metrics .divider {
+  color: var(--text-muted);
+}
+
+.miami-clock {
+  color: var(--text-muted);
+}
+
+/* Responsive: Hide status bar metrics on small screens */
+@media (max-width: 580px) {
+  .header-status-metrics {
+    display: none;
+  }
 }
 
 .brutalist-intro {
@@ -693,13 +733,21 @@ section {
   border: 2px solid var(--border-color);
   border-radius: var(--radius-sm);
   overflow: hidden;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
   height: 100%;
   transform-style: preserve-3d;
   will-change: transform;
   box-shadow: 4px 4px 0px 0px var(--border-color);
+  
+  /* Combined 3D tilt + column scroll parallax transform */
+  transform: perspective(1000px) 
+             translateY(calc(var(--scroll-translate-y, 0px) + var(--card-translate-y, 0px))) 
+             rotateX(var(--rotate-x, 0deg)) 
+             rotateY(var(--rotate-y, 0deg)) 
+             scale(var(--card-scale, 1));
+             
+  transition: border-color 0.2s ease, box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s ease-out;
 }
 
 /* Background spotlight radial gradient tracking the mouse */

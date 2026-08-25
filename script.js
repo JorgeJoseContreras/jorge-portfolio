@@ -834,17 +834,134 @@ function initCardTilt() {
       card.style.setProperty('--mouse-y', `${yPct}%`);
       card.style.setProperty('--mouse-x-px', `${x}px`);
       card.style.setProperty('--mouse-y-px', `${y}px`);
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px) scale(1.015)`;
+      card.style.setProperty('--rotate-x', `${rotateX}deg`);
+      card.style.setProperty('--rotate-y', `${rotateY}deg`);
+      card.style.setProperty('--card-translate-y', `-6px`);
+      card.style.setProperty('--card-scale', `1.015`);
     });
 
     card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)';
       card.style.setProperty('--mouse-x', '50%');
       card.style.setProperty('--mouse-y', '50%');
       card.style.setProperty('--mouse-x-px', '0px');
       card.style.setProperty('--mouse-y-px', '0px');
+      card.style.setProperty('--rotate-x', '0deg');
+      card.style.setProperty('--rotate-y', '0deg');
+      card.style.setProperty('--card-translate-y', '0px');
+      card.style.setProperty('--card-scale', '1');
     });
   });
+}
+
+function initDotMatrix() {
+  const canvas = document.getElementById('matrixCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+  
+  let mouse = { x: -1000, y: -1000 };
+  
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
+  
+  window.addEventListener('mouseleave', () => {
+    mouse.x = -1000;
+    mouse.y = -1000;
+  });
+  
+  window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  });
+
+  const spacing = 50;
+  
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    
+    const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+    const baseColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)';
+    const glowColor = isDark ? 'rgba(168, 85, 247, 0.65)' : 'rgba(124, 58, 237, 0.65)';
+    
+    const cols = Math.ceil(width / spacing) + 1;
+    const rows = Math.ceil(height / spacing) + 1;
+    
+    for (let c = 0; c < cols; c++) {
+      for (let r = 0; r < rows; r++) {
+        const x = c * spacing;
+        const y = r * spacing;
+        
+        const dx = mouse.x - x;
+        const dy = mouse.y - y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        let radius = 1.2;
+        let color = baseColor;
+        
+        if (dist < 150) {
+          const factor = (150 - dist) / 150;
+          radius = 1.2 + factor * 2.8;
+          ctx.beginPath();
+          ctx.arc(x, y, radius * 3.5, 0, Math.PI * 2);
+          ctx.fillStyle = isDark ? `rgba(168, 85, 247, ${factor * 0.1})` : `rgba(124, 58, 237, ${factor * 0.1})`;
+          ctx.fill();
+          
+          color = glowColor;
+        }
+        
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+      }
+    }
+    
+    requestAnimationFrame(draw);
+  }
+  
+  draw();
+}
+
+function initCardColumnScrollParallax() {
+  const cards = document.querySelectorAll('.project-card');
+  
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    cards.forEach((card, idx) => {
+      const speed = idx % 2 === 0 ? 0.04 : -0.04;
+      const offset = scrollY * speed;
+      if (window.innerWidth > 768) {
+        card.style.setProperty('--scroll-translate-y', `${offset}px`);
+      } else {
+        card.style.setProperty('--scroll-translate-y', `0px`);
+      }
+    });
+  });
+}
+
+function initLiveClock() {
+  const clock = document.getElementById('miamiClock');
+  if (!clock) return;
+  
+  function updateTime() {
+    const now = new Date();
+    const options = {
+      timeZone: 'America/New_York',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false
+    };
+    const timeString = new Intl.DateTimeFormat('en-US', options).format(now);
+    clock.textContent = `EST ${timeString}`;
+  }
+  
+  setInterval(updateTime, 1000);
+  updateTime();
 }
 
 function initScrollReveal() {
@@ -877,14 +994,6 @@ function initScrollReveal() {
   });
 
   revealTexts.forEach(el => observer.observe(el));
-
-  // Parallax Scroll Blueprint Grid
-  window.addEventListener('scroll', () => {
-    const grid = document.querySelector('.brutalist-grid-overlay');
-    if (grid) {
-      grid.style.transform = `translateY(${window.scrollY * 0.12}px)`;
-    }
-  });
 }
 
 // Initialization on DOM load
@@ -892,6 +1001,9 @@ initLogoWave();
 initProjectUpdateDates();
 initCardTilt();
 initScrollReveal();
+initDotMatrix();
+initCardColumnScrollParallax();
+initLiveClock();
 fetchAdminConfigFile().then(() => {
   applyAdminSettings();
 });

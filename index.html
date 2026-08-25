@@ -9,8 +9,10 @@
 </head>
 <body>
 
-  <!-- Modernist Blueprint Grid Lines Overlay -->
-  <div class="brutalist-grid-overlay"></div>
+  <!-- Modernist Blueprint Dot-Matrix Canvas Background -->
+  <div class="brutalist-grid-overlay">
+    <canvas id="matrixCanvas"></canvas>
+  </div>
 
   <!-- Background Decorative Glowing Blobs -->
   <div class="bg-glows">
@@ -26,6 +28,15 @@
       <a href="#" class="logo" id="logoLink">
         Jorge Contreras
       </a>
+
+      <div class="header-status-metrics">
+        <span class="status-indicator">
+          <span class="pulse-dot"></span>
+          SYS.ACTIVE
+        </span>
+        <span class="divider">/</span>
+        <span class="miami-clock" id="miamiClock">EST 00:00:00</span>
+      </div>
 
       <div class="nav-actions">
         <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
