@@ -86,15 +86,32 @@
         status.textContent = 'Sending...';
         status.style.color = 'var(--accent)';
 
-        setTimeout(() => {
-          status.textContent = 'Message sent! Thanks for reaching out.';
-          status.style.color = '#10b981';
-          setTimeout(() => {
-            modal.style.display = 'none';
-            form.reset();
-            status.textContent = '';
-          }, 1600);
-        }, 600);
+        const formData = new FormData(form);
+        formData.append('access_key', 'f43d470c-ff11-4fbf-9159-69306b78872e');
+
+        fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            status.textContent = 'Message sent! Thanks for reaching out.';
+            status.style.color = '#10b981';
+            setTimeout(() => {
+              modal.style.display = 'none';
+              form.reset();
+              status.textContent = '';
+            }, 1800);
+          } else {
+            status.textContent = 'Error: ' + (data.message || 'Something went wrong.');
+            status.style.color = '#ef4444';
+          }
+        })
+        .catch(error => {
+          status.textContent = 'Connection error. Please try again.';
+          status.style.color = '#ef4444';
+        });
       });
     }
   }
