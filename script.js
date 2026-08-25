@@ -857,77 +857,120 @@ function initCardTilt() {
   });
 }
 
-function initDotMatrix() {
+function init3DParticleOceanWave() {
   const canvas = document.getElementById('matrixCanvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  
+
   let width = canvas.width = window.innerWidth;
   let height = canvas.height = window.innerHeight;
-  
-  let mouse = { x: -1000, y: -1000 };
-  
+
+  let mouseX = 0;
+  let mouseY = 0;
+  let targetMouseX = 0;
+  let targetMouseY = 0;
+
   window.addEventListener('mousemove', (e) => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
+    targetMouseX = (e.clientX - width / 2) / (width / 2);
+    targetMouseY = (e.clientY - height / 2) / (height / 2);
   });
-  
+
   window.addEventListener('mouseleave', () => {
-    mouse.x = -1000;
-    mouse.y = -1000;
+    targetMouseX = 0;
+    targetMouseY = 0;
   });
-  
+
   window.addEventListener('resize', () => {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
   });
 
-  const spacing = 50;
-  
-  function draw() {
+  const SEPARATION_X = 26;
+  const SEPARATION_Z = 26;
+  const AMOUNT_X = 64;
+  const AMOUNT_Z = 64;
+  const FOV = 440;
+
+  let time = 0;
+
+  function render() {
     ctx.clearRect(0, 0, width, height);
-    
+
+    // Smooth camera mouse steering
+    mouseX += (targetMouseX - mouseX) * 0.04;
+    mouseY += (targetMouseY - mouseY) * 0.04;
+
+    time += 0.016;
+
     const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-    const baseColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)';
-    const glowColor = isDark ? 'rgba(204, 255, 0, 0.9)' : 'rgba(0, 0, 0, 0.8)';
-    
-    const cols = Math.ceil(width / spacing) + 1;
-    const rows = Math.ceil(height / spacing) + 1;
-    
-    for (let c = 0; c < cols; c++) {
-      for (let r = 0; r < rows; r++) {
-        const x = c * spacing;
-        const y = r * spacing;
-        
-        const dx = mouse.x - x;
-        const dy = mouse.y - y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        
-        let radius = 1.2;
-        let color = baseColor;
-        
-        if (dist < 150) {
-          const factor = (150 - dist) / 150;
-          radius = 1.2 + factor * 2.8;
-          ctx.beginPath();
-          ctx.arc(x, y, radius * 3.5, 0, Math.PI * 2);
-          ctx.fillStyle = isDark ? `rgba(204, 255, 0, ${factor * 0.12})` : `rgba(0, 0, 0, ${factor * 0.1})`;
-          ctx.fill();
-          
-          color = glowColor;
+
+    const camPitch = 0.32 + mouseY * 0.12;
+    const cosPitch = Math.cos(camPitch);
+    const sinPitch = Math.sin(camPitch);
+
+    const camYaw = mouseX * 0.18;
+    const cosYaw = Math.cos(camYaw);
+    const sinYaw = Math.sin(camYaw);
+
+    const camY = -190 + mouseY * 40;
+
+    const originX = width / 2;
+    const originY = height * 0.52;
+
+    for (let ix = 0; ix < AMOUNT_X; ix++) {
+      for (let iz = 0; iz < AMOUNT_Z; iz++) {
+        // World coordinates
+        const wx0 = (ix - AMOUNT_X / 2) * SEPARATION_X;
+        const wz0 = (iz + 3) * SEPARATION_Z;
+
+        // Wave equations producing flowing ocean ridges
+        const wave1 = Math.sin(ix * 0.14 + time * 1.4) * 38;
+        const wave2 = Math.cos(iz * 0.12 + time * 1.0) * 48;
+        const wave3 = Math.sin((ix + iz) * 0.07 + time * 1.8) * 28;
+        const wy0 = wave1 + wave2 + wave3 - camY;
+
+        // Yaw rotation
+        const wx = wx0 * cosYaw - wz0 * sinYaw;
+        const wz1 = wx0 * sinYaw + wz0 * cosYaw;
+
+        // Pitch rotation
+        const wy = wy0 * cosPitch - wz1 * sinPitch;
+        const wz = wy0 * sinPitch + wz1 * cosPitch;
+
+        if (wz <= 15) continue;
+
+        // 3D Perspective Projection
+        const proj = FOV / wz;
+        const screenX = originX + wx * proj;
+        const screenY = originY + wy * proj;
+
+        if (screenX < -30 || screenX > width + 30 || screenY < -30 || screenY > height + 30) {
+          continue;
         }
-        
+
+        // Depth fog & wave crest illumination
+        const depthFactor = Math.max(0, Math.min(1, (1750 - wz) / 1550));
+        const heightFactor = (wy0 + camY + 80) / 160;
+        const brightness = Math.max(0.04, Math.min(0.95, depthFactor * 0.72 + heightFactor * 0.38));
+
+        const radius = Math.max(0.6, Math.min(2.7, (FOV / wz) * 1.7));
+
         ctx.beginPath();
-        ctx.arc(x, y, radius, 0, Math.PI * 2);
-        ctx.fillStyle = color;
+        ctx.arc(screenX, screenY, radius, 0, Math.PI * 2);
+
+        if (isDark) {
+          ctx.fillStyle = `rgba(255, 255, 255, ${brightness * 0.82})`;
+        } else {
+          ctx.fillStyle = `rgba(10, 10, 15, ${brightness * 0.75})`;
+        }
         ctx.fill();
       }
     }
-    
-    requestAnimationFrame(draw);
+
+    requestAnimationFrame(render);
   }
-  
-  draw();
+
+  render();
 }
 
 function initCardColumnScrollParallax() {
@@ -1131,7 +1174,7 @@ initLogoWave();
 initProjectUpdateDates();
 initCardTilt();
 initScrollReveal();
-initDotMatrix();
+init3DParticleOceanWave();
 initCardColumnScrollParallax();
 initLiveClock();
 initScrollProgressBar();
