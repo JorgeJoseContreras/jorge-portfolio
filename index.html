@@ -25,38 +25,37 @@
     <div class="glow-4"></div>
   </div>
 
-  <!-- HEADER / NAVIGATION -->
+  <!-- HEADER / INDUSTRIAL TELEMETRY BAR -->
   <header class="header">
     <div class="container nav-container">
       <a href="#hero" class="logo" id="logoLink">
-        Jorge Contreras
+        <span class="logo-accent">//</span> JORGE_CONTRERAS <span class="logo-tag">[2026]</span>
       </a>
 
       <nav class="nav-links">
-        <a href="#capabilities" class="nav-link">Capabilities</a>
-        <a href="#projects" class="nav-link">Systems</a>
-        <a href="#about" class="nav-link">About</a>
+        <a href="#matrix" class="nav-link">// 01_SPECS</a>
+        <a href="#projects" class="nav-link">// 02_SYSTEMS</a>
+        <a href="#about" class="nav-link">// 03_STACK</a>
       </nav>
 
       <div class="header-status-metrics">
         <span class="status-indicator">
           <span class="pulse-dot"></span>
-          SYS.ACTIVE
+          SYS.RUNNING
         </span>
-        <span class="divider">/</span>
+        <span class="divider">|</span>
         <span class="miami-clock" id="miamiClock">EST 00:00:00</span>
       </div>
 
       <div class="nav-actions">
-        <!-- Quick Command Palette Launcher Button -->
+        <!-- Command Palette Trigger Button -->
         <button class="cmd-k-trigger" id="cmdKTrigger" aria-label="Open Command Menu">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <span class="cmd-k-text">Search</span>
+          <span class="cmd-prompt">&gt;_</span>
+          <span class="cmd-k-text">EXECUTE</span>
           <kbd class="cmd-k-badge">⌘K</kbd>
         </button>
 
         <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
-          <!-- Sun Icon (for dark mode -> transitions to light) -->
           <svg class="sun-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="5"></circle>
             <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -68,7 +67,6 @@
             <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
             <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
           </svg>
-          <!-- Moon Icon (for light mode -> transitions to dark) -->
           <svg class="moon-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
           </svg>
@@ -78,77 +76,49 @@
   </header>
 
 
-  <!-- HERO LANDING SECTION -->
+  <!-- CYBER-INDUSTRIAL HERO SECTION -->
   <section class="hero-landing" id="hero">
     <div class="container">
       <div class="hero-content">
-        <div class="hero-badge">
-          <span class="apple-indicator"></span>
-          <span>Jorge Contreras · Systems Architect & Full-Stack Engineer</span>
+        
+        <div class="hero-meta-row">
+          <span class="meta-tag">[INDEX: 0x24F]</span>
+          <span class="meta-tag">STATUS: 100% OPERATIONAL</span>
+          <span class="meta-tag">LATENCY: &lt;18MS</span>
         </div>
 
         <h1 class="hero-title reveal-text">
-          Engineering intelligence <span class="text-gradient">at scale.</span>
+          AUTONOMOUS SYSTEMS.<br>
+          <span class="highlight-acid">ALGORITHMIC ENGINES.</span><br>
+          EDGE ARCHITECTURE.
         </h1>
 
         <p class="hero-subtitle reveal-text">
-          Designing autonomous algorithmic trading engines, multi-modal AI agents, and resilient cloud architectures with relentless speed and precision.
+          Full-stack systems engineer architecting sub-second orderbook arbitrage, multi-modal AI dev agents, and zero-downtime microservices on global edge networks.
         </p>
 
         <div class="hero-actions">
           <a href="#projects" class="hero-btn-primary">
-            <span>Explore Systems</span>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+            <span>[ 01 // PRODUCTION SYSTEMS ↓ ]</span>
           </a>
           <button class="hero-btn-secondary" id="heroContactBtn">
-            <span>Get in Touch</span>
+            <span>[ 02 // INITIATE CONTACT ]</span>
           </button>
         </div>
 
-        <!-- 3D Perspective Floating Glass Showcase Deck -->
-        <div class="hero-deck-wrapper" id="heroDeckWrapper">
-          <div class="hero-deck-card" id="heroDeckCard">
-            <div class="deck-top-bar">
-              <div class="deck-lights">
-                <span class="d-light d-red"></span>
-                <span class="d-light d-yellow"></span>
-                <span class="d-light d-green"></span>
-              </div>
-              <div class="deck-title">Live Systems & Orderbook Telemetry</div>
-              <span class="deck-badge">OREGON-1 · 14ms</span>
-            </div>
-            <div class="deck-grid">
-              <div class="deck-stat-cell">
-                <div class="deck-stat-label">Active Bots</div>
-                <div class="deck-stat-val">4 Production</div>
-                <div class="deck-stat-sub">Alpaca · Kalshi · RH · Telegram</div>
-              </div>
-              <div class="deck-stat-cell">
-                <div class="deck-stat-label">Execution Latency</div>
-                <div class="deck-stat-val">&lt; 18ms</div>
-                <div class="deck-stat-sub">Sub-second WSS Orderbook</div>
-              </div>
-              <div class="deck-stat-cell">
-                <div class="deck-stat-label">Automation Uptime</div>
-                <div class="deck-stat-val">99.98%</div>
-                <div class="deck-stat-sub">Self-Healing Watchdogs</div>
-              </div>
-              <div class="deck-stat-cell">
-                <div class="deck-stat-label">Edge Distribution</div>
-                <div class="deck-stat-val">Global CDN</div>
-                <div class="deck-stat-sub">Dockerized Microservices</div>
-              </div>
-            </div>
-            <div class="deck-footer-bar">
-              <div class="deck-tech-row">
-                <span class="d-chip">Python 3.12</span>
-                <span class="d-chip">Rust</span>
-                <span class="d-chip">Gemini AI</span>
-                <span class="d-chip">WebSockets</span>
-                <span class="d-chip">Docker</span>
-                <span class="d-chip">Render Cloud</span>
-              </div>
-            </div>
+        <!-- Technical Telemetry Spec Strip -->
+        <div class="telemetry-strip">
+          <div class="telem-item">
+            <span class="telem-k">BROKERS:</span>
+            <span class="telem-v">ALPACA WSS / KALSHI / ROBINHOOD</span>
+          </div>
+          <div class="telem-item">
+            <span class="telem-k">AI_CORE:</span>
+            <span class="telem-v">GEMINI 1.5 PRO / CLAUDE / VISION</span>
+          </div>
+          <div class="telem-item">
+            <span class="telem-k">TOPOLOGY:</span>
+            <span class="telem-v">DOCKER CONTAINERIZED / RENDER EDGE</span>
           </div>
         </div>
 
@@ -157,38 +127,74 @@
   </section>
 
 
-  <!-- CAPABILITIES / PILLARS SECTION -->
-  <section class="capabilities-section" id="capabilities">
+  <!-- ENGINEERING SYSTEM MATRIX (CAPABILITIES) -->
+  <section class="capabilities-section" id="matrix">
     <div class="container">
       <div class="section-header-block">
-        <span class="section-tag">Capabilities</span>
-        <h2 class="section-title reveal-text">Architected for scale, velocity, and precision.</h2>
-        <p class="section-subtitle">A comprehensive engineering stack spanning algorithmic execution, agentic workflows, and cloud infrastructure.</p>
+        <span class="section-tag">// ARCHITECTURAL_SPECIFICATIONS</span>
+        <h2 class="section-title reveal-text">CORE ENGINEERING MATRIX.</h2>
+        <p class="section-subtitle">Technical parameters and execution profiles across autonomous production systems.</p>
       </div>
 
-      <div class="pillars-grid">
-        <div class="pillar-card">
-          <div class="pillar-icon">📈</div>
-          <h3 class="pillar-title">Quantitative & Algorithmic Trading</h3>
-          <p class="pillar-desc">Sub-second orderbook execution and adaptive market making bots connected via low-latency WebSockets to Alpaca, Robinhood, and Kalshi.</p>
+      <div class="matrix-grid">
+        <!-- SYS.01 -->
+        <div class="matrix-cell">
+          <div class="matrix-cell-header">
+            <span class="cell-id">[SYS.01]</span>
+            <span class="cell-label">// QUANTITATIVE_EXECUTION</span>
+          </div>
+          <h3 class="matrix-cell-title">Sub-Second Orderbook Arbitrage</h3>
+          <p class="matrix-cell-desc">Adaptive market making, bid-ask spread harvesting, and sentiment evaluation engines integrated directly with Alpaca Markets and Kalshi Prediction WebSocket feeds.</p>
+          <div class="matrix-specs">
+            <div class="spec-row"><span class="sk">STACK:</span><span class="sv">Python 3.12 / AsyncIO / WebSockets</span></div>
+            <div class="spec-row"><span class="sk">LATENCY:</span><span class="sv">&lt; 20ms Edge Routing</span></div>
+            <div class="spec-row"><span class="sk">FEEDS:</span><span class="sv">Alpaca · Kalshi · Robinhood MCP</span></div>
+          </div>
         </div>
 
-        <div class="pillar-card">
-          <div class="pillar-icon">🤖</div>
-          <h3 class="pillar-title">Autonomous Agentic AI</h3>
-          <p class="pillar-desc">Conversational LLM agents integrated with native desktop notification pipelines, continuous self-testing, and automated task execution.</p>
+        <!-- SYS.02 -->
+        <div class="matrix-cell">
+          <div class="matrix-cell-header">
+            <span class="cell-id">[SYS.02]</span>
+            <span class="cell-label">// AUTONOMOUS_AGENTS</span>
+          </div>
+          <h3 class="matrix-cell-title">Self-Healing Developer Bots</h3>
+          <p class="matrix-cell-desc">Multi-modal AI agents operating 24/7 on local mini-PCs and headless cloud instances with native OS notification hooks, live research browsers, and self-testing deploy pipelines.</p>
+          <div class="matrix-specs">
+            <div class="spec-row"><span class="sk">ENGINE:</span><span class="sv">Google Gemini / Custom Agent Loop</span></div>
+            <div class="spec-row"><span class="sk">CHANNELS:</span><span class="sv">Telegram Bot API / iMessage Hook</span></div>
+            <div class="spec-row"><span class="sk">CAPABILITY:</span><span class="sv">Code Refactor, Git Push, Render Deploy</span></div>
+          </div>
         </div>
 
-        <div class="pillar-card">
-          <div class="pillar-icon">⚡</div>
-          <h3 class="pillar-title">Edge Cloud Infrastructure</h3>
-          <p class="pillar-desc">Containerized Docker microservices, automated health watchdogs, and zero-downtime Render deployments spanning global CDN nodes.</p>
+        <!-- SYS.03 -->
+        <div class="matrix-cell">
+          <div class="matrix-cell-header">
+            <span class="cell-id">[SYS.03]</span>
+            <span class="cell-label">// CLOUD_INFRASTRUCTURE</span>
+          </div>
+          <h3 class="matrix-cell-title">Edge Microservices & CI/CD</h3>
+          <p class="matrix-cell-desc">Containerized Docker microservices, automated health watchdogs, log streaming servers, and automated webhook deployments spanning global CDN nodes.</p>
+          <div class="matrix-specs">
+            <div class="spec-row"><span class="sk">RUNTIMES:</span><span class="sv">Docker / FastAPI / Gunicorn / Bash</span></div>
+            <div class="spec-row"><span class="sk">UPTIME:</span><span class="sv">99.98% Monitored</span></div>
+            <div class="spec-row"><span class="sk">EDGE:</span><span class="sv">Render Cloud / Oregon-1 Nodes</span></div>
+          </div>
         </div>
 
-        <div class="pillar-card">
-          <div class="pillar-icon">🏢</div>
-          <h3 class="pillar-title">Enterprise Workflow Automation</h3>
-          <p class="pillar-desc">Custom data synchronization pipelines, financial disbursement monitors, and AI spreadsheet optimization platforms.</p>
+        <!-- SYS.04 -->
+        <div class="matrix-cell">
+          <div class="matrix-cell-header">
+            <span class="cell-id">[SYS.04]</span>
+            <span class="cell-label">// WORKFLOW_AUTOMATION</span>
+          </div>
+          <h3 class="matrix-cell-title">High-Throughput Enterprise Data</h3>
+          <p class="matrix-cell-desc">Custom data synchronization pipelines, financial disbursement trackers, and automated spreadsheet cleanup tools designed for zero-error department operations.</p>
+          <div class="matrix-specs">
+            <div class="spec-row"><span class="sk">INTEGRATION:</span><span class="sv">Zengine REST API / Webhooks</span></div>
+            <div class="spec-row"><span class="sk">PROCESSING:</span><span class="sv">AI Spreadsheet Normalization</span></div>
+            <div class="spec-row"><span class="sk">AUDITING:</span><span class="sv">Zero-Error Financial Verification</span></div>
+          </div>
         </div>
       </div>
     </div>
@@ -199,17 +205,17 @@
   <section class="projects-section" id="projects">
     <div class="container">
       <div class="section-header-block">
-        <span class="section-tag">Production Work</span>
-        <h2 class="section-title reveal-text">Deployed agents & live systems.</h2>
-        <p class="section-subtitle">Real-time trading bots, developer agents, and enterprise workflows running in production.</p>
+        <span class="section-tag">// PRODUCTION_DIRECTORY</span>
+        <h2 class="section-title reveal-text">DEPLOYED AGENTS & SYSTEMS.</h2>
+        <p class="section-subtitle">Production trading robots, developer assistants, and enterprise data workflows.</p>
       </div>
 
       <div class="project-filters">
-        <button class="filter-btn active" data-filter="all">All Projects</button>
-        <button class="filter-btn" data-filter="investments">Investments</button>
-        <button class="filter-btn" data-filter="assistants">Assistants</button>
-        <button class="filter-btn" data-filter="enterprise">Enterprise</button>
-        <button class="filter-btn" data-filter="hobby">Hobby</button>
+        <button class="filter-btn active" data-filter="all">[ ALL_PROJECTS ]</button>
+        <button class="filter-btn" data-filter="investments">[ INVESTMENTS ]</button>
+        <button class="filter-btn" data-filter="assistants">[ ASSISTANTS ]</button>
+        <button class="filter-btn" data-filter="enterprise">[ ENTERPRISE ]</button>
+        <button class="filter-btn" data-filter="hobby">[ HOBBY ]</button>
       </div>
 
       <div class="projects-grid">

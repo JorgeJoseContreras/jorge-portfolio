@@ -889,7 +889,7 @@ function initDotMatrix() {
     
     const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
     const baseColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)';
-    const glowColor = isDark ? 'rgba(168, 85, 247, 0.65)' : 'rgba(124, 58, 237, 0.65)';
+    const glowColor = isDark ? 'rgba(204, 255, 0, 0.9)' : 'rgba(0, 0, 0, 0.8)';
     
     const cols = Math.ceil(width / spacing) + 1;
     const rows = Math.ceil(height / spacing) + 1;
@@ -911,7 +911,7 @@ function initDotMatrix() {
           radius = 1.2 + factor * 2.8;
           ctx.beginPath();
           ctx.arc(x, y, radius * 3.5, 0, Math.PI * 2);
-          ctx.fillStyle = isDark ? `rgba(168, 85, 247, ${factor * 0.1})` : `rgba(124, 58, 237, ${factor * 0.1})`;
+          ctx.fillStyle = isDark ? `rgba(204, 255, 0, ${factor * 0.12})` : `rgba(0, 0, 0, ${factor * 0.1})`;
           ctx.fill();
           
           color = glowColor;
@@ -1126,39 +1126,6 @@ function initCommandPalette() {
   });
 }
 
-function initAppleScrollPhysics() {
-  const deckCard = document.getElementById('heroDeckCard');
-  if (!deckCard) return;
-
-  let mouseX = 0;
-  let mouseY = 0;
-
-  window.addEventListener('mousemove', (e) => {
-    const halfWidth = window.innerWidth / 2;
-    const halfHeight = window.innerHeight / 2;
-    mouseX = (e.clientX - halfWidth) / halfWidth;
-    mouseY = (e.clientY - halfHeight) / halfHeight;
-  });
-
-  function update() {
-    const scrollY = window.scrollY;
-    const scrollProgress = Math.min(1, Math.max(0, scrollY / 600));
-    
-    // Smoothly transition from 8deg resting pitch to flat 0deg as user scrolls down
-    const basePitch = 8 * (1 - scrollProgress);
-    const mousePitchX = mouseY * -4;
-    const mousePitchY = mouseX * 4;
-    
-    const scale = 0.98 + scrollProgress * 0.04;
-    const translateY = scrollY * 0.12;
-
-    deckCard.style.transform = `perspective(1200px) rotateX(${basePitch + mousePitchX}deg) rotateY(${mousePitchY}deg) translateY(${translateY}px) scale(${scale})`;
-    
-    requestAnimationFrame(update);
-  }
-  update();
-}
-
 // Initialization on DOM load
 initLogoWave();
 initProjectUpdateDates();
@@ -1169,7 +1136,6 @@ initCardColumnScrollParallax();
 initLiveClock();
 initScrollProgressBar();
 initCommandPalette();
-initAppleScrollPhysics();
 fetchAdminConfigFile().then(() => {
   applyAdminSettings();
 });
