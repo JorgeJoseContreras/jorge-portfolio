@@ -1000,58 +1000,6 @@ function initScrollReveal() {
   revealTexts.forEach(el => observer.observe(el));
 }
 
-function initCornerCrosshairs() {
-  const cards = document.querySelectorAll('.project-card');
-  cards.forEach(card => {
-    if (!card.querySelector('.card-crosshair')) {
-      const tl = document.createElement('span');
-      tl.className = 'card-crosshair ch-tl';
-      tl.textContent = '+';
-      const tr = document.createElement('span');
-      tr.className = 'card-crosshair ch-tr';
-      tr.textContent = '+';
-      const bl = document.createElement('span');
-      bl.className = 'card-crosshair ch-bl';
-      bl.textContent = '+';
-      const br = document.createElement('span');
-      br.className = 'card-crosshair ch-br';
-      br.textContent = '+';
-      card.appendChild(tl);
-      card.appendChild(tr);
-      card.appendChild(bl);
-      card.appendChild(br);
-    }
-  });
-}
-
-function initVelocityMarquee() {
-  const track = document.getElementById('velocityMarquee');
-  if (!track) return;
-
-  let pos = 0;
-  let baseSpeed = 0.8;
-  let currentSpeed = baseSpeed;
-  let lastScrollY = window.scrollY;
-
-  window.addEventListener('scroll', () => {
-    const scrollDelta = Math.abs(window.scrollY - lastScrollY);
-    currentSpeed = baseSpeed + scrollDelta * 0.15;
-    lastScrollY = window.scrollY;
-  });
-
-  function step() {
-    pos -= currentSpeed;
-    currentSpeed += (baseSpeed - currentSpeed) * 0.05;
-    
-    if (pos <= -track.offsetWidth / 2) {
-      pos = 0;
-    }
-    track.style.transform = `translateX(${pos}px)`;
-    requestAnimationFrame(step);
-  }
-  step();
-}
-
 function initScrollProgressBar() {
   const progressBar = document.getElementById('scrollProgress');
   if (!progressBar) return;
@@ -1178,6 +1126,39 @@ function initCommandPalette() {
   });
 }
 
+function initAppleScrollPhysics() {
+  const deckCard = document.getElementById('heroDeckCard');
+  if (!deckCard) return;
+
+  let mouseX = 0;
+  let mouseY = 0;
+
+  window.addEventListener('mousemove', (e) => {
+    const halfWidth = window.innerWidth / 2;
+    const halfHeight = window.innerHeight / 2;
+    mouseX = (e.clientX - halfWidth) / halfWidth;
+    mouseY = (e.clientY - halfHeight) / halfHeight;
+  });
+
+  function update() {
+    const scrollY = window.scrollY;
+    const scrollProgress = Math.min(1, Math.max(0, scrollY / 600));
+    
+    // Smoothly transition from 8deg resting pitch to flat 0deg as user scrolls down
+    const basePitch = 8 * (1 - scrollProgress);
+    const mousePitchX = mouseY * -4;
+    const mousePitchY = mouseX * 4;
+    
+    const scale = 0.98 + scrollProgress * 0.04;
+    const translateY = scrollY * 0.12;
+
+    deckCard.style.transform = `perspective(1200px) rotateX(${basePitch + mousePitchX}deg) rotateY(${mousePitchY}deg) translateY(${translateY}px) scale(${scale})`;
+    
+    requestAnimationFrame(update);
+  }
+  update();
+}
+
 // Initialization on DOM load
 initLogoWave();
 initProjectUpdateDates();
@@ -1186,10 +1167,9 @@ initScrollReveal();
 initDotMatrix();
 initCardColumnScrollParallax();
 initLiveClock();
-initCornerCrosshairs();
-initVelocityMarquee();
 initScrollProgressBar();
 initCommandPalette();
+initAppleScrollPhysics();
 fetchAdminConfigFile().then(() => {
   applyAdminSettings();
 });
