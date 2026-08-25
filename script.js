@@ -885,83 +885,91 @@ function init3DParticleOceanWave() {
     height = canvas.height = window.innerHeight;
   });
 
+  // Dense, expansive 3D particle grid spanning full panoramic horizon
   const SEPARATION_X = 26;
   const SEPARATION_Z = 26;
-  const AMOUNT_X = 64;
-  const AMOUNT_Z = 64;
-  const FOV = 440;
+  const AMOUNT_X = 92;
+  const AMOUNT_Z = 88;
+  const FOV = 520;
 
   let time = 0;
 
   function render() {
     ctx.clearRect(0, 0, width, height);
 
-    // Smooth camera mouse steering
-    mouseX += (targetMouseX - mouseX) * 0.04;
-    mouseY += (targetMouseY - mouseY) * 0.04;
+    // Smooth camera inertia tracking mouse
+    mouseX += (targetMouseX - mouseX) * 0.035;
+    mouseY += (targetMouseY - mouseY) * 0.035;
 
-    time += 0.016;
+    time += 0.015;
 
     const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
 
-    const camPitch = 0.32 + mouseY * 0.12;
+    // Camera angles designed to fill the entire vertical and horizontal horizon
+    const camPitch = 0.22 + mouseY * 0.12;
     const cosPitch = Math.cos(camPitch);
     const sinPitch = Math.sin(camPitch);
 
-    const camYaw = mouseX * 0.18;
+    const camYaw = mouseX * 0.22;
     const cosYaw = Math.cos(camYaw);
     const sinYaw = Math.sin(camYaw);
 
-    const camY = -190 + mouseY * 40;
+    const camY = -110 + mouseY * 45;
 
     const originX = width / 2;
-    const originY = height * 0.52;
+    const originY = height * 0.48;
 
     for (let ix = 0; ix < AMOUNT_X; ix++) {
       for (let iz = 0; iz < AMOUNT_Z; iz++) {
-        // World coordinates
+        // World coordinates centered around camera
         const wx0 = (ix - AMOUNT_X / 2) * SEPARATION_X;
-        const wz0 = (iz + 3) * SEPARATION_Z;
+        const wz0 = (iz + 2) * SEPARATION_Z;
 
-        // Wave equations producing flowing ocean ridges
-        const wave1 = Math.sin(ix * 0.14 + time * 1.4) * 38;
-        const wave2 = Math.cos(iz * 0.12 + time * 1.0) * 48;
-        const wave3 = Math.sin((ix + iz) * 0.07 + time * 1.8) * 28;
-        const wy0 = wave1 + wave2 + wave3 - camY;
+        // Multi-octave wave dynamics with lateral horizon sweeping swells
+        const wave1 = Math.sin(ix * 0.11 + time * 1.3) * 46;
+        const wave2 = Math.cos(iz * 0.09 + time * 0.95) * 58;
+        const wave3 = Math.sin((ix * 0.6 + iz * 0.4) * 0.07 + time * 1.6) * 36;
 
-        // Yaw rotation
+        // Side swells that wrap up the left and right horizon
+        const distFromCenter = Math.abs(ix - AMOUNT_X / 2) / (AMOUNT_X / 2);
+        const sideLift = Math.pow(distFromCenter, 1.8) * 110 * Math.sin(time * 0.8 + iz * 0.06);
+        const horizonBackSwell = Math.sin(wz0 * 0.0018 + time * 0.5) * 60;
+
+        const wy0 = wave1 + wave2 + wave3 + sideLift + horizonBackSwell - camY;
+
+        // Yaw camera rotation
         const wx = wx0 * cosYaw - wz0 * sinYaw;
         const wz1 = wx0 * sinYaw + wz0 * cosYaw;
 
-        // Pitch rotation
+        // Pitch camera rotation
         const wy = wy0 * cosPitch - wz1 * sinPitch;
         const wz = wy0 * sinPitch + wz1 * cosPitch;
 
-        if (wz <= 15) continue;
+        if (wz <= 12) continue;
 
-        // 3D Perspective Projection
+        // Perspective 3D projection
         const proj = FOV / wz;
         const screenX = originX + wx * proj;
         const screenY = originY + wy * proj;
 
-        if (screenX < -30 || screenX > width + 30 || screenY < -30 || screenY > height + 30) {
+        if (screenX < -40 || screenX > width + 40 || screenY < -40 || screenY > height + 40) {
           continue;
         }
 
-        // Depth fog & wave crest illumination
-        const depthFactor = Math.max(0, Math.min(1, (1750 - wz) / 1550));
-        const heightFactor = (wy0 + camY + 80) / 160;
-        const brightness = Math.max(0.04, Math.min(0.95, depthFactor * 0.72 + heightFactor * 0.38));
+        // Depth fog & wave crest brightness
+        const depthFactor = Math.max(0, Math.min(1, (2400 - wz) / 2200));
+        const heightFactor = (wy0 + camY + 90) / 180;
+        const brightness = Math.max(0.04, Math.min(0.96, depthFactor * 0.68 + heightFactor * 0.42));
 
-        const radius = Math.max(0.6, Math.min(2.7, (FOV / wz) * 1.7));
+        const radius = Math.max(0.6, Math.min(2.8, (FOV / wz) * 1.6));
 
         ctx.beginPath();
         ctx.arc(screenX, screenY, radius, 0, Math.PI * 2);
 
         if (isDark) {
-          ctx.fillStyle = `rgba(255, 255, 255, ${brightness * 0.82})`;
+          ctx.fillStyle = `rgba(255, 255, 255, ${brightness * 0.85})`;
         } else {
-          ctx.fillStyle = `rgba(10, 10, 15, ${brightness * 0.75})`;
+          ctx.fillStyle = `rgba(12, 12, 18, ${brightness * 0.78})`;
         }
         ctx.fill();
       }
