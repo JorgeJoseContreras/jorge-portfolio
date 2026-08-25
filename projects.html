@@ -12,7 +12,7 @@
   <!-- Navigation -->
   <header class="site-header">
     <div class="container nav-wrapper">
-      <a href="index.html" class="brand-name">&larr; Jorge Contreras</a>
+      <a href="index.html" class="brand-name">Jorge Contreras</a>
       <nav class="nav-links">
         <a href="index.html#about" class="nav-link">About</a>
         <a href="#contact" class="nav-link" id="navContactLink">Contact</a>
@@ -44,7 +44,23 @@
       <!-- Projects Grid -->
       <div class="projects-editorial-grid" id="projectsGrid">
 
-        <!-- 1. Stock Bot -->
+        <!-- 1. iMessage AI Assistant (Top Project) -->
+        <article class="editorial-card" data-category="ai">
+          <div class="card-header-row">
+            <span class="category-badge">AI Assistant</span>
+            <span class="tech-inline">Python &middot; Gemini &middot; Docker</span>
+          </div>
+          <h2 class="editorial-card-title">iMessage AI Assistant</h2>
+          <p class="editorial-card-desc">
+            A private messaging assistant hooked into local macOS iMessage notifications that generates smart summaries and draft responses in real-time.
+          </p>
+          <div class="editorial-card-links">
+            <a href="https://jorgius.com" target="_blank" rel="noopener noreferrer" class="link-btn-primary">Live Demo</a>
+            <a href="https://github.com/JorgeJoseContreras/imessage-auto-responder" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub</a>
+          </div>
+        </article>
+
+        <!-- 2. Autonomous Trading Engine (Second Project) -->
         <article class="editorial-card" data-category="trading">
           <div class="card-header-row">
             <span class="category-badge">Trading &amp; Markets</span>
@@ -55,59 +71,12 @@
             A 24/7 automated trade execution bot that listens to real-time market data feeds from Alpaca, tracks orderbooks, and executes rule-based strategies.
           </p>
           <div class="editorial-card-links">
-            <a href="https://invest.jorgejosecontreras.com" target="_blank" rel="noopener noreferrer" class="link-btn-primary">Live Dashboard &rarr;</a>
+            <a href="https://invest.jorgejosecontreras.com" target="_blank" rel="noopener noreferrer" class="link-btn-primary">Live Dashboard</a>
             <a href="https://github.com/JorgeJoseContreras/stock-bot-v2" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub</a>
           </div>
         </article>
 
-        <!-- 2. iMessage Assistant -->
-        <article class="editorial-card" data-category="ai">
-          <div class="card-header-row">
-            <span class="category-badge">AI Experiments</span>
-            <span class="tech-inline">Python &middot; Gemini &middot; Docker</span>
-          </div>
-          <h2 class="editorial-card-title">iMessage AI Responder</h2>
-          <p class="editorial-card-desc">
-            A private messaging assistant hooked into local macOS iMessage notifications that generates smart summaries and draft responses in real-time.
-          </p>
-          <div class="editorial-card-links">
-            <a href="https://jorgius.com" target="_blank" rel="noopener noreferrer" class="link-btn-primary">Live Demo &rarr;</a>
-            <a href="https://github.com/JorgeJoseContreras/imessage-auto-responder" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub</a>
-          </div>
-        </article>
-
-        <!-- 3. Kalshi Bot -->
-        <article class="editorial-card" data-category="trading">
-          <div class="card-header-row">
-            <span class="category-badge">Trading &amp; Markets</span>
-            <span class="tech-inline">Python &middot; Kalshi API</span>
-          </div>
-          <h2 class="editorial-card-title">Kalshi Prediction Market Bot</h2>
-          <p class="editorial-card-desc">
-            An automated bot exploring prediction markets on Kalshi, placing probabilistic orders based on economic releases and event tracking.
-          </p>
-          <div class="editorial-card-links">
-            <a href="https://kalshi-trading-bot-70rb.onrender.com" target="_blank" rel="noopener noreferrer" class="link-btn-primary">Live Demo &rarr;</a>
-            <a href="https://github.com/JorgeJoseContreras/kalshi-bot" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub</a>
-          </div>
-        </article>
-
-        <!-- 4. Telegram Bot -->
-        <article class="editorial-card" data-category="ai">
-          <div class="card-header-row">
-            <span class="category-badge">AI Experiments</span>
-            <span class="tech-inline">Python &middot; Telegram API</span>
-          </div>
-          <h2 class="editorial-card-title">Telegram Developer Assistant</h2>
-          <p class="editorial-card-desc">
-            A personal Telegram bot that runs remote health checks on my local machines, sends deployment pings, and executes quick utility scripts.
-          </p>
-          <div class="editorial-card-links">
-            <a href="https://github.com/JorgeJoseContreras/telegram-bot" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub Repo &rarr;</a>
-          </div>
-        </article>
-
-        <!-- 5. Robinhood MCP -->
+        <!-- 3. Robinhood MCP Server (Third Project) -->
         <article class="editorial-card" data-category="trading">
           <div class="card-header-row">
             <span class="category-badge">Trading &amp; Markets</span>
@@ -118,12 +87,28 @@
             A Model Context Protocol server that lets AI assistants (like Claude and Gemini) query portfolio positions and read live brokerage data safely.
           </p>
           <div class="editorial-card-links">
-            <a href="https://robinhood-bot-v2.onrender.com" target="_blank" rel="noopener noreferrer" class="link-btn-primary">Live Demo &rarr;</a>
+            <a href="https://robinhood-bot-v2.onrender.com" target="_blank" rel="noopener noreferrer" class="link-btn-primary">Live Demo</a>
             <a href="https://github.com/JorgeJoseContreras/robinhood-mcp" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub</a>
           </div>
         </article>
 
-        <!-- 6. Kraken Bot -->
+        <!-- 4. Kalshi Prediction Market Bot -->
+        <article class="editorial-card" data-category="trading">
+          <div class="card-header-row">
+            <span class="category-badge">Trading &amp; Markets</span>
+            <span class="tech-inline">Python &middot; Kalshi API</span>
+          </div>
+          <h2 class="editorial-card-title">Kalshi Prediction Market Bot</h2>
+          <p class="editorial-card-desc">
+            An automated bot exploring prediction markets on Kalshi, placing probabilistic orders based on economic releases and event tracking.
+          </p>
+          <div class="editorial-card-links">
+            <a href="https://kalshi-trading-bot-70rb.onrender.com" target="_blank" rel="noopener noreferrer" class="link-btn-primary">Live Demo</a>
+            <a href="https://github.com/JorgeJoseContreras/kalshi-bot" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub</a>
+          </div>
+        </article>
+
+        <!-- 5. Crypto Trading Bot (Kraken) -->
         <article class="editorial-card" data-category="trading">
           <div class="card-header-row">
             <span class="category-badge">Trading &amp; Markets</span>
@@ -134,57 +119,27 @@
             A crypto automation experiment running algorithmic buy and sell signals on Kraken with sentiment analysis filters.
           </p>
           <div class="editorial-card-links">
-            <a href="https://kraken-trading-bot-lafb.onrender.com" target="_blank" rel="noopener noreferrer" class="link-btn-primary">Live Demo &rarr;</a>
+            <a href="https://kraken-trading-bot-lafb.onrender.com" target="_blank" rel="noopener noreferrer" class="link-btn-primary">Live Demo</a>
             <a href="https://github.com/JorgeJoseContreras/kraken-trading-bot" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub</a>
           </div>
         </article>
 
-        <!-- 7. Zengine Integration -->
-        <article class="editorial-card" data-category="tools">
+        <!-- 6. Telegram Developer Assistant -->
+        <article class="editorial-card" data-category="ai">
           <div class="card-header-row">
-            <span class="category-badge">Tools &amp; Scripts</span>
-            <span class="tech-inline">Python &middot; REST &middot; OAuth2</span>
+            <span class="category-badge">AI Experiments</span>
+            <span class="tech-inline">Python &middot; Telegram API</span>
           </div>
-          <h2 class="editorial-card-title">Zengine Data Sync Pipeline</h2>
+          <h2 class="editorial-card-title">Telegram Developer Assistant</h2>
           <p class="editorial-card-desc">
-            A data extraction and synchronization script connecting database records to Zengine REST endpoints to automate manual data entry.
+            A personal Telegram bot that runs remote health checks on my local machines, sends deployment pings, and executes quick utility scripts.
           </p>
           <div class="editorial-card-links">
-            <a href="https://github.com/JorgeJoseContreras/zengine-integration" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub Repo &rarr;</a>
+            <a href="https://github.com/JorgeJoseContreras/telegram-bot" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub Repo</a>
           </div>
         </article>
 
-        <!-- 8. Disbursement Tracker -->
-        <article class="editorial-card" data-category="tools">
-          <div class="card-header-row">
-            <span class="category-badge">Tools &amp; Scripts</span>
-            <span class="tech-inline">Python &middot; Pandas</span>
-          </div>
-          <h2 class="editorial-card-title">Disbursement Ledger Tool</h2>
-          <p class="editorial-card-desc">
-            A Python script for verifying check registers, batch disbursements, and automating audit reconciliations without spreadsheet errors.
-          </p>
-          <div class="editorial-card-links">
-            <a href="https://github.com/JorgeJoseContreras/scholarship-disbursement" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub Repo &rarr;</a>
-          </div>
-        </article>
-
-        <!-- 9. Clean Sheet AI -->
-        <article class="editorial-card" data-category="tools">
-          <div class="card-header-row">
-            <span class="category-badge">Tools &amp; Scripts</span>
-            <span class="tech-inline">TypeScript &middot; LLMs</span>
-          </div>
-          <h2 class="editorial-card-title">Clean Sheet AI</h2>
-          <p class="editorial-card-desc">
-            A lightweight spreadsheet tool using language models to clean up messy CSV exports, standardize headers, and fill missing fields.
-          </p>
-          <div class="editorial-card-links">
-            <a href="https://github.com/JorgeJoseContreras/clean-sheet" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub Repo &rarr;</a>
-          </div>
-        </article>
-
-        <!-- 10. Admin Coding Bot -->
+        <!-- 7. Autonomous Coder Bot -->
         <article class="editorial-card" data-category="ai">
           <div class="card-header-row">
             <span class="category-badge">AI Experiments</span>
@@ -195,8 +150,53 @@
             A local coding agent running on a headless mini-PC that tests code changes, commits to git, and streams logs to the web.
           </p>
           <div class="editorial-card-links">
-            <a href="https://bot-log-streamer.onrender.com/" target="_blank" rel="noopener noreferrer" class="link-btn-primary">Live Stream &rarr;</a>
+            <a href="https://bot-log-streamer.onrender.com/" target="_blank" rel="noopener noreferrer" class="link-btn-primary">Live Stream</a>
             <a href="https://github.com/JorgeJoseContreras/jorges-coder-bot" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub</a>
+          </div>
+        </article>
+
+        <!-- 8. Zengine Integration -->
+        <article class="editorial-card" data-category="tools">
+          <div class="card-header-row">
+            <span class="category-badge">Tools &amp; Scripts</span>
+            <span class="tech-inline">Python &middot; REST &middot; OAuth2</span>
+          </div>
+          <h2 class="editorial-card-title">Zengine Data Sync Pipeline</h2>
+          <p class="editorial-card-desc">
+            A data extraction and synchronization script connecting database records to Zengine REST endpoints to automate manual data entry.
+          </p>
+          <div class="editorial-card-links">
+            <a href="https://github.com/JorgeJoseContreras/zengine-integration" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub Repo</a>
+          </div>
+        </article>
+
+        <!-- 9. Disbursement Ledger Tool -->
+        <article class="editorial-card" data-category="tools">
+          <div class="card-header-row">
+            <span class="category-badge">Tools &amp; Scripts</span>
+            <span class="tech-inline">Python &middot; Pandas</span>
+          </div>
+          <h2 class="editorial-card-title">Disbursement Ledger Tool</h2>
+          <p class="editorial-card-desc">
+            A Python script for verifying check registers, batch disbursements, and automating audit reconciliations without spreadsheet errors.
+          </p>
+          <div class="editorial-card-links">
+            <a href="https://github.com/JorgeJoseContreras/scholarship-disbursement" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub Repo</a>
+          </div>
+        </article>
+
+        <!-- 10. Clean Sheet AI -->
+        <article class="editorial-card" data-category="tools">
+          <div class="card-header-row">
+            <span class="category-badge">Tools &amp; Scripts</span>
+            <span class="tech-inline">TypeScript &middot; LLMs</span>
+          </div>
+          <h2 class="editorial-card-title">Clean Sheet AI</h2>
+          <p class="editorial-card-desc">
+            A lightweight spreadsheet tool using language models to clean up messy CSV exports, standardize headers, and fill missing fields.
+          </p>
+          <div class="editorial-card-links">
+            <a href="https://github.com/JorgeJoseContreras/clean-sheet" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub Repo</a>
           </div>
         </article>
 
@@ -209,7 +209,7 @@
     <div class="container footer-wrapper">
       <div class="footer-left">
         <p class="footer-title">Jorge Contreras</p>
-        <p class="footer-sub">Building things for fun in Miami, FL.</p>
+        <p class="footer-sub">Building things for fun in South Florida.</p>
       </div>
       <div class="footer-links">
         <a href="mailto:jorge@jorgejosecontreras.com">Email</a>
