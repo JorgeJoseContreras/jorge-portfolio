@@ -214,8 +214,6 @@ body {
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 4px;
   transition: color var(--transition);
 }
 
