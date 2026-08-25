@@ -847,10 +847,51 @@ function initCardTilt() {
   });
 }
 
+function initScrollReveal() {
+  const revealTexts = document.querySelectorAll('.reveal-text');
+  
+  revealTexts.forEach(el => {
+    const text = el.textContent.trim();
+    const words = text.split(/\s+/);
+    el.innerHTML = '';
+    
+    words.forEach((word, idx) => {
+      const span = document.createElement('span');
+      span.className = 'reveal-word';
+      span.textContent = word;
+      span.style.transitionDelay = `${idx * 40}ms`;
+      el.appendChild(span);
+    });
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const words = entry.target.querySelectorAll('.reveal-word');
+        words.forEach(word => word.classList.add('revealed'));
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -100px 0px'
+  });
+
+  revealTexts.forEach(el => observer.observe(el));
+
+  // Parallax Scroll Blueprint Grid
+  window.addEventListener('scroll', () => {
+    const grid = document.querySelector('.brutalist-grid-overlay');
+    if (grid) {
+      grid.style.transform = `translateY(${window.scrollY * 0.12}px)`;
+    }
+  });
+}
+
 // Initialization on DOM load
 initLogoWave();
 initProjectUpdateDates();
 initCardTilt();
+initScrollReveal();
 fetchAdminConfigFile().then(() => {
   applyAdminSettings();
 });
