@@ -531,6 +531,33 @@ body {
   display: block;
 }
 
+/* --- RESUME SKILL PILLS --- */
+.skill-pills-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-pill {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.84rem;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  color: var(--text-main);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition);
+}
+
+.skill-pill:hover {
+  border-color: var(--border-hover);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
 /* --- MODAL --- */
 .modal-overlay {
   position: fixed;
