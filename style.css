@@ -443,6 +443,12 @@ body {
   font-weight: 600;
   color: var(--text-main);
   margin-bottom: 8px;
+  transition: color var(--transition);
+  cursor: pointer;
+}
+
+.editorial-card-title:hover {
+  color: var(--accent);
 }
 
 .editorial-card-desc {
