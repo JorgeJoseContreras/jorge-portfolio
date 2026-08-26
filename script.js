@@ -117,12 +117,13 @@
   }
 
   // --- 4. FETCH LIVE P&L ---
+  // --- 4. FETCH LIVE P&L ---
   function initLivePnl() {
     const badgeIndex = document.getElementById('pnlBadgeIndex');
     const badgeProjects = document.getElementById('pnlBadgeProjects');
     
     if (badgeIndex || badgeProjects) {
-      fetch('https://alpaca-trading-bot-xw33.onrender.com/api/pnl')
+      fetch(`https://alpaca-trading-bot-xw33.onrender.com/api/pnl?_t=${Date.now()}`, { cache: 'no-store' })
         .then(response => response.json())
         .then(res => {
           if (res && res.data) {
@@ -154,7 +155,7 @@
     const robinBadgeProjects = document.getElementById('pnlBadgeRobinhoodProjects');
 
     if (robinBadgeIndex || robinBadgeProjects) {
-      fetch('https://robinhood-bot-v2.onrender.com/pnl.json')
+      fetch(`https://robinhood-bot-v2.onrender.com/pnl.json?_t=${Date.now()}`, { cache: 'no-store' })
         .then(response => response.json())
         .then(data => {
           if (data) {
@@ -187,5 +188,7 @@
   initFilter();
   initContact();
   initLivePnl();
+
+  window.addEventListener('pageshow', initLivePnl);
 
 })();
