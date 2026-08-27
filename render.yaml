@@ -1,0 +1,25 @@
+﻿services:
+  - type: web
+    name: jorge-portfolio
+    env: static
+    buildCommand: ""
+    staticPublishPath: .
+    routes:
+      - type: rewrite
+        source: /resume
+        destination: /resume.html
+      - type: rewrite
+        source: /Resume
+        destination: /resume.html
+      - type: rewrite
+        source: /projects
+        destination: /projects.html
+      - type: rewrite
+        source: /Projects
+        destination: /projects.html
+      - type: rewrite
+        source: /contact
+        destination: /contact.html
+      - type: rewrite
+        source: /Contact
+        destination: /contact.html
