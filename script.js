@@ -193,6 +193,8 @@
   initContact();
   initLivePnl();
 
+  // Continuously refresh P&L every 15 seconds automatically
+  setInterval(initLivePnl, 15000);
   window.addEventListener('pageshow', initLivePnl);
 
 })();
