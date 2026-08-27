@@ -1,4 +1,4 @@
-﻿services:
+services:
   - type: web
     name: jorge-portfolio
     env: static
@@ -23,3 +23,16 @@
       - type: rewrite
         source: /Contact
         destination: /contact.html
+      - type: rewrite
+        source: /sitemap.xml
+        destination: /sitemap.xml
+      - type: rewrite
+        source: /robots.txt
+        destination: /robots.txt
+    headers:
+      - path: /sitemap.xml
+        name: Content-Type
+        value: application/xml
+      - path: /robots.txt
+        name: Content-Type
+        value: text/plain
