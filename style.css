@@ -51,11 +51,19 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 body {
@@ -68,6 +76,41 @@ body {
   display: flex;
   flex-direction: column;
   transition: background-color var(--transition), color var(--transition);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+input, textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+/* --- EMPLOYER LINKS (Resume) --- */
+.employer-link {
+  color: var(--text-main);
+  text-decoration: none;
+  transition: color var(--transition);
+  cursor: pointer;
+}
+
+.employer-link:hover {
+  color: var(--accent);
+}
+
+.employer-link-subtle {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-style: italic;
+  transition: color var(--transition);
+  cursor: pointer;
+}
+
+.employer-link-subtle:hover {
+  color: var(--accent);
 }
 
 .container {
