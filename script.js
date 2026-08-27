@@ -117,7 +117,6 @@
   }
 
   // --- 4. FETCH LIVE P&L ---
-  // --- 4. FETCH LIVE P&L ---
   function initLivePnl() {
     const badgeIndex = document.getElementById('pnlBadgeIndex');
     const badgeProjects = document.getElementById('pnlBadgeProjects');
@@ -126,9 +125,10 @@
       fetch(`https://alpaca-trading-bot-xw33.onrender.com/api/pnl?_t=${Date.now()}`, { cache: 'no-store' })
         .then(response => response.json())
         .then(res => {
-          if (res && res.data) {
-            const pct = res.data.formatted_pct || (res.data.pnl_pct !== undefined ? ((res.data.pnl_pct >= 0 ? '+' : '') + res.data.pnl_pct.toFixed(2) + '%') : null);
-            const isPositive = res.data.is_positive !== undefined ? res.data.is_positive : (res.data.pnl_pct >= 0);
+          if (res) {
+            const data = res.data || res;
+            const pct = data.formatted_pct || (data.pnl_pct !== undefined ? ((data.pnl_pct >= 0 ? '+' : '') + Number(data.pnl_pct).toFixed(2) + '%') : null);
+            const isPositive = data.is_positive !== undefined ? data.is_positive : ((Number(data.pnl_pct) || 0) >= 0);
             
             if (pct) {
               [badgeIndex, badgeProjects].forEach(badge => {
@@ -147,39 +147,7 @@
           }
         })
         .catch(err => {
-          console.warn('Unable to retrieve live P&L data from API endpoint. Utilizing default placeholder values.', err);
-        });
-    }
-
-    const robinBadgeIndex = document.getElementById('pnlBadgeRobinhoodIndex');
-    const robinBadgeProjects = document.getElementById('pnlBadgeRobinhoodProjects');
-
-    if (robinBadgeIndex || robinBadgeProjects) {
-      fetch(`https://robinhood-bot-v2.onrender.com/pnl.json?_t=${Date.now()}`, { cache: 'no-store' })
-        .then(response => response.json())
-        .then(data => {
-          if (data) {
-            const pct = data.formatted_return_pct;
-            const isPositive = data.overall_return_pct !== undefined ? (data.overall_return_pct >= 0) : true;
-            
-            if (pct) {
-              [robinBadgeIndex, robinBadgeProjects].forEach(badge => {
-                if (badge) {
-                  badge.textContent = pct;
-                  if (isPositive) {
-                    badge.style.background = 'rgba(16, 185, 129, 0.12)';
-                    badge.style.color = '#10b981';
-                  } else {
-                    badge.style.background = 'rgba(239, 68, 68, 0.12)';
-                    badge.style.color = '#ef4444';
-                  }
-                }
-              });
-            }
-          }
-        })
-        .catch(err => {
-          console.warn('Unable to retrieve Robinhood live P&L data from API endpoint. Utilizing default placeholder values.', err);
+          console.warn('Unable to retrieve live P&L data from API endpoint.', err);
         });
     }
   }
