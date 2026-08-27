@@ -189,10 +189,91 @@
     }
   }
 
+  // --- 5. SEAMLESS ZERO-FLASH ROUTER ---
+  function initRouter() {
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a');
+      if (!link) return;
+      const href = link.getAttribute('href');
+      if (!href) return;
+
+      if (
+        href.startsWith('#') ||
+        href.startsWith('mailto:') ||
+        href.startsWith('tel:') ||
+        link.target === '_blank' ||
+        link.hasAttribute('download')
+      ) {
+        return;
+      }
+
+      const url = new URL(link.href, window.location.href);
+      if (url.origin !== window.location.origin) {
+        return;
+      }
+
+      e.preventDefault();
+      navigateTo(url.href);
+    });
+
+    window.addEventListener('popstate', () => {
+      loadPage(window.location.href, false);
+    });
+  }
+
+  function navigateTo(url) {
+    if (url === window.location.href) return;
+    loadPage(url, true);
+  }
+
+  function loadPage(url, push = true) {
+    fetch(url)
+      .then(res => res.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        const newMain = doc.querySelector('main');
+        const currentMain = document.querySelector('main');
+
+        if (newMain && currentMain) {
+          currentMain.innerHTML = newMain.innerHTML;
+          currentMain.className = newMain.className;
+          document.title = doc.title;
+
+          document.body.className = doc.body.className;
+
+          const newNavLinks = doc.querySelectorAll('.nav-link');
+          const currentNavLinks = document.querySelectorAll('.nav-link');
+          currentNavLinks.forEach((nav, idx) => {
+            if (newNavLinks[idx]) {
+              nav.className = newNavLinks[idx].className;
+            }
+          });
+
+          if (push) {
+            window.history.pushState({}, '', url);
+          }
+
+          window.scrollTo(0, 0);
+
+          initFilter();
+          initContact();
+          initLivePnl();
+        } else {
+          window.location.href = url;
+        }
+      })
+      .catch(() => {
+        window.location.href = url;
+      });
+  }
+
   initTheme();
   initFilter();
   initContact();
   initLivePnl();
+  initRouter();
 
   // Continuously refresh P&L every 15 seconds automatically
   setInterval(initLivePnl, 15000);
