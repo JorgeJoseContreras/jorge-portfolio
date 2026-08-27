@@ -260,6 +260,7 @@
           initFilter();
           initContact();
           initLivePnl();
+          initTypewriter();
         } else {
           window.location.href = url;
         }
@@ -269,10 +270,64 @@
       });
   }
 
+  // --- 6. DYNAMIC HERO TYPEWRITER ---
+  let typewriterTimer = null;
+  function initTypewriter() {
+    const el = document.getElementById('typewriterText');
+    if (!el) return;
+
+    if (typewriterTimer) {
+      clearTimeout(typewriterTimer);
+      typewriterTimer = null;
+    }
+
+    const phrases = [
+      'trading bots, AI workflows, and data pipelines.',
+      'autonomous trading engines & market bots.',
+      'multimodal AI assistants & voice agents.',
+      'high-throughput scrapers & data pipelines.'
+    ];
+
+    let phraseIdx = 0;
+    let charIdx = 0;
+    let isDeleting = false;
+
+    // Clear initial content to animate fast typing on entrance
+    el.textContent = '';
+
+    function type() {
+      const currentPhrase = phrases[phraseIdx];
+
+      if (isDeleting) {
+        charIdx--;
+        el.textContent = currentPhrase.substring(0, charIdx);
+      } else {
+        charIdx++;
+        el.textContent = currentPhrase.substring(0, charIdx);
+      }
+
+      let speed = isDeleting ? 20 : 34;
+
+      if (!isDeleting && charIdx === currentPhrase.length) {
+        speed = 3200; // Pause when phrase is fully typed
+        isDeleting = true;
+      } else if (isDeleting && charIdx === 0) {
+        isDeleting = false;
+        phraseIdx = (phraseIdx + 1) % phrases.length;
+        speed = 400; // Brief pause before typing next
+      }
+
+      typewriterTimer = setTimeout(type, speed);
+    }
+
+    typewriterTimer = setTimeout(type, 350);
+  }
+
   initTheme();
   initFilter();
   initContact();
   initLivePnl();
+  initTypewriter();
   initRouter();
 
   // Continuously refresh P&L every 15 seconds automatically

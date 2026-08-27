@@ -210,6 +210,29 @@ input, textarea {
   margin-bottom: 22px;
 }
 
+/* --- ENTRANCE & TYPEWRITER ANIMATIONS --- */
+@keyframes editorialFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.anim-fade-up {
+  opacity: 0;
+  animation: editorialFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--delay, 0s);
+}
+
+.highlight-text-wrapper {
+  display: inline;
+  position: relative;
+}
+
 .highlight-text {
   font-style: italic;
   color: var(--text-muted);
@@ -217,6 +240,22 @@ input, textarea {
 
 [data-theme="light"] .highlight-text {
   color: #4a4d56;
+}
+
+.typewriter-cursor {
+  display: inline-block;
+  width: 2.5px;
+  height: 0.85em;
+  background-color: var(--accent);
+  margin-left: 3px;
+  vertical-align: -0.05em;
+  border-radius: 1px;
+  animation: cursorBlink 0.9s infinite ease-in-out;
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
 .hero-bio {
