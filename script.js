@@ -49,44 +49,84 @@
     });
   }
 
-  // --- 3. CONTACT MODAL ---
+  // --- 3. CONTACT HANDLING (Modal + Standalone Page) ---
   function initContact() {
+    // 3A. Modal Popup
     const modal = document.getElementById('contactModal');
-    const openBtns = [document.getElementById('navContactLink'), document.getElementById('heroContactBtn')];
+    const openBtns = [document.getElementById('heroContactBtn')];
     const closeBtn = document.getElementById('closeContactBtn');
     const form = document.getElementById('contactForm');
     const status = document.getElementById('contactStatus');
 
-    if (!modal) return;
+    if (modal) {
+      openBtns.forEach(btn => {
+        if (btn) {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            modal.style.display = 'flex';
+          });
+        }
+      });
 
-    openBtns.forEach(btn => {
-      if (btn) {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          modal.style.display = 'flex';
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          modal.style.display = 'none';
         });
       }
-    });
 
-    if (closeBtn) {
-      closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+        }
       });
+
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          status.textContent = 'Sending...';
+          status.style.color = 'var(--accent)';
+
+          const formData = new FormData(form);
+          formData.append('access_key', 'f43d470c-ff11-4fbf-9159-69306b78872e');
+
+          fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              status.textContent = 'Message sent! Thanks for reaching out.';
+              status.style.color = '#10b981';
+              setTimeout(() => {
+                modal.style.display = 'none';
+                form.reset();
+                status.textContent = '';
+              }, 1800);
+            } else {
+              status.textContent = 'Error: ' + (data.message || 'Something went wrong.');
+              status.style.color = '#ef4444';
+            }
+          })
+          .catch(error => {
+            status.textContent = 'Connection error. Please try again.';
+            status.style.color = '#ef4444';
+          });
+        });
+      }
     }
 
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.style.display = 'none';
-      }
-    });
+    // 3B. Standalone Page Form (contact.html)
+    const standaloneForm = document.getElementById('standaloneContactForm');
+    const pageStatus = document.getElementById('pageContactStatus');
 
-    if (form) {
-      form.addEventListener('submit', (e) => {
+    if (standaloneForm && pageStatus) {
+      standaloneForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        status.textContent = 'Sending...';
-        status.style.color = 'var(--accent)';
+        pageStatus.textContent = 'Sending...';
+        pageStatus.style.color = 'var(--accent)';
 
-        const formData = new FormData(form);
+        const formData = new FormData(standaloneForm);
         formData.append('access_key', 'f43d470c-ff11-4fbf-9159-69306b78872e');
 
         fetch('https://api.web3forms.com/submit', {
@@ -96,21 +136,17 @@
         .then(response => response.json())
         .then(data => {
           if (data.success) {
-            status.textContent = 'Message sent! Thanks for reaching out.';
-            status.style.color = '#10b981';
-            setTimeout(() => {
-              modal.style.display = 'none';
-              form.reset();
-              status.textContent = '';
-            }, 1800);
+            pageStatus.textContent = 'Message sent! Thank you for reaching out.';
+            pageStatus.style.color = '#10b981';
+            standaloneForm.reset();
           } else {
-            status.textContent = 'Error: ' + (data.message || 'Something went wrong.');
-            status.style.color = '#ef4444';
+            pageStatus.textContent = 'Error: ' + (data.message || 'Something went wrong.');
+            pageStatus.style.color = '#ef4444';
           }
         })
         .catch(error => {
-          status.textContent = 'Connection error. Please try again.';
-          status.style.color = '#ef4444';
+          pageStatus.textContent = 'Connection error. Please try again.';
+          pageStatus.style.color = '#ef4444';
         });
       });
     }
