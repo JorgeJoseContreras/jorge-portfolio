@@ -481,6 +481,13 @@ input, textarea {
   gap: 8px;
 }
 
+.card-meta-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .category-badge {
   font-size: 0.76rem;
   font-weight: 600;
