@@ -60,6 +60,9 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  background-color: #0f1013;
+  background-color: var(--bg);
+  color-scheme: dark light;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -68,6 +71,7 @@ html {
 
 body {
   font-family: var(--font-sans);
+  background-color: #0f1013;
   background-color: var(--bg);
   color: var(--text-main);
   line-height: 1.65;
@@ -75,11 +79,14 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  transition: background-color var(--transition), color var(--transition);
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+body.theme-transition {
+  transition: background-color var(--transition), color var(--transition);
 }
 
 input, textarea {

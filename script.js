@@ -11,6 +11,7 @@
     if (!toggleBtn) return;
 
     toggleBtn.addEventListener('click', () => {
+      document.body.classList.add('theme-transition');
       const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
       const newTheme = isDark ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', newTheme);
