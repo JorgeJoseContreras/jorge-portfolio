@@ -403,7 +403,14 @@ input, textarea {
 .page-main-sub {
   font-size: 1.05rem;
   color: var(--text-muted);
-  max-width: 620px;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .page-main-sub {
+    white-space: normal;
+  }
 }
 
 .filter-bar {
