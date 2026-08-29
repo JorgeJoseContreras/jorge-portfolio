@@ -154,39 +154,73 @@
   }
 
   // --- 4. FETCH LIVE P&L ---
-  function initLivePnl() {
+  function applyBadgeStyle(badge, pctText, isPositive) {
+    if (!badge) return;
+    badge.textContent = pctText;
+    if (isPositive) {
+      badge.className = 'pnl-badge positive';
+      badge.style.background = 'rgba(16, 185, 129, 0.12)';
+      badge.style.color = '#10b981';
+    } else {
+      badge.className = 'pnl-badge negative';
+      badge.style.background = 'rgba(239, 68, 68, 0.12)';
+      badge.style.color = '#ef4444';
+    }
+  }
+
+  function fetchAlpacaPnl() {
     const badgeIndex = document.getElementById('pnlBadgeIndex');
     const badgeProjects = document.getElementById('pnlBadgeProjects');
-    
-    if (badgeIndex || badgeProjects) {
-      fetch(`https://alpaca-trading-bot-xw33.onrender.com/api/pnl?_t=${Date.now()}`, { cache: 'no-store' })
-        .then(response => response.json())
-        .then(res => {
-          if (res) {
-            const data = res.data || res;
-            const pct = data.formatted_pct || (data.pnl_pct !== undefined ? ((data.pnl_pct >= 0 ? '+' : '') + Number(data.pnl_pct).toFixed(2) + '%') : null);
-            const isPositive = data.is_positive !== undefined ? data.is_positive : ((Number(data.pnl_pct) || 0) >= 0);
-            
-            if (pct) {
-              [badgeIndex, badgeProjects].forEach(badge => {
-                if (badge) {
-                  badge.textContent = pct;
-                  if (isPositive) {
-                    badge.style.background = 'rgba(16, 185, 129, 0.12)';
-                    badge.style.color = '#10b981';
-                  } else {
-                    badge.style.background = 'rgba(239, 68, 68, 0.12)';
-                    badge.style.color = '#ef4444';
-                  }
-                }
-              });
-            }
+    if (!badgeIndex && !badgeProjects) return;
+
+    fetch(`https://alpaca-trading-bot-xw33.onrender.com/api/pnl?_t=${Date.now()}`, { cache: 'no-store' })
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+      })
+      .then(res => {
+        if (res) {
+          const data = res.data || res;
+          const pct = data.formatted_pct || (data.pnl_pct !== undefined ? ((data.pnl_pct >= 0 ? '+' : '') + Number(data.pnl_pct).toFixed(2) + '%') : null);
+          const isPositive = data.is_positive !== undefined ? data.is_positive : ((Number(data.pnl_pct) || 0) >= 0);
+          
+          if (pct) {
+            [badgeIndex, badgeProjects].forEach(badge => applyBadgeStyle(badge, pct, isPositive));
           }
-        })
-        .catch(err => {
-          console.warn('Unable to retrieve live P&L data from API endpoint.', err);
-        });
-    }
+        }
+      })
+      .catch(err => {
+        console.warn('Alpaca P&L fetch retry...', err);
+      });
+  }
+
+  function fetchRobinhoodPnl() {
+    const badgeIndex = document.getElementById('pnlBadgeRobinhoodIndex');
+    const badgeProjects = document.getElementById('pnlBadgeRobinhoodProjects');
+    if (!badgeIndex && !badgeProjects) return;
+
+    fetch(`https://robinhood-bot-v2.onrender.com/pnl.json?_t=${Date.now()}`, { cache: 'no-store' })
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+      })
+      .then(res => {
+        if (res) {
+          const pct = res.formatted_return_pct || (res.overall_return_pct !== undefined ? ((res.overall_return_pct >= 0 ? '+' : '') + Number(res.overall_return_pct).toFixed(2) + '%') : null);
+          const isPositive = (Number(res.overall_return_pct) || 0) >= 0;
+          if (pct) {
+            [badgeIndex, badgeProjects].forEach(badge => applyBadgeStyle(badge, pct, isPositive));
+          }
+        }
+      })
+      .catch(err => {
+        console.warn('Robinhood P&L fetch retry...', err);
+      });
+  }
+
+  function initLivePnl() {
+    fetchAlpacaPnl();
+    fetchRobinhoodPnl();
   }
 
   // --- 5. SEAMLESS ZERO-FLASH ROUTER ---
@@ -333,5 +367,8 @@
   // Continuously refresh P&L every 15 seconds automatically
   setInterval(initLivePnl, 15000);
   window.addEventListener('pageshow', initLivePnl);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') initLivePnl();
+  });
 
 })();
