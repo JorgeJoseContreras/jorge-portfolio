@@ -654,6 +654,14 @@ input, textarea {
   margin-top: 2px;
 }
 
+.footer-copy {
+  font-size: 0.76rem;
+  color: var(--text-dim);
+  opacity: 0.7;
+  margin-top: 4px;
+  letter-spacing: 0.01em;
+}
+
 .footer-links {
   display: flex;
   gap: 20px;
