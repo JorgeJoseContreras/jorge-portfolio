@@ -173,25 +173,38 @@
     const badgeProjects = document.getElementById('pnlBadgeProjects');
     if (!badgeIndex && !badgeProjects) return;
 
-    fetch(`https://alpaca-trading-bot-xw33.onrender.com/api/pnl?_t=${Date.now()}`, { cache: 'no-store' })
-      .then(response => {
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        return response.json();
-      })
-      .then(res => {
-        if (res) {
-          const data = res.data || res;
-          const pct = data.formatted_pct || (data.pnl_pct !== undefined ? ((data.pnl_pct >= 0 ? '+' : '') + Number(data.pnl_pct).toFixed(2) + '%') : null);
-          const isPositive = data.is_positive !== undefined ? data.is_positive : ((Number(data.pnl_pct) || 0) >= 0);
-          
-          if (pct) {
-            [badgeIndex, badgeProjects].forEach(badge => applyBadgeStyle(badge, pct, isPositive));
+    const endpoints = [
+      'https://invest.jorgejosecontreras.com/api/data',
+      'https://alpaca-trading-bot-xw33.onrender.com/api/data',
+      'https://invest.jorgejosecontreras.com/api/pnl',
+      'https://alpaca-trading-bot-xw33.onrender.com/api/pnl'
+    ];
+
+    function tryNext(idx) {
+      if (idx >= endpoints.length) return;
+      fetch(endpoints[idx], { cache: 'no-store' })
+        .then(response => {
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          return response.json();
+        })
+        .then(res => {
+          if (res) {
+            const data = res.data || res;
+            const pnlVal = data.pnl_pct !== undefined ? Number(data.pnl_pct) : null;
+            const pct = data.formatted_pct || (pnlVal !== null ? ((pnlVal >= 0 ? '+' : '') + pnlVal.toFixed(2) + '%') : null);
+            const isPositive = data.is_positive !== undefined ? Boolean(data.is_positive) : ((pnlVal || 0) >= 0);
+            
+            if (pct) {
+              [badgeIndex, badgeProjects].forEach(badge => applyBadgeStyle(badge, pct, isPositive));
+            }
           }
-        }
-      })
-      .catch(err => {
-        console.warn('Alpaca P&L fetch retry...', err);
-      });
+        })
+        .catch(err => {
+          tryNext(idx + 1);
+        });
+    }
+
+    tryNext(0);
   }
 
   function fetchRobinhoodPnl() {
@@ -199,15 +212,16 @@
     const badgeProjects = document.getElementById('pnlBadgeRobinhoodProjects');
     if (!badgeIndex && !badgeProjects) return;
 
-    fetch(`https://robinhood-bot-v2.onrender.com/pnl.json?_t=${Date.now()}`, { cache: 'no-store' })
+    fetch('https://robinhood-bot-v2.onrender.com/pnl.json', { cache: 'no-store' })
       .then(response => {
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         return response.json();
       })
       .then(res => {
         if (res) {
-          const pct = res.formatted_return_pct || (res.overall_return_pct !== undefined ? ((res.overall_return_pct >= 0 ? '+' : '') + Number(res.overall_return_pct).toFixed(2) + '%') : null);
-          const isPositive = (Number(res.overall_return_pct) || 0) >= 0;
+          const pnlVal = res.overall_return_pct !== undefined ? Number(res.overall_return_pct) : null;
+          const pct = res.formatted_return_pct || (pnlVal !== null ? ((pnlVal >= 0 ? '+' : '') + pnlVal.toFixed(2) + '%') : null);
+          const isPositive = pnlVal !== null ? (pnlVal >= 0) : true;
           if (pct) {
             [badgeIndex, badgeProjects].forEach(badge => applyBadgeStyle(badge, pct, isPositive));
           }
