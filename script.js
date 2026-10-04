@@ -60,13 +60,33 @@
     const status = document.getElementById('contactStatus');
 
     if (modal) {
+      const modalHeading = modal.querySelector('.modal-header h3');
+      const msgInput = document.getElementById('contactMsg');
+
       openBtns.forEach(btn => {
         if (btn) {
           btn.addEventListener('click', (e) => {
             e.preventDefault();
+            if (modalHeading) modalHeading.textContent = 'Send a Note';
+            if (msgInput) msgInput.value = '';
             modal.style.display = 'flex';
           });
         }
+      });
+
+      // Handle Request Access for projects without a dedicated live site
+      document.addEventListener('click', (e) => {
+        const accessBtn = e.target.closest('.request-access-btn');
+        if (!accessBtn) return;
+        e.preventDefault();
+        const projectName = accessBtn.getAttribute('data-project') || 'this project';
+        if (modalHeading) {
+          modalHeading.textContent = `Request Access — ${projectName}`;
+        }
+        if (msgInput) {
+          msgInput.value = `Hi Jorge, I'd like to request access / demo details for ${projectName}.`;
+        }
+        modal.style.display = 'flex';
       });
 
       if (closeBtn) {
