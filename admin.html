@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#0f1013">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin Console &mdash; Jorge Contreras</title>
+
+  <script>(function(){try{var t=localStorage.getItem('jorge_site_theme');if(t){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-page">
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <a href="index.html" class="brand-name">Jorge Contreras</a>
+        <span class="admin-badge active" style="font-size: 0.7rem;">Admin Mode</span>
+      </div>
+      <nav class="nav-links">
+        <a href="projects.html" class="nav-link">Projects</a>
+        <a href="index.html" class="nav-link">Exit Admin</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <span class="theme-icon">◐</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Admin Main Content -->
+  <main class="main-content">
+    <div class="container" style="max-width: 860px;">
+
+      <!-- Heading -->
+      <div class="admin-header-row" style="margin-top: 30px;">
+        <div>
+          <p class="intro-label">System Control</p>
+          <h1 class="page-main-title" style="font-size: 2.2rem; margin-bottom: 6px;">Portfolio Admin Console</h1>
+          <p class="page-main-sub" style="font-size: 0.95rem;">Configure page visibility, toggle the resume section, and manage individual project display states.</p>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <button id="btnSignOut" class="btn-text" style="color: var(--text-dim); font-size: 0.84rem;">Lock / Sign Out</button>
+          <button id="btnTopSave" class="btn-editorial" style="padding: 9px 18px; font-size: 0.85rem;">Save Changes</button>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Bar -->
+      <div style="display: flex; gap: 16px; margin-bottom: 28px; flex-wrap: wrap;">
+        <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 18px; flex: 1; min-width: 180px;">
+          <div style="font-size: 0.78rem; color: var(--text-dim); text-transform: uppercase; font-weight: 600;">Visible Projects</div>
+          <div id="statVisibleProjects" style="font-size: 1.4rem; font-weight: 700; color: var(--accent); margin-top: 4px;">7 / 14</div>
+        </div>
+        <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 18px; flex: 1; min-width: 180px;">
+          <div style="font-size: 0.78rem; color: var(--text-dim); text-transform: uppercase; font-weight: 600;">Resume Page</div>
+          <div id="statResumeStatus" style="font-size: 1.4rem; font-weight: 700; color: #10b981; margin-top: 4px;">Enabled</div>
+        </div>
+        <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 18px; flex: 1; min-width: 180px;">
+          <div style="font-size: 0.78rem; color: var(--text-dim); text-transform: uppercase; font-weight: 600;">Auth Session</div>
+          <div style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin-top: 4px;">Verified</div>
+        </div>
+      </div>
+
+      <!-- SECTION 1: Page Controls -->
+      <section class="admin-section">
+        <h2 class="admin-section-title">Page &amp; Navigation Controls</h2>
+        <p class="admin-section-sub">Toggle specific site sections on or off across all navigation menus and direct URLs.</p>
+
+        <div class="admin-item-row">
+          <div class="admin-item-info">
+            <div class="admin-item-title">
+              <span>Resume Page (/resume.html)</span>
+              <span id="badgeResumeState" class="admin-badge active">Visible</span>
+            </div>
+            <p class="admin-item-desc">When disabled, removes the Resume link from the site navigation and redirects direct visitors back to the home page.</p>
+          </div>
+          <label class="switch-label">
+            <span class="switch">
+              <input type="checkbox" id="toggleResume" checked>
+              <span class="switch-slider"></span>
+            </span>
+          </label>
+        </div>
+      </section>
+
+      <!-- SECTION 2: Project Visibility -->
+      <section class="admin-section">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; flex-wrap: wrap; gap: 8px;">
+          <h2 class="admin-section-title" style="margin-bottom: 0;">Projects Visibility</h2>
+          <div style="display: flex; gap: 8px;">
+            <button id="btnShowAllActive" class="btn-text" style="font-size: 0.8rem;">Reset to Active 7</button>
+            <span style="color: var(--text-dim);">&middot;</span>
+            <button id="btnShowAllProjects" class="btn-text" style="font-size: 0.8rem;">Show All 14</button>
+            <span style="color: var(--text-dim);">&middot;</span>
+            <button id="btnHideAllProjects" class="btn-text" style="font-size: 0.8rem;">Hide All</button>
+          </div>
+        </div>
+        <p class="admin-section-sub">Show or hide individual portfolio project cards. Previously hidden projects are preserved here and can be toggled on at any time.</p>
+
+        <div id="adminProjectsList">
+          <!-- 1. Jorgius AI Assistant -->
+          <div class="admin-item-row" data-project-id="card-imessage">
+            <div class="admin-item-info">
+              <div class="admin-item-title">
+                <span>Jorgius AI Assistant</span>
+                <span class="category-badge" style="font-size: 0.72rem;">AI Assistant</span>
+                <span class="admin-badge active badge-state">Shown</span>
+              </div>
+              <p class="admin-item-desc">Multimodal AI assistant managing phone calls, iMessages, and expense tracking &middot; Python &middot; FastAPI &middot; Groq &middot; Vapi</p>
+            </div>
+            <label class="switch-label">
+              <span class="switch">
+                <input type="checkbox" class="project-toggle" data-project="card-imessage" checked>
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+          </div>
+
+          <!-- 2. Autonomous Trading Engine -->
+          <div class="admin-item-row" data-project-id="card-alpaca">
+            <div class="admin-item-info">
+              <div class="admin-item-title">
+                <span>Autonomous Trading Engine</span>
+                <span class="category-badge" style="font-size: 0.72rem;">Trading</span>
+                <span class="admin-badge active badge-state">Shown</span>
+              </div>
+              <p class="admin-item-desc">Autonomous market agent with Gemini reasoning, memory, news sentiment &middot; Python &middot; Alpaca API &middot; Gemini</p>
+            </div>
+            <label class="switch-label">
+              <span class="switch">
+                <input type="checkbox" class="project-toggle" data-project="card-alpaca" checked>
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+          </div>
+
+          <!-- 3. Robinhood Command Bot -->
+          <div class="admin-item-row" data-project-id="card-robinhood">
+            <div class="admin-item-info">
+              <div class="admin-item-title">
+                <span>Robinhood Command Bot</span>
+                <span class="category-badge" style="font-size: 0.72rem;">Trading</span>
+                <span class="admin-badge active badge-state">Shown</span>
+              </div>
+              <p class="admin-item-desc">Telegram bot and portfolio dashboard custom built for private client &middot; Node.js &middot; Telegram Bot &middot; Gemini</p>
+            </div>
+            <label class="switch-label">
+              <span class="switch">
+                <input type="checkbox" class="project-toggle" data-project="card-robinhood" checked>
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+          </div>
+
+          <!-- 4. FOIA Request Automation -->
+          <div class="admin-item-row" data-project-id="card-foia">
+            <div class="admin-item-info">
+              <div class="admin-item-title">
+                <span>FOIA Request Automation</span>
+                <span class="category-badge" style="font-size: 0.72rem;">Tools</span>
+                <span class="admin-badge active badge-state">Shown</span>
+              </div>
+              <p class="admin-item-desc">Automates Florida Sunshine Law requests across 100+ municipalities &middot; Python &middot; Flask &middot; Gemini &middot; Cloud Fax</p>
+            </div>
+            <label class="switch-label">
+              <span class="switch">
+                <input type="checkbox" class="project-toggle" data-project="card-foia" checked>
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+          </div>
+
+          <!-- 5. Mileage Tracker -->
+          <div class="admin-item-row" data-project-id="card-mileage">
+            <div class="admin-item-info">
+              <div class="admin-item-title">
+                <span>Mileage Tracker</span>
+                <span class="category-badge" style="font-size: 0.72rem;">Tools &amp; Automation</span>
+                <span class="admin-badge active badge-state">Shown</span>
+              </div>
+              <p class="admin-item-desc">Full-stack mileage reimbursement tracker with Google Maps screenshots &amp; PDF/Excel export &middot; Firebase &middot; Leaflet &middot; ExcelJS</p>
+            </div>
+            <label class="switch-label">
+              <span class="switch">
+                <input type="checkbox" class="project-toggle" data-project="card-mileage" checked>
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+          </div>
+
+          <!-- 6. ScholarFlow -->
+          <div class="admin-item-row" data-project-id="card-scholarflow">
+            <div class="admin-item-info">
+              <div class="admin-item-title">
+                <span>ScholarFlow</span>
+                <span class="category-badge" style="font-size: 0.72rem;">Mobile App</span>
+                <span class="admin-badge active badge-state">Shown</span>
+              </div>
+              <p class="admin-item-desc">Native iOS app interacting with WizeHive Zengine workspaces via OAuth 2.0 &middot; Swift &middot; iOS &middot; Zengine REST API</p>
+            </div>
+            <label class="switch-label">
+              <span class="switch">
+                <input type="checkbox" class="project-toggle" data-project="card-scholarflow" checked>
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+          </div>
+
+          <!-- 7. Autonomous Discovery Agent -->
+          <div class="admin-item-row" data-project-id="card-discovery">
+            <div class="admin-item-info">
+              <div class="admin-item-title">
+                <span>Autonomous Discovery Agent</span>
+                <span class="category-badge" style="font-size: 0.72rem;">AI Experiments</span>
+                <span class="admin-badge active badge-state">Shown</span>
+              </div>
+              <p class="admin-item-desc">Robotic process automation exploring mobile feed interactions &middot; Python &middot; Computer Vision &middot; Mobile Automation</p>
+            </div>
+            <label class="switch-label">
+              <span class="switch">
+                <input type="checkbox" class="project-toggle" data-project="card-discovery" checked>
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+          </div>
+
+          <!-- 8. Kalshi Prediction Market Bot (Previously Hidden) -->
+          <div class="admin-item-row" data-project-id="card-kalshi">
+            <div class="admin-item-info">
+              <div class="admin-item-title">
+                <span>Kalshi Prediction Market Bot</span>
+                <span class="category-badge" style="font-size: 0.72rem;">Trading</span>
+                <span class="admin-badge hidden badge-state">Hidden</span>
+              </div>
+              <p class="admin-item-desc">Automated prediction market bot trading economic releases &middot; Python &middot; Kalshi API &middot; Quant Engine</p>
+            </div>
+            <label class="switch-label">
+              <span class="switch">
+                <input type="checkbox" class="project-toggle" data-project="card-kalshi">
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+          </div>
+
+          <!-- 9. Crypto Trading Bot (Kraken) (Previously Hidden) -->
+          <div class="admin-item-row" data-project-id="card-kraken">
+            <div class="admin-item-info">
+              <div class="admin-item-title">
+                <span>Crypto Trading Bot (Kraken)</span>
+                <span class="category-badge" style="font-size: 0.72rem;">Trading</span>
+                <span class="admin-badge hidden badge-state">Hidden</span>
+              </div>
+              <p class="admin-item-desc">Algorithmic buy/sell signals on Kraken with sentiment analysis &middot; Python &middot; Kraken WebSockets &middot; Gemini</p>
+            </div>
+            <label class="switch-label">
+              <span class="switch">
+                <input type="checkbox" class="project-toggle" data-project="card-kraken">
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+          </div>
+
+          <!-- 10. Autonomous Coder Bot (Previously Hidden) -->
+          <div class="admin-item-row" data-project-id="card-adminbot">
+            <div class="admin-item-info">
+              <div class="admin-item-title">
+                <span>Autonomous Coder Bot</span>
+                <span class="category-badge" style="font-size: 0.72rem;">AI Experiments</span>
+                <span class="admin-badge hidden badge-state">Hidden</span>
+              </div>
+              <p class="admin-item-desc">Local coding agent on headless PC streaming logs to web &middot; Python &middot; FastAPI &middot; Telegram &middot; Gemini</p>
+            </div>
+            <label class="switch-label">
+              <span class="switch">
+                <input type="checkbox" class="project-toggle" data-project="card-adminbot">
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+          </div>
+
+          <!-- 11. Zengine Data Sync Pipeline (Previously Hidden) -->
+          <div class="admin-item-row" data-project-id="card-zengine-monitor">
+            <div class="admin-item-info">
+              <div class="admin-item-title">
+                <span>Zengine Data Sync Pipeline</span>
+                <span class="category-badge" style="font-size: 0.72rem;">Tools</span>
+                <span class="admin-badge hidden badge-state">Hidden</span>
+              </div>
+              <p class="admin-item-desc">Data extraction &amp; sync script connecting database records to Zengine REST &middot; Python &middot; REST APIs &middot; OAuth2</p>
+            </div>
+            <label class="switch-label">
+              <span class="switch">
+                <input type="checkbox" class="project-toggle" data-project="card-zengine-monitor">
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+          </div>
+
+          <!-- 12. Disbursement Ledger Tool (Previously Hidden) -->
+          <div class="admin-item-row" data-project-id="card-scholar-services">
+            <div class="admin-item-info">
+              <div class="admin-item-title">
+                <span>Disbursement Ledger Tool</span>
+                <span class="category-badge" style="font-size: 0.72rem;">Tools</span>
+                <span class="admin-badge hidden badge-state">Hidden</span>
+              </div>
+              <p class="admin-item-desc">Check registers verification and batch disbursement reconciliations &middot; Python &middot; Pandas &middot; OpenPyXL</p>
+            </div>
+            <label class="switch-label">
+              <span class="switch">
+                <input type="checkbox" class="project-toggle" data-project="card-scholar-services">
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+          </div>
+
+          <!-- 13. Clean Sheet AI (Previously Hidden) -->
+          <div class="admin-item-row" data-project-id="card-csv-optimizer">
+            <div class="admin-item-info">
+              <div class="admin-item-title">
+                <span>Clean Sheet AI</span>
+                <span class="category-badge" style="font-size: 0.72rem;">Tools</span>
+                <span class="admin-badge hidden badge-state">Hidden</span>
+              </div>
+              <p class="admin-item-desc">Lightweight spreadsheet tool using language models to clean CSV exports &middot; TypeScript &middot; Node.js &middot; LLMs</p>
+            </div>
+            <label class="switch-label">
+              <span class="switch">
+                <input type="checkbox" class="project-toggle" data-project="card-csv-optimizer">
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+          </div>
+
+          <!-- 14. PMC Inventory Scraper (Previously Hidden) -->
+          <div class="admin-item-row" data-project-id="card-social">
+            <div class="admin-item-info">
+              <div class="admin-item-title">
+                <span>PMC Inventory Scraper</span>
+                <span class="category-badge" style="font-size: 0.72rem;">Tools</span>
+                <span class="admin-badge hidden badge-state">Hidden</span>
+              </div>
+              <p class="admin-item-desc">Scrapes, cleans, and monitors luxury inventory across marketplaces &middot; Python &middot; Playwright &middot; BeautifulSoup</p>
+            </div>
+            <label class="switch-label">
+              <span class="switch">
+                <input type="checkbox" class="project-toggle" data-project="card-social">
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Bottom Toolbar -->
+      <div class="admin-action-bar" style="margin-bottom: 60px;">
+        <button id="btnSaveBottom" class="btn-editorial">Save &amp; Apply Changes</button>
+        <button id="btnPreviewSite" class="btn-editorial" style="background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border);">Preview Projects Page &rarr;</button>
+        <button id="btnExportJson" class="btn-text" style="font-size: 0.85rem;">Download Settings JSON</button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Toast Notification -->
+  <div id="adminToast" class="admin-toast">Settings saved successfully!</div>
+
+  <!-- Auth Gate Modal (Shown only if not authenticated) -->
+  <div id="authGateModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Admin Authentication</h3>
+      </div>
+      <form id="authGateForm" class="modal-form">
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 10px;">Please enter the master administrator key to access settings.</p>
+        <div class="form-group">
+          <label for="authPassword">Master Key</label>
+          <input type="password" id="authPassword" required placeholder="••••••••••••">
+        </div>
+        <button type="submit" class="btn-editorial" style="width: 100%; margin-top: 6px;">Unlock Console</button>
+        <div id="authGateStatus" class="modal-status" style="margin-top: 6px;"></div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js?v=6"></script>
+  <script>
+    // --- ADMIN CONSOLE LOGIC ---
+    (function() {
+      const AUTH_KEY = '01Imre38!@$';
+      const authModal = document.getElementById('authGateModal');
+      const authForm = document.getElementById('authGateForm');
+      const authStatus = document.getElementById('authGateStatus');
+
+      // Check authentication
+      function isAuthed() {
+        return localStorage.getItem('jorge_admin_authenticated') === 'true';
+      }
+
+      if (!isAuthed()) {
+        authModal.style.display = 'flex';
+      }
+
+      if (authForm) {
+        authForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          const val = document.getElementById('authPassword').value;
+          if (val === AUTH_KEY) {
+            localStorage.setItem('jorge_admin_authenticated', 'true');
+            authModal.style.display = 'none';
+            showToast('Authenticated! Welcome Jorge.');
+          } else {
+            authStatus.textContent = 'Invalid master key.';
+            authStatus.style.color = '#ef4444';
+          }
+        });
+      }
+
+      document.getElementById('btnSignOut')?.addEventListener('click', function() {
+        localStorage.removeItem('jorge_admin_authenticated');
+        window.location.href = 'index.html';
+      });
+
+      // Default state
+      const defaults = {
+        resume_enabled: true,
+        projects: {
+          'card-imessage': true,
+          'card-alpaca': true,
+          'card-robinhood': true,
+          'card-foia': true,
+          'card-mileage': true,
+          'card-scholarflow': true,
+          'card-discovery': true,
+          'card-kalshi': false,
+          'card-kraken': false,
+          'card-adminbot': false,
+          'card-zengine-monitor': false,
+          'card-scholar-services': false,
+          'card-csv-optimizer': false,
+          'card-social': false
+        }
+      };
+
+      // Load settings from storage
+      function getSettings() {
+        try {
+          const raw = localStorage.getItem('jorge_admin_settings');
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            return {
+              resume_enabled: parsed.resume_enabled !== undefined ? parsed.resume_enabled : defaults.resume_enabled,
+              projects: Object.assign({}, defaults.projects, parsed.projects || {})
+            };
+          }
+        } catch(e) {}
+        return defaults;
+      }
+
+      function updateUI() {
+        const settings = getSettings();
+        const toggleResume = document.getElementById('toggleResume');
+        const badgeResume = document.getElementById('badgeResumeState');
+        const statResume = document.getElementById('statResumeStatus');
+
+        if (toggleResume) {
+          toggleResume.checked = settings.resume_enabled;
+          if (badgeResume) {
+            badgeResume.textContent = settings.resume_enabled ? 'Visible' : 'Disabled';
+            badgeResume.className = settings.resume_enabled ? 'admin-badge active' : 'admin-badge hidden';
+          }
+          if (statResume) {
+            statResume.textContent = settings.resume_enabled ? 'Enabled' : 'Disabled';
+            statResume.style.color = settings.resume_enabled ? '#10b981' : 'var(--text-dim)';
+          }
+        }
+
+        let visibleCount = 0;
+        const toggles = document.querySelectorAll('.project-toggle');
+        toggles.forEach(t => {
+          const pid = t.getAttribute('data-project');
+          const isShown = settings.projects[pid] !== false;
+          t.checked = isShown;
+          if (isShown) visibleCount++;
+
+          const row = t.closest('.admin-item-row');
+          if (row) {
+            const badge = row.querySelector('.badge-state');
+            if (badge) {
+              badge.textContent = isShown ? 'Shown' : 'Hidden';
+              badge.className = isShown ? 'admin-badge active badge-state' : 'admin-badge hidden badge-state';
+            }
+          }
+        });
+
+        const statProjects = document.getElementById('statVisibleProjects');
+        if (statProjects) {
+          statProjects.textContent = `${visibleCount} / 14`;
+        }
+      }
+
+      function saveSettings() {
+        const toggleResume = document.getElementById('toggleResume');
+        const toggles = document.querySelectorAll('.project-toggle');
+
+        const newSettings = {
+          resume_enabled: toggleResume ? toggleResume.checked : true,
+          projects: {}
+        };
+
+        toggles.forEach(t => {
+          const pid = t.getAttribute('data-project');
+          newSettings.projects[pid] = t.checked;
+        });
+
+        localStorage.setItem('jorge_admin_settings', JSON.stringify(newSettings));
+        updateUI();
+        showToast('Settings saved & applied across portfolio!');
+      }
+
+      function showToast(msg) {
+        const toast = document.getElementById('adminToast');
+        if (!toast) return;
+        toast.textContent = msg || 'Settings saved successfully!';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2400);
+      }
+
+      // Event Listeners
+      document.getElementById('toggleResume')?.addEventListener('change', function() {
+        const b = document.getElementById('badgeResumeState');
+        const s = document.getElementById('statResumeStatus');
+        if (b) {
+          b.textContent = this.checked ? 'Visible' : 'Disabled';
+          b.className = this.checked ? 'admin-badge active' : 'admin-badge hidden';
+        }
+        if (s) {
+          s.textContent = this.checked ? 'Enabled' : 'Disabled';
+          s.style.color = this.checked ? '#10b981' : 'var(--text-dim)';
+        }
+      });
+
+      document.querySelectorAll('.project-toggle').forEach(t => {
+        t.addEventListener('change', function() {
+          const row = this.closest('.admin-item-row');
+          if (row) {
+            const badge = row.querySelector('.badge-state');
+            if (badge) {
+              badge.textContent = this.checked ? 'Shown' : 'Hidden';
+              badge.className = this.checked ? 'admin-badge active badge-state' : 'admin-badge hidden badge-state';
+            }
+          }
+          let cnt = 0;
+          document.querySelectorAll('.project-toggle').forEach(x => { if (x.checked) cnt++; });
+          const statProjects = document.getElementById('statVisibleProjects');
+          if (statProjects) statProjects.textContent = `${cnt} / 14`;
+        });
+      });
+
+      document.getElementById('btnTopSave')?.addEventListener('click', saveSettings);
+      document.getElementById('btnSaveBottom')?.addEventListener('click', saveSettings);
+
+      document.getElementById('btnShowAllActive')?.addEventListener('click', () => {
+        document.querySelectorAll('.project-toggle').forEach(t => {
+          const pid = t.getAttribute('data-project');
+          t.checked = defaults.projects[pid] === true;
+          t.dispatchEvent(new Event('change'));
+        });
+      });
+
+      document.getElementById('btnShowAllProjects')?.addEventListener('click', () => {
+        document.querySelectorAll('.project-toggle').forEach(t => {
+          t.checked = true;
+          t.dispatchEvent(new Event('change'));
+        });
+      });
+
+      document.getElementById('btnHideAllProjects')?.addEventListener('click', () => {
+        document.querySelectorAll('.project-toggle').forEach(t => {
+          t.checked = false;
+          t.dispatchEvent(new Event('change'));
+        });
+      });
+
+      document.getElementById('btnPreviewSite')?.addEventListener('click', () => {
+        window.location.href = 'projects.html';
+      });
+
+      document.getElementById('btnExportJson')?.addEventListener('click', () => {
+        const s = getSettings();
+        const blob = new Blob([JSON.stringify(s, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'admin-settings.json';
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      // Initialize UI on load
+      updateUI();
+    })();
+  </script>
+</body>
+</html>

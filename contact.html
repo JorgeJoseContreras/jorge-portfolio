@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#0f1013">
   <meta name="description" content="Contact Jorge Contreras - Get in touch for projects, collaboration, or inquiries.">
   <title>Contact &mdash; Jorge Contreras</title>
-  <script>(function(){try{var t=localStorage.getItem('jorge_site_theme');if(t){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+  <script>(function(){try{var t=localStorage.getItem('jorge_site_theme');if(t){document.documentElement.setAttribute('data-theme',t);}var s=localStorage.getItem('jorge_admin_settings');if(s){var p=JSON.parse(s);if(p.resume_enabled===false){document.documentElement.classList.add('hide-resume-nav');}}}catch(e){}})();</script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="contact-page">
@@ -19,7 +19,7 @@
       <nav class="nav-links">
         <a href="index.html" class="nav-link">Home</a>
         <a href="projects.html" class="nav-link">Projects</a>
-        <a href="resume.html" class="nav-link">Resume</a>
+        <a href="resume.html" class="nav-link" id="navResumeLink">Resume</a>
         <a href="contact.html" class="nav-link active">Contact</a>
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
           <span class="theme-icon">◐</span>
@@ -87,6 +87,6 @@
     </div>
   </footer>
 
-  <script src="script.js?v=2"></script>
+  <script src="script.js?v=6"></script>
 </body>
 </html>

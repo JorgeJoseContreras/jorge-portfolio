@@ -17,7 +17,7 @@
   <meta property="og:description" content="Trading bots, AI assistants, FOIA automation, and developer tools.">
   <meta property="og:site_name" content="Jorge Jose Contreras">
 
-  <script>(function(){try{var t=localStorage.getItem('jorge_site_theme');if(t){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+  <script>(function(){try{var t=localStorage.getItem('jorge_site_theme');if(t){document.documentElement.setAttribute('data-theme',t);}var s=localStorage.getItem('jorge_admin_settings');if(s){var p=JSON.parse(s);if(p.resume_enabled===false){document.documentElement.classList.add('hide-resume-nav');}}}catch(e){}})();</script>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -54,7 +54,7 @@
 
       <!-- Filter Buttons -->
       <div class="filter-bar">
-        <button class="filter-chip active" data-filter="all">All (6)</button>
+        <button class="filter-chip active" data-filter="all" id="filterChipAll">All (7)</button>
         <button class="filter-chip" data-filter="trading">Trading &amp; Markets</button>
         <button class="filter-chip" data-filter="ai">AI Experiments</button>
         <button class="filter-chip" data-filter="tools">Tools &amp; Scripts</button>
@@ -63,8 +63,8 @@
       <!-- Projects Grid -->
       <div class="projects-editorial-grid" id="projectsGrid">
 
-        <!-- 1. Jorgius AI Assistant (Top Project) -->
-        <article class="editorial-card" data-category="ai">
+        <!-- 1. Jorgius AI Assistant -->
+        <article class="editorial-card" id="card-imessage" data-category="ai">
           <div class="card-header-row">
             <div class="card-meta-group">
               <span class="category-badge">AI Assistant</span>
@@ -83,8 +83,8 @@
           </div>
         </article>
 
-        <!-- 2. Autonomous Trading Engine (Second Project) -->
-        <article class="editorial-card" data-category="trading">
+        <!-- 2. Autonomous Trading Engine -->
+        <article class="editorial-card" id="card-alpaca" data-category="trading">
           <div class="card-header-row">
             <div class="card-meta-group">
               <span class="category-badge">Trading &amp; Markets</span>
@@ -104,8 +104,8 @@
           </div>
         </article>
 
-        <!-- 3. Robinhood Command Bot (Third Project) -->
-        <article class="editorial-card" data-category="trading">
+        <!-- 3. Robinhood Command Bot -->
+        <article class="editorial-card" id="card-robinhood" data-category="trading">
           <div class="card-header-row">
             <div class="card-meta-group">
               <span class="category-badge">Trading &amp; Markets</span>
@@ -125,7 +125,7 @@
         </article>
 
         <!-- 4. FOIA Request Automation -->
-        <article class="editorial-card" data-category="tools">
+        <article class="editorial-card" id="card-foia" data-category="tools">
           <div class="card-header-row">
             <div class="card-meta-group">
               <span class="category-badge">Tools &amp; Scripts</span>
@@ -144,8 +144,27 @@
           </div>
         </article>
 
-        <!-- 5. ScholarFlow (In Progress) -->
-        <article class="editorial-card" data-category="tools">
+        <!-- 5. Mileage Tracker -->
+        <article class="editorial-card" id="card-mileage" data-category="tools">
+          <div class="card-header-row">
+            <div class="card-meta-group">
+              <span class="category-badge">Tools &amp; Automation</span>
+              <span class="tech-inline">&middot; JavaScript &middot; Firebase &middot; Leaflet &middot; ExcelJS &middot; jsPDF</span>
+            </div>
+          </div>
+          <h2 class="editorial-card-title">
+            <a href="https://mileage-map-generator.web.app/#" target="_blank" rel="noopener noreferrer">Mileage Tracker</a>
+          </h2>
+          <p class="editorial-card-desc">
+            A full-stack travel and reimbursement web application built to streamline mileage logging, route verification, and audit documentation. Features real-time GPS driving distance calculations, interactive route mapping, automated Google Maps screenshot captures for verification, drag-and-drop Excel/CSV spreadsheet parsing, and one-click export of styled Excel and audit-ready PDF reports.
+          </p>
+          <div class="editorial-card-links">
+            <a href="https://mileage-map-generator.web.app/#" target="_blank" rel="noopener noreferrer" class="link-btn-primary">Live App</a>
+          </div>
+        </article>
+
+        <!-- 6. ScholarFlow -->
+        <article class="editorial-card" id="card-scholarflow" data-category="tools">
           <div class="card-header-row">
             <div class="card-meta-group">
               <span class="category-badge">Mobile App</span>
@@ -165,8 +184,8 @@
           </div>
         </article>
 
-        <!-- 6. Autonomous Discovery Agent (AI Experiments) -->
-        <article class="editorial-card" data-category="ai">
+        <!-- 7. Autonomous Discovery Agent -->
+        <article class="editorial-card" id="card-discovery" data-category="ai">
           <div class="card-header-row">
             <div class="card-meta-group">
               <span class="category-badge">AI Experiments</span>
@@ -182,6 +201,142 @@
           <div class="editorial-card-links">
             <a href="#contact" class="link-btn-primary request-access-btn" data-project="Autonomous Discovery Agent">Request Access</a>
             <a href="https://github.com/JorgeJoseContreras" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub</a>
+          </div>
+        </article>
+
+        <!-- 8. Kalshi Prediction Market Bot (Previously Hidden) -->
+        <article class="editorial-card admin-hidden" id="card-kalshi" data-category="trading">
+          <div class="card-header-row">
+            <div class="card-meta-group">
+              <span class="category-badge">Trading &amp; Markets</span>
+              <span class="tech-inline">&middot; Python &middot; Kalshi API &middot; Quant Engine</span>
+            </div>
+          </div>
+          <h2 class="editorial-card-title">
+            <a href="https://kalshi-trading-bot-70rb.onrender.com" target="_blank" rel="noopener noreferrer">Kalshi Prediction Market Bot</a>
+          </h2>
+          <p class="editorial-card-desc">
+            An automated bot exploring prediction markets on Kalshi, placing probabilistic orders based on economic releases and event tracking.
+          </p>
+          <div class="editorial-card-links">
+            <a href="https://kalshi-trading-bot-70rb.onrender.com" target="_blank" rel="noopener noreferrer" class="link-btn-primary">Live Demo</a>
+            <a href="https://github.com/JorgeJoseContreras/kalshi-trading-bot" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub</a>
+          </div>
+        </article>
+
+        <!-- 9. Crypto Trading Bot (Kraken) (Previously Hidden) -->
+        <article class="editorial-card admin-hidden" id="card-kraken" data-category="trading">
+          <div class="card-header-row">
+            <div class="card-meta-group">
+              <span class="category-badge">Trading &amp; Markets</span>
+              <span class="tech-inline">&middot; Python &middot; Kraken WebSockets &middot; Gemini</span>
+            </div>
+          </div>
+          <h2 class="editorial-card-title">
+            <a href="https://kraken-trading-bot-lafb.onrender.com" target="_blank" rel="noopener noreferrer">Crypto Trading Bot</a>
+          </h2>
+          <p class="editorial-card-desc">
+            A crypto automation experiment running algorithmic buy and sell signals on Kraken with sentiment analysis filters.
+          </p>
+          <div class="editorial-card-links">
+            <a href="https://kraken-trading-bot-lafb.onrender.com" target="_blank" rel="noopener noreferrer" class="link-btn-primary">Live Demo</a>
+            <a href="https://github.com/JorgeJoseContreras/kraken-trading-bot" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub</a>
+          </div>
+        </article>
+
+        <!-- 10. Autonomous Coder Bot (Previously Hidden) -->
+        <article class="editorial-card admin-hidden" id="card-adminbot" data-category="ai">
+          <div class="card-header-row">
+            <div class="card-meta-group">
+              <span class="category-badge">AI Experiments</span>
+              <span class="tech-inline">&middot; Python &middot; FastAPI &middot; Telegram &middot; Gemini</span>
+            </div>
+          </div>
+          <h2 class="editorial-card-title">
+            <a href="https://bot-log-streamer.onrender.com/" target="_blank" rel="noopener noreferrer">Autonomous Coder Bot</a>
+          </h2>
+          <p class="editorial-card-desc">
+            A local coding agent running on a headless mini-PC that tests code changes, commits to git, and streams logs to the web.
+          </p>
+          <div class="editorial-card-links">
+            <a href="https://bot-log-streamer.onrender.com/" target="_blank" rel="noopener noreferrer" class="link-btn-primary">Live Stream</a>
+            <a href="https://github.com/JorgeJoseContreras/jorges-coder-bot" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub</a>
+          </div>
+        </article>
+
+        <!-- 11. Zengine Integration (Previously Hidden) -->
+        <article class="editorial-card admin-hidden" id="card-zengine-monitor" data-category="tools">
+          <div class="card-header-row">
+            <div class="card-meta-group">
+              <span class="category-badge">Tools &amp; Scripts</span>
+              <span class="tech-inline">&middot; Python &middot; REST APIs &middot; OAuth2</span>
+            </div>
+          </div>
+          <h2 class="editorial-card-title">
+            <a href="https://github.com/JorgeJoseContreras/zengine-integration" target="_blank" rel="noopener noreferrer">Zengine Data Sync Pipeline</a>
+          </h2>
+          <p class="editorial-card-desc">
+            A data extraction and synchronization script connecting database records to Zengine REST endpoints to automate manual data entry.
+          </p>
+          <div class="editorial-card-links">
+            <a href="https://github.com/JorgeJoseContreras/zengine-integration" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub Repo</a>
+          </div>
+        </article>
+
+        <!-- 12. Disbursement Ledger Tool (Previously Hidden) -->
+        <article class="editorial-card admin-hidden" id="card-scholar-services" data-category="tools">
+          <div class="card-header-row">
+            <div class="card-meta-group">
+              <span class="category-badge">Tools &amp; Scripts</span>
+              <span class="tech-inline">&middot; Python &middot; Pandas &middot; OpenPyXL</span>
+            </div>
+          </div>
+          <h2 class="editorial-card-title">
+            <a href="https://github.com/JorgeJoseContreras/scholarship-disbursement" target="_blank" rel="noopener noreferrer">Disbursement Ledger Tool</a>
+          </h2>
+          <p class="editorial-card-desc">
+            A Python script for verifying check registers, batch disbursements, and automating audit reconciliations without spreadsheet errors.
+          </p>
+          <div class="editorial-card-links">
+            <a href="https://github.com/JorgeJoseContreras/scholarship-disbursement" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub Repo</a>
+          </div>
+        </article>
+
+        <!-- 13. Clean Sheet AI (Previously Hidden) -->
+        <article class="editorial-card admin-hidden" id="card-csv-optimizer" data-category="tools">
+          <div class="card-header-row">
+            <div class="card-meta-group">
+              <span class="category-badge">Tools &amp; Scripts</span>
+              <span class="tech-inline">&middot; TypeScript &middot; Node.js &middot; LLMs</span>
+            </div>
+          </div>
+          <h2 class="editorial-card-title">
+            <a href="https://github.com/JorgeJoseContreras/clean-sheet" target="_blank" rel="noopener noreferrer">Clean Sheet AI</a>
+          </h2>
+          <p class="editorial-card-desc">
+            A lightweight spreadsheet tool using language models to clean up messy CSV exports, standardize headers, and fill missing fields.
+          </p>
+          <div class="editorial-card-links">
+            <a href="https://github.com/JorgeJoseContreras/clean-sheet" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub Repo</a>
+          </div>
+        </article>
+
+        <!-- 14. PMC Inventory Scraper (Previously Hidden) -->
+        <article class="editorial-card admin-hidden" id="card-social" data-category="tools">
+          <div class="card-header-row">
+            <div class="card-meta-group">
+              <span class="category-badge">Tools &amp; Scripts</span>
+              <span class="tech-inline">&middot; Python &middot; Playwright &middot; BeautifulSoup</span>
+            </div>
+          </div>
+          <h2 class="editorial-card-title">
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer">PMC Inventory Scraper</a>
+          </h2>
+          <p class="editorial-card-desc">
+            An automated web scraping engine that extracts, cleans, and monitors luxury PMC inventory data across online marketplaces.
+          </p>
+          <div class="editorial-card-links">
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub Repo</a>
           </div>
         </article>
 
@@ -251,6 +406,6 @@
     </div>
   </div>
 
-  <script src="script.js?v=5"></script>
+  <script src="script.js?v=6"></script>
 </body>
 </html>

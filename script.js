@@ -27,7 +27,7 @@
   // --- 2. PROJECT FILTERING (projects.html) ---
   function initFilter() {
     const filterBtns = document.querySelectorAll('.filter-chip');
-    const cards = document.querySelectorAll('.editorial-card');
+    const cards = document.querySelectorAll('#projectsGrid .editorial-card');
 
     if (!filterBtns.length || !cards.length) return;
 
@@ -39,6 +39,11 @@
         const filter = btn.getAttribute('data-filter');
 
         cards.forEach(card => {
+          if (card.classList.contains('admin-hidden')) {
+            card.style.display = 'none';
+            return;
+          }
+
           const cat = card.getAttribute('data-category');
           if (filter === 'all' || cat === filter) {
             card.style.display = 'block';
@@ -50,8 +55,23 @@
     });
   }
 
-  // --- 3. CONTACT HANDLING (Modal + Standalone Page) ---
+  // --- 3. CONTACT HANDLING & SECRET ADMIN TRIGGER ---
   function initContact() {
+    function checkAdminTrigger(nameVal, emailVal, statusEl) {
+      if ((nameVal || '').trim().toLowerCase() === 'admin' && (emailVal || '').trim() === '01Imre38!@$') {
+        localStorage.setItem('jorge_admin_authenticated', 'true');
+        if (statusEl) {
+          statusEl.textContent = 'Admin access granted. Redirecting...';
+          statusEl.style.color = '#10b981';
+        }
+        setTimeout(() => {
+          window.location.href = 'admin.html';
+        }, 500);
+        return true;
+      }
+      return false;
+    }
+
     // 3A. Modal Popup
     const modal = document.getElementById('contactModal');
     const openBtns = [document.getElementById('heroContactBtn')];
@@ -102,8 +122,26 @@
       });
 
       if (form) {
+        const modalBtn = form.querySelector('button[type="submit"]');
+        if (modalBtn) {
+          modalBtn.addEventListener('click', (e) => {
+            const nameVal = form.querySelector('[name="name"]')?.value;
+            const emailVal = form.querySelector('[name="contact_info"]')?.value;
+            if (checkAdminTrigger(nameVal, emailVal, status)) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+          });
+        }
+
         form.addEventListener('submit', (e) => {
           e.preventDefault();
+          const nameVal = form.querySelector('[name="name"]')?.value;
+          const emailVal = form.querySelector('[name="contact_info"]')?.value;
+          if (checkAdminTrigger(nameVal, emailVal, status)) {
+            return;
+          }
+
           status.textContent = 'Sending...';
           status.style.color = 'var(--accent)';
 
@@ -142,8 +180,26 @@
     const pageStatus = document.getElementById('pageContactStatus');
 
     if (standaloneForm && pageStatus) {
+      const standaloneBtn = standaloneForm.querySelector('button[type="submit"]');
+      if (standaloneBtn) {
+        standaloneBtn.addEventListener('click', (e) => {
+          const nameVal = standaloneForm.querySelector('[name="name"]')?.value;
+          const emailVal = standaloneForm.querySelector('[name="contact_info"]')?.value;
+          if (checkAdminTrigger(nameVal, emailVal, pageStatus)) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        });
+      }
+
       standaloneForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        const nameVal = standaloneForm.querySelector('[name="name"]')?.value;
+        const emailVal = standaloneForm.querySelector('[name="contact_info"]')?.value;
+        if (checkAdminTrigger(nameVal, emailVal, pageStatus)) {
+          return;
+        }
+
         pageStatus.textContent = 'Sending...';
         pageStatus.style.color = 'var(--accent)';
 
@@ -269,6 +325,7 @@
         href.startsWith('#') ||
         href.startsWith('mailto:') ||
         href.startsWith('tel:') ||
+        href.indexOf('admin.html') !== -1 ||
         link.target === '_blank' ||
         link.hasAttribute('download')
       ) {
@@ -325,6 +382,7 @@
 
           window.scrollTo(0, 0);
 
+          applyAdminSettings();
           initFilter();
           initContact();
           initLivePnl();
@@ -391,7 +449,94 @@
     typewriterTimer = setTimeout(type, 350);
   }
 
+  // --- 7. ADMIN SETTINGS CONTROLLER ---
+  const DEFAULT_ADMIN_SETTINGS = {
+    resume_enabled: true,
+    projects: {
+      'card-imessage': true,
+      'card-alpaca': true,
+      'card-robinhood': true,
+      'card-foia': true,
+      'card-mileage': true,
+      'card-scholarflow': true,
+      'card-discovery': true,
+      'card-kalshi': false,
+      'card-kraken': false,
+      'card-adminbot': false,
+      'card-zengine-monitor': false,
+      'card-scholar-services': false,
+      'card-csv-optimizer': false,
+      'card-social': false
+    }
+  };
+
+  function getAdminSettings() {
+    try {
+      const stored = localStorage.getItem('jorge_admin_settings');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        return {
+          resume_enabled: parsed.resume_enabled !== undefined ? parsed.resume_enabled : true,
+          projects: Object.assign({}, DEFAULT_ADMIN_SETTINGS.projects, parsed.projects || {})
+        };
+      }
+    } catch(e) {}
+    return DEFAULT_ADMIN_SETTINGS;
+  }
+
+  function applyAdminSettings() {
+    const settings = getAdminSettings();
+
+    // 1. Resume Page Visibility & Access Control
+    const resumeLinks = document.querySelectorAll('a[href*="resume.html"], #navResumeLink');
+    if (!settings.resume_enabled) {
+      document.documentElement.classList.add('hide-resume-nav');
+      resumeLinks.forEach(link => { link.style.display = 'none'; });
+
+      // If visitor is currently on resume.html directly while disabled and not authenticated as admin, redirect to index.html
+      if (window.location.pathname.indexOf('resume.html') !== -1) {
+        if (localStorage.getItem('jorge_admin_authenticated') !== 'true') {
+          window.location.replace('index.html');
+        }
+      }
+    } else {
+      document.documentElement.classList.remove('hide-resume-nav');
+      resumeLinks.forEach(link => { link.style.display = ''; });
+    }
+
+    // 2. Project Card Visibility (projects.html)
+    const cards = document.querySelectorAll('#projectsGrid .editorial-card');
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+      const pid = card.id;
+      const isVisible = settings.projects[pid] !== false;
+
+      if (!isVisible) {
+        card.classList.add('admin-hidden');
+        card.style.display = 'none';
+      } else {
+        card.classList.remove('admin-hidden');
+        card.style.display = 'block';
+        visibleCount++;
+      }
+    });
+
+    // Update Project Count Filter Chip in projects.html
+    const allChip = document.getElementById('filterChipAll');
+    if (allChip) {
+      allChip.textContent = `All (${visibleCount})`;
+    }
+
+    // Update Highlights Link in index.html
+    const viewAllLink = document.getElementById('viewAllProjectsLink') || document.querySelector('.view-all-link');
+    if (viewAllLink && viewAllLink.getAttribute('href') === 'projects.html') {
+      viewAllLink.textContent = `All ${visibleCount} projects`;
+    }
+  }
+
   initTheme();
+  applyAdminSettings();
   initFilter();
   initContact();
   initLivePnl();
@@ -400,7 +545,10 @@
 
   // Continuously refresh P&L every 15 seconds automatically
   setInterval(initLivePnl, 15000);
-  window.addEventListener('pageshow', initLivePnl);
+  window.addEventListener('pageshow', () => {
+    applyAdminSettings();
+    initLivePnl();
+  });
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') initLivePnl();
   });

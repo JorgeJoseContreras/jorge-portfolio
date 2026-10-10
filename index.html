@@ -47,7 +47,7 @@
   }
   </script>
 
-  <script>(function(){try{var t=localStorage.getItem('jorge_site_theme');if(t){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+  <script>(function(){try{var t=localStorage.getItem('jorge_site_theme');if(t){document.documentElement.setAttribute('data-theme',t);}var s=localStorage.getItem('jorge_admin_settings');if(s){var p=JSON.parse(s);if(p.resume_enabled===false){document.documentElement.classList.add('hide-resume-nav');}}}catch(e){}})();</script>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -62,7 +62,7 @@
       <a href="index.html" class="brand-name">Jorge Contreras</a>
       <nav class="nav-links">
         <a href="projects.html" class="nav-link">Projects</a>
-        <a href="resume.html" class="nav-link">Resume</a>
+        <a href="resume.html" class="nav-link" id="navResumeLink">Resume</a>
         <a href="contact.html" class="nav-link">Contact</a>
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
           <span class="theme-icon">◐</span>
@@ -95,7 +95,7 @@
       <section class="highlights-section">
         <div class="section-title-row">
           <h2 class="section-heading">Recent Highlights</h2>
-          <a href="projects.html" class="view-all-link">All 6 projects</a>
+          <a href="projects.html" class="view-all-link" id="viewAllProjectsLink">All 7 projects</a>
         </div>
 
         <div class="projects-editorial-grid">
@@ -236,6 +236,6 @@
     </div>
   </div>
 
-  <script src="script.js?v=5"></script>
+  <script src="script.js?v=6"></script>
 </body>
 </html>
