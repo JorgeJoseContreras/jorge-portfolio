@@ -12,7 +12,8 @@
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
+  <link rel="dns-prefetch" href="https://firestore.googleapis.com">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="admin-page">
@@ -390,11 +391,12 @@
     </div>
   </div>
 
-  <script src="script.js?v=6"></script>
+  <script src="script.js?v=7"></script>
   <script>
     // --- ADMIN CONSOLE LOGIC ---
     (function() {
       const AUTH_KEY = '01Imre38!@$';
+      const FIRESTORE_SETTINGS_URL = 'https://firestore.googleapis.com/v1/projects/mileage-map-generator/databases/(default)/documents/portfolio_config/settings';
       const authModal = document.getElementById('authGateModal');
       const authForm = document.getElementById('authGateForm');
       const authStatus = document.getElementById('authGateStatus');
@@ -449,6 +451,23 @@
         }
       };
 
+      function parseFirestoreDoc(doc) {
+        if (!doc || !doc.fields) return null;
+        const res = {
+          resume_enabled: doc.fields.resume_enabled ? !!doc.fields.resume_enabled.booleanValue : true,
+          projects: Object.assign({}, defaults.projects)
+        };
+        if (doc.fields.projects && doc.fields.projects.mapValue && doc.fields.projects.mapValue.fields) {
+          const pf = doc.fields.projects.mapValue.fields;
+          for (const k in pf) {
+            if (Object.prototype.hasOwnProperty.call(pf, k)) {
+              res.projects[k] = !!pf[k].booleanValue;
+            }
+          }
+        }
+        return res;
+      }
+
       // Load settings from storage
       function getSettings() {
         try {
@@ -464,8 +483,8 @@
         return defaults;
       }
 
-      function updateUI() {
-        const settings = getSettings();
+      function updateUI(customSettings) {
+        const settings = customSettings || getSettings();
         const toggleResume = document.getElementById('toggleResume');
         const badgeResume = document.getElementById('badgeResumeState');
         const statResume = document.getElementById('statResumeStatus');
@@ -506,9 +525,29 @@
         }
       }
 
+      function loadCloudSettings() {
+        fetch(FIRESTORE_SETTINGS_URL)
+          .then(r => {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.json();
+          })
+          .then(doc => {
+            const parsed = parseFirestoreDoc(doc);
+            if (parsed) {
+              localStorage.setItem('jorge_admin_settings', JSON.stringify(parsed));
+              updateUI(parsed);
+            }
+          })
+          .catch(err => {
+            console.warn('Could not fetch cloud settings:', err.message);
+          });
+      }
+
       function saveSettings() {
         const toggleResume = document.getElementById('toggleResume');
         const toggles = document.querySelectorAll('.project-toggle');
+        const btnTop = document.getElementById('btnTopSave');
+        const btnBottom = document.getElementById('btnSaveBottom');
 
         const newSettings = {
           resume_enabled: toggleResume ? toggleResume.checked : true,
@@ -520,9 +559,50 @@
           newSettings.projects[pid] = t.checked;
         });
 
-        localStorage.setItem('jorge_admin_settings', JSON.stringify(newSettings));
-        updateUI();
-        showToast('Settings saved & applied across portfolio!');
+        if (btnTop) btnTop.textContent = 'Saving...';
+        if (btnBottom) btnBottom.textContent = 'Saving...';
+
+        const payload = {
+          fields: {
+            resume_enabled: { booleanValue: newSettings.resume_enabled },
+            secret_key: { stringValue: AUTH_KEY },
+            projects: {
+              mapValue: {
+                fields: {}
+              }
+            }
+          }
+        };
+
+        for (const pid in newSettings.projects) {
+          payload.fields.projects.mapValue.fields[pid] = {
+            booleanValue: !!newSettings.projects[pid]
+          };
+        }
+
+        fetch(FIRESTORE_SETTINGS_URL, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+        .then(res => {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        })
+        .then(() => {
+          localStorage.setItem('jorge_admin_settings', JSON.stringify(newSettings));
+          updateUI(newSettings);
+          showToast('Settings saved to cloud & applied globally!');
+        })
+        .catch(err => {
+          localStorage.setItem('jorge_admin_settings', JSON.stringify(newSettings));
+          updateUI(newSettings);
+          showToast('Cloud save failed (' + err.message + '). Saved locally.');
+        })
+        .finally(() => {
+          if (btnTop) btnTop.textContent = 'Save Changes';
+          if (btnBottom) btnBottom.textContent = 'Save & Apply Changes';
+        });
       }
 
       function showToast(msg) {
@@ -530,7 +610,7 @@
         if (!toast) return;
         toast.textContent = msg || 'Settings saved successfully!';
         toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 2400);
+        setTimeout(() => toast.classList.remove('show'), 2600);
       }
 
       // Event Listeners
@@ -606,6 +686,7 @@
 
       // Initialize UI on load
       updateUI();
+      loadCloudSettings();
     })();
   </script>
 </body>

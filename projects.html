@@ -18,6 +18,8 @@
   <meta property="og:site_name" content="Jorge Jose Contreras">
 
   <script>(function(){try{var t=localStorage.getItem('jorge_site_theme');if(t){document.documentElement.setAttribute('data-theme',t);}var s=localStorage.getItem('jorge_admin_settings');if(s){var p=JSON.parse(s);if(p.resume_enabled===false){document.documentElement.classList.add('hide-resume-nav');}}}catch(e){}})();</script>
+  <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
+  <link rel="dns-prefetch" href="https://firestore.googleapis.com">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -33,7 +35,7 @@
       <nav class="nav-links">
         <a href="index.html" class="nav-link">Home</a>
         <a href="projects.html" class="nav-link active">Projects</a>
-        <a href="resume.html" class="nav-link">Resume</a>
+        <a href="resume.html" class="nav-link" id="navResumeLink">Resume</a>
         <a href="contact.html" class="nav-link">Contact</a>
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
           <span class="theme-icon">◐</span>
@@ -406,6 +408,6 @@
     </div>
   </div>
 
-  <script src="script.js?v=6"></script>
+  <script src="script.js?v=7"></script>
 </body>
 </html>

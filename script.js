@@ -470,6 +470,25 @@
     }
   };
 
+  const FIRESTORE_SETTINGS_URL = 'https://firestore.googleapis.com/v1/projects/mileage-map-generator/databases/(default)/documents/portfolio_config/settings';
+
+  function parseFirestoreDoc(doc) {
+    if (!doc || !doc.fields) return null;
+    const res = {
+      resume_enabled: doc.fields.resume_enabled ? !!doc.fields.resume_enabled.booleanValue : true,
+      projects: Object.assign({}, DEFAULT_ADMIN_SETTINGS.projects)
+    };
+    if (doc.fields.projects && doc.fields.projects.mapValue && doc.fields.projects.mapValue.fields) {
+      const pFields = doc.fields.projects.mapValue.fields;
+      for (const k in pFields) {
+        if (Object.prototype.hasOwnProperty.call(pFields, k)) {
+          res.projects[k] = !!pFields[k].booleanValue;
+        }
+      }
+    }
+    return res;
+  }
+
   function getAdminSettings() {
     try {
       const stored = localStorage.getItem('jorge_admin_settings');
@@ -484,8 +503,8 @@
     return DEFAULT_ADMIN_SETTINGS;
   }
 
-  function applyAdminSettings() {
-    const settings = getAdminSettings();
+  function applyAdminSettings(customSettings) {
+    const settings = customSettings || getAdminSettings();
 
     // 1. Resume Page Visibility & Access Control
     const resumeLinks = document.querySelectorAll('a[href*="resume.html"], #navResumeLink');
@@ -497,11 +516,13 @@
       if (window.location.pathname.indexOf('resume.html') !== -1) {
         if (localStorage.getItem('jorge_admin_authenticated') !== 'true') {
           window.location.replace('index.html');
+          return;
         }
       }
     } else {
       document.documentElement.classList.remove('hide-resume-nav');
       resumeLinks.forEach(link => { link.style.display = ''; });
+      document.documentElement.classList.remove('resume-checking');
     }
 
     // 2. Project Card Visibility (projects.html)
@@ -535,8 +556,29 @@
     }
   }
 
+  // Remote sync with Firestore for global persistence across all browsers/devices
+  function syncRemoteSettings() {
+    fetch(FIRESTORE_SETTINGS_URL)
+      .then(response => {
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        return response.json();
+      })
+      .then(doc => {
+        const parsed = parseFirestoreDoc(doc);
+        if (parsed) {
+          localStorage.setItem('jorge_admin_settings', JSON.stringify(parsed));
+          applyAdminSettings(parsed);
+        }
+      })
+      .catch(err => {
+        document.documentElement.classList.remove('resume-checking');
+        console.warn('Portfolio remote settings sync skipped:', err.message);
+      });
+  }
+
   initTheme();
   applyAdminSettings();
+  syncRemoteSettings();
   initFilter();
   initContact();
   initLivePnl();
@@ -547,10 +589,14 @@
   setInterval(initLivePnl, 15000);
   window.addEventListener('pageshow', () => {
     applyAdminSettings();
+    syncRemoteSettings();
     initLivePnl();
   });
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') initLivePnl();
+    if (document.visibilityState === 'visible') {
+      initLivePnl();
+      syncRemoteSettings();
+    }
   });
 
 })();

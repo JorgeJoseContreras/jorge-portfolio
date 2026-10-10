@@ -855,10 +855,19 @@ input, textarea {
 }
 
 /* --- ADMIN PANEL & VISIBILITY CONTROLS --- */
-html.hide-resume-nav a[href*="resume.html"],
+html.hide-resume-nav a.nav-link[href*="resume.html"],
 html.hide-resume-nav #navResumeLink,
 .admin-hidden {
   display: none !important;
+}
+
+html.hide-resume-nav .about-section a[href*="resume.html"] {
+  pointer-events: none;
+  cursor: default;
+}
+
+html.resume-checking body.resume-page {
+  visibility: hidden !important;
 }
 
 .admin-header-row {
