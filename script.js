@@ -525,13 +525,20 @@
       document.documentElement.classList.remove('resume-checking');
     }
 
-    // 2. Project Card Visibility (projects.html)
-    const cards = document.querySelectorAll('#projectsGrid .editorial-card');
+    // 2. Project Count & Visibility
+    const allProjects = Object.assign({}, DEFAULT_ADMIN_SETTINGS.projects, settings.projects || {});
     let visibleCount = 0;
+    for (const pid in allProjects) {
+      if (allProjects[pid] !== false) {
+        visibleCount++;
+      }
+    }
 
+    // Update Project Card Visibility (projects.html)
+    const cards = document.querySelectorAll('#projectsGrid .editorial-card');
     cards.forEach(card => {
       const pid = card.id;
-      const isVisible = settings.projects[pid] !== false;
+      const isVisible = allProjects[pid] !== false;
 
       if (!isVisible) {
         card.classList.add('admin-hidden');
@@ -539,7 +546,6 @@
       } else {
         card.classList.remove('admin-hidden');
         card.style.display = 'block';
-        visibleCount++;
       }
     });
 
