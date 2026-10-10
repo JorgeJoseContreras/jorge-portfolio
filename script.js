@@ -470,7 +470,7 @@
     }
   };
 
-  const FIRESTORE_SETTINGS_URL = 'https://firestore.googleapis.com/v1/projects/mileage-map-generator/databases/(default)/documents/portfolio_config/settings';
+  const FIRESTORE_SETTINGS_URL = 'https://firestore.googleapis.com/v1/projects/jorge-portfolio-site/databases/(default)/documents/portfolio_config/settings';
 
   function parseFirestoreDoc(doc) {
     if (!doc || !doc.fields) return null;
