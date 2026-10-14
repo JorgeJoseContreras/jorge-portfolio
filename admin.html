@@ -56,7 +56,7 @@
       <div style="display: flex; gap: 16px; margin-bottom: 28px; flex-wrap: wrap;">
         <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 18px; flex: 1; min-width: 180px;">
           <div style="font-size: 0.78rem; color: var(--text-dim); text-transform: uppercase; font-weight: 600;">Visible Projects</div>
-          <div id="statVisibleProjects" style="font-size: 1.4rem; font-weight: 700; color: var(--accent); margin-top: 4px;">7 / 14</div>
+          <div id="statVisibleProjects" style="font-size: 1.4rem; font-weight: 700; color: var(--accent); margin-top: 4px;">8 / 15</div>
         </div>
         <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 18px; flex: 1; min-width: 180px;">
           <div style="font-size: 0.78rem; color: var(--text-dim); text-transform: uppercase; font-weight: 600;">Resume Page</div>
@@ -95,9 +95,9 @@
         <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; flex-wrap: wrap; gap: 8px;">
           <h2 class="admin-section-title" style="margin-bottom: 0;">Projects Visibility</h2>
           <div style="display: flex; gap: 8px;">
-            <button id="btnShowAllActive" class="btn-text" style="font-size: 0.8rem;">Reset to Active 7</button>
+            <button id="btnShowAllActive" class="btn-text" style="font-size: 0.8rem;">Reset to Active 8</button>
             <span style="color: var(--text-dim);">&middot;</span>
-            <button id="btnShowAllProjects" class="btn-text" style="font-size: 0.8rem;">Show All 14</button>
+            <button id="btnShowAllProjects" class="btn-text" style="font-size: 0.8rem;">Show All 15</button>
             <span style="color: var(--text-dim);">&middot;</span>
             <button id="btnHideAllProjects" class="btn-text" style="font-size: 0.8rem;">Hide All</button>
           </div>
@@ -213,7 +213,26 @@
             </label>
           </div>
 
-          <!-- 7. Autonomous Discovery Agent -->
+          <!-- 7. Antigravity iOS -->
+          <div class="admin-item-row" data-project-id="card-antigravity-ios">
+            <div class="admin-item-info">
+              <div class="admin-item-title">
+                <span>Antigravity iOS</span>
+                <span class="category-badge" style="font-size: 0.72rem;">Mobile &amp; AI</span>
+                <span class="badge-in-progress" style="font-size: 0.68rem; padding: 1px 6px;">In Progress</span>
+                <span class="admin-badge active badge-state">Shown</span>
+              </div>
+              <p class="admin-item-desc">Native iOS port of Google Antigravity agentic coding &amp; automation system &middot; Swift &middot; SwiftUI &middot; Agentic SDK</p>
+            </div>
+            <label class="switch-label">
+              <span class="switch">
+                <input type="checkbox" class="project-toggle" data-project="card-antigravity-ios" checked>
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+          </div>
+
+          <!-- 8. Autonomous Discovery Agent -->
           <div class="admin-item-row" data-project-id="card-discovery">
             <div class="admin-item-info">
               <div class="admin-item-title">
@@ -391,7 +410,7 @@
     </div>
   </div>
 
-  <script src="script.js?v=8"></script>
+  <script src="script.js?v=9"></script>
   <script>
     // --- ADMIN CONSOLE LOGIC ---
     (function() {
@@ -440,6 +459,7 @@
           'card-foia': true,
           'card-mileage': true,
           'card-scholarflow': true,
+          'card-antigravity-ios': true,
           'card-discovery': true,
           'card-kalshi': false,
           'card-kraken': false,
@@ -521,7 +541,7 @@
 
         const statProjects = document.getElementById('statVisibleProjects');
         if (statProjects) {
-          statProjects.textContent = `${visibleCount} / 14`;
+          statProjects.textContent = `${visibleCount} / ${toggles.length}`;
         }
       }
 
@@ -638,9 +658,10 @@
             }
           }
           let cnt = 0;
-          document.querySelectorAll('.project-toggle').forEach(x => { if (x.checked) cnt++; });
+          const allToggles = document.querySelectorAll('.project-toggle');
+          allToggles.forEach(x => { if (x.checked) cnt++; });
           const statProjects = document.getElementById('statVisibleProjects');
-          if (statProjects) statProjects.textContent = `${cnt} / 14`;
+          if (statProjects) statProjects.textContent = `${cnt} / ${allToggles.length}`;
         });
       });
 
