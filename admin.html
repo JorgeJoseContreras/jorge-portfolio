@@ -56,7 +56,7 @@
       <div style="display: flex; gap: 16px; margin-bottom: 28px; flex-wrap: wrap;">
         <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 18px; flex: 1; min-width: 180px;">
           <div style="font-size: 0.78rem; color: var(--text-dim); text-transform: uppercase; font-weight: 600;">Visible Projects</div>
-          <div id="statVisibleProjects" style="font-size: 1.4rem; font-weight: 700; color: var(--accent); margin-top: 4px;">8 / 15</div>
+          <div id="statVisibleProjects" style="font-size: 1.4rem; font-weight: 700; color: var(--accent); margin-top: 4px;">13 / 20</div>
         </div>
         <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 18px; flex: 1; min-width: 180px;">
           <div style="font-size: 0.78rem; color: var(--text-dim); text-transform: uppercase; font-weight: 600;">Resume Page</div>
@@ -95,9 +95,9 @@
         <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; flex-wrap: wrap; gap: 8px;">
           <h2 class="admin-section-title" style="margin-bottom: 0;">Projects Visibility</h2>
           <div style="display: flex; gap: 8px;">
-            <button id="btnShowAllActive" class="btn-text" style="font-size: 0.8rem;">Reset to Active 8</button>
+            <button id="btnShowAllActive" class="btn-text" style="font-size: 0.8rem;">Reset to Active 13</button>
             <span style="color: var(--text-dim);">&middot;</span>
-            <button id="btnShowAllProjects" class="btn-text" style="font-size: 0.8rem;">Show All 15</button>
+            <button id="btnShowAllProjects" class="btn-text" style="font-size: 0.8rem;">Show All 20</button>
             <span style="color: var(--text-dim);">&middot;</span>
             <button id="btnHideAllProjects" class="btn-text" style="font-size: 0.8rem;">Hide All</button>
           </div>
@@ -232,7 +232,99 @@
             </label>
           </div>
 
-          <!-- 8. Autonomous Discovery Agent -->
+          <!-- 8. ZenAuth -->
+          <div class="admin-item-row" data-project-id="card-zenauth">
+            <div class="admin-item-info">
+              <div class="admin-item-title">
+                <span>ZenAuth</span>
+                <span class="category-badge" style="font-size: 0.72rem;">Enterprise Tool</span>
+                <span class="admin-badge active badge-state">Shown</span>
+              </div>
+              <p class="admin-item-desc">Automated Zengine authorization extraction and shared folder Excel delivery &middot; Python &middot; Zengine API &middot; OpenPyXL</p>
+            </div>
+            <label class="switch-label">
+              <span class="switch">
+                <input type="checkbox" class="project-toggle" data-project="card-zenauth" checked>
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+          </div>
+
+          <!-- 9. ZenBooks -->
+          <div class="admin-item-row" data-project-id="card-zenbooks">
+            <div class="admin-item-info">
+              <div class="admin-item-title">
+                <span>ZenBooks</span>
+                <span class="category-badge" style="font-size: 0.72rem;">Financial Automation</span>
+                <span class="admin-badge active badge-state">Shown</span>
+              </div>
+              <p class="admin-item-desc">Reconciles Zengine account balances with QuickBooks totals into Excel &middot; Python &middot; QuickBooks API &middot; Zengine API</p>
+            </div>
+            <label class="switch-label">
+              <span class="switch">
+                <input type="checkbox" class="project-toggle" data-project="card-zenbooks" checked>
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+          </div>
+
+          <!-- 10. ZenChecker -->
+          <div class="admin-item-row" data-project-id="card-zenchecker">
+            <div class="admin-item-info">
+              <div class="admin-item-title">
+                <span>ZenChecker</span>
+                <span class="category-badge" style="font-size: 0.72rem;">Auditing &amp; Compliance</span>
+                <span class="admin-badge active badge-state">Shown</span>
+              </div>
+              <p class="admin-item-desc">Reviews disbursements, verifies documents, and scans receipt text &middot; Python &middot; OCR &middot; Zengine API</p>
+            </div>
+            <label class="switch-label">
+              <span class="switch">
+                <input type="checkbox" class="project-toggle" data-project="card-zenchecker" checked>
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+          </div>
+
+          <!-- 11. ZenMatch -->
+          <div class="admin-item-row" data-project-id="card-zenmatch">
+            <div class="admin-item-info">
+              <div class="admin-item-title">
+                <span>ZenMatch</span>
+                <span class="category-badge" style="font-size: 0.72rem;">Reconciliation &amp; OCR</span>
+                <span class="badge-in-progress" style="font-size: 0.68rem; padding: 1px 6px;">In Progress</span>
+                <span class="admin-badge active badge-state">Shown</span>
+              </div>
+              <p class="admin-item-desc">Credit card statement reconciler and receipt OCR for Zengine &middot; Python &middot; Vision OCR &middot; Zengine API</p>
+            </div>
+            <label class="switch-label">
+              <span class="switch">
+                <input type="checkbox" class="project-toggle" data-project="card-zenmatch" checked>
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+          </div>
+
+          <!-- 12. OdoFolio -->
+          <div class="admin-item-row" data-project-id="card-odofolio">
+            <div class="admin-item-info">
+              <div class="admin-item-title">
+                <span>OdoFolio</span>
+                <span class="category-badge" style="font-size: 0.72rem;">Mobile App</span>
+                <span class="badge-in-progress" style="font-size: 0.68rem; padding: 1px 6px;">In Progress</span>
+                <span class="admin-badge active badge-state">Shown</span>
+              </div>
+              <p class="admin-item-desc">iOS mileage tracking and trip logging application with GPS odometer &middot; Swift &middot; iOS &middot; CoreLocation</p>
+            </div>
+            <label class="switch-label">
+              <span class="switch">
+                <input type="checkbox" class="project-toggle" data-project="card-odofolio" checked>
+                <span class="switch-slider"></span>
+              </span>
+            </label>
+          </div>
+
+          <!-- 13. Autonomous Discovery Agent -->
           <div class="admin-item-row" data-project-id="card-discovery">
             <div class="admin-item-info">
               <div class="admin-item-title">
@@ -460,6 +552,11 @@
           'card-mileage': true,
           'card-scholarflow': true,
           'card-antigravity-ios': true,
+          'card-zenauth': true,
+          'card-zenbooks': true,
+          'card-zenchecker': true,
+          'card-zenmatch': true,
+          'card-odofolio': true,
           'card-discovery': true,
           'card-kalshi': false,
           'card-kraken': false,
