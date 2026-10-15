@@ -409,9 +409,11 @@
 
     const phrases = [
       'trading bots, AI workflows, and data pipelines.',
-      'autonomous trading engines & market bots.',
-      'multimodal AI assistants & voice agents.',
-      'high-throughput scrapers & data pipelines.'
+      'financial ledgers, OCR reconciliations, and audit trails.',
+      'multimodal AI assistants & real-time voice agents.',
+      'Zengine grant workflows & enterprise REST pipelines.',
+      'native iOS apps, mileage trackers, and mobile tools.',
+      'autonomous coding agents & prediction market bots.'
     ];
 
     let phraseIdx = 0;
