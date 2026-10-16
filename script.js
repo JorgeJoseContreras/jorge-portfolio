@@ -44,8 +44,9 @@
             return;
           }
 
-          const cat = card.getAttribute('data-category');
-          if (filter === 'all' || cat === filter) {
+          const cat = card.getAttribute('data-category') || '';
+          const categories = cat.split(/\s+/);
+          if (filter === 'all' || categories.includes(filter)) {
             card.style.display = 'block';
           } else {
             card.style.display = 'none';
