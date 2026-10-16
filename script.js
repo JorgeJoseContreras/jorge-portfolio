@@ -468,9 +468,9 @@
     resume_enabled: true,
     projects: {
       'card-imessage': true,
-      'card-alpaca': true,
+      'card-alpaca': false,
       'card-robinhood': true,
-      'card-foia': true,
+      'card-foia': false,
       'card-mileage': true,
       'card-scholarflow': true,
       'card-antigravity-ios': true,
@@ -579,6 +579,12 @@
     const viewAllLink = document.getElementById('viewAllProjectsLink') || document.querySelector('.view-all-link');
     if (viewAllLink && viewAllLink.getAttribute('href') === 'projects.html') {
       viewAllLink.textContent = `All ${visibleCount} projects`;
+    }
+
+    // Update Production Systems Metric Card in index.html
+    const prodCountEl = document.getElementById('productionSystemsCount');
+    if (prodCountEl) {
+      prodCountEl.textContent = visibleCount;
     }
   }
 

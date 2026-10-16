@@ -7,14 +7,14 @@
   <meta name="theme-color" content="#0f1013">
 
   <title>Projects — Jorge Jose Contreras | Trading Bots, AI Tools & Automation</title>
-  <meta name="description" content="Projects by Jorge Jose Contreras — autonomous trading bots, AI assistants, FOIA automation, crypto bots, and developer tools built in South Florida.">
+  <meta name="description" content="Projects by Jorge Jose Contreras — AI assistants, native iOS apps, mileage trackers, and workflow automation developer tools built in South Florida.">
   <meta name="author" content="Jorge Jose Contreras">
   <link rel="canonical" href="https://jorgejosecontreras.com/projects.html">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://jorgejosecontreras.com/projects.html">
   <meta property="og:title" content="Projects — Jorge Jose Contreras">
-  <meta property="og:description" content="Trading bots, AI assistants, FOIA automation, and developer tools.">
+  <meta property="og:description" content="AI assistants, native iOS apps, mileage reimbursement tools, and developer automation.">
   <meta property="og:site_name" content="Jorge Jose Contreras">
 
   <script>(function(){try{var t=localStorage.getItem('jorge_site_theme');if(t){document.documentElement.setAttribute('data-theme',t);}var s=localStorage.getItem('jorge_admin_settings');if(s){var p=JSON.parse(s);if(p.resume_enabled===false){document.documentElement.classList.add('hide-resume-nav');}}}catch(e){}})();</script>
@@ -24,7 +24,7 @@
   <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="stylesheet" href="style.css?v=10">
+  <link rel="stylesheet" href="style.css?v=13">
 </head>
 <body>
 
@@ -56,7 +56,7 @@
 
       <!-- Filter Buttons -->
       <div class="filter-bar">
-        <button class="filter-chip active" data-filter="all" id="filterChipAll">All (13)</button>
+        <button class="filter-chip active" data-filter="all" id="filterChipAll">All (11)</button>
         <button class="filter-chip" data-filter="mobile">Mobile Apps</button>
         <button class="filter-chip" data-filter="trading">Trading &amp; Markets</button>
         <button class="filter-chip" data-filter="ai">AI Experiments</button>
@@ -87,7 +87,7 @@
         </article>
 
         <!-- 2. Autonomous Trading Engine -->
-        <article class="editorial-card" id="card-alpaca" data-category="trading">
+        <article class="editorial-card admin-hidden" id="card-alpaca" data-category="trading" style="display: none;">
           <div class="card-header-row">
             <div class="card-meta-group">
               <span class="category-badge">Trading &amp; Markets</span>
@@ -128,7 +128,7 @@
         </article>
 
         <!-- 4. FOIA Request Automation -->
-        <article class="editorial-card" id="card-foia" data-category="tools">
+        <article class="editorial-card admin-hidden" id="card-foia" data-category="tools" style="display: none;">
           <div class="card-header-row">
             <div class="card-meta-group">
               <span class="category-badge">Tools &amp; Scripts</span>
@@ -161,8 +161,21 @@
           <p class="editorial-card-desc">
             A full-stack travel and reimbursement web application built to streamline mileage logging, route verification, and audit documentation. Features real-time GPS driving distance calculations, interactive route mapping, automated Google Maps screenshot captures for verification, drag-and-drop Excel/CSV spreadsheet parsing, and one-click export of styled Excel and audit-ready PDF reports.
           </p>
+          <div class="subproject-callout" style="margin: 16px 0; padding: 12px 14px; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 3px;">
+                <span class="category-badge" style="font-size: 0.68rem; padding: 1px 6px;">Mobile Companion</span>
+                <span style="font-size: 0.88rem; font-weight: 600; color: var(--text-main);">OdoFolio (iOS &amp; Android APK)</span>
+              </div>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0; line-height: 1.4;">
+                Native mobile companion app for on-device GPS logging, automatic trip detection, and offline capture.
+              </p>
+            </div>
+            <a href="#card-odofolio" class="link-tag" style="font-size: 0.8rem;">View Mobile App &darr;</a>
+          </div>
           <div class="editorial-card-links">
-            <a href="https://mileage-map-generator.web.app/#" target="_blank" rel="noopener noreferrer" class="link-btn-primary">Live App</a>
+            <a href="https://mileage-map-generator.web.app/#" target="_blank" rel="noopener noreferrer" class="link-btn-primary">Live Web App</a>
+            <a href="#card-odofolio" class="link-btn-subtle">Mobile App (OdoFolio)</a>
           </div>
         </article>
 
@@ -290,11 +303,12 @@
         </article>
 
         <!-- 12. OdoFolio (In Progress) -->
-        <article class="editorial-card" id="card-odofolio" data-category="mobile tools">
+        <article class="editorial-card" id="card-odofolio" data-category="mobile">
           <div class="card-header-row">
             <div class="card-meta-group">
               <span class="category-badge">Mobile App</span>
-              <span class="tech-inline">&middot; Swift &middot; iOS &middot; CoreLocation &middot; SQLite</span>
+              <span class="category-badge" style="background: var(--accent-soft); color: var(--accent);">Mileage Tracker Companion</span>
+              <span class="tech-inline">&middot; iOS (Swift) &middot; Android APK &middot; CoreLocation &middot; Offline Sync</span>
             </div>
             <span class="badge-in-progress">In Progress</span>
           </div>
@@ -302,10 +316,11 @@
             <a href="#contact" class="request-access-btn" data-project="OdoFolio">OdoFolio</a>
           </h2>
           <p class="editorial-card-desc">
-            A privacy-first iOS mileage tracker and trip logging application built with Swift. Features automatic trip detection, GPS-based odometer logging, tax deduction categorization, and exportable mileage summaries.
+            The native mobile companion application (iOS build and Android APK) for the web-based <a href="https://mileage-map-generator.web.app/#" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">Mileage Tracker</a>. Engineered for drivers who need automatic background trip detection, on-device GPS odometer tracking, offline logging, and exportable mileage summaries synced into reimbursement pipelines.
           </p>
           <div class="editorial-card-links">
-            <a href="#contact" class="link-btn-primary request-access-btn" data-project="OdoFolio">Request Access</a>
+            <a href="#contact" class="link-btn-primary request-access-btn" data-project="OdoFolio">Request Access / APK</a>
+            <a href="https://mileage-map-generator.web.app/#" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">Web App Version</a>
             <a href="https://github.com/JorgeJoseContreras" target="_blank" rel="noopener noreferrer" class="link-btn-subtle">GitHub</a>
           </div>
         </article>
@@ -532,6 +547,6 @@
     </div>
   </div>
 
-  <script src="script.js?v=12"></script>
+  <script src="script.js?v=13"></script>
 </body>
 </html>

@@ -14,7 +14,7 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
   <link rel="dns-prefetch" href="https://firestore.googleapis.com">
-  <link rel="stylesheet" href="style.css?v=10">
+  <link rel="stylesheet" href="style.css?v=13">
 </head>
 <body class="admin-page">
 
@@ -56,7 +56,7 @@
       <div style="display: flex; gap: 16px; margin-bottom: 28px; flex-wrap: wrap;">
         <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 18px; flex: 1; min-width: 180px;">
           <div style="font-size: 0.78rem; color: var(--text-dim); text-transform: uppercase; font-weight: 600;">Visible Projects</div>
-          <div id="statVisibleProjects" style="font-size: 1.4rem; font-weight: 700; color: var(--accent); margin-top: 4px;">13 / 20</div>
+          <div id="statVisibleProjects" style="font-size: 1.4rem; font-weight: 700; color: var(--accent); margin-top: 4px;">11 / 20</div>
         </div>
         <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 18px; flex: 1; min-width: 180px;">
           <div style="font-size: 0.78rem; color: var(--text-dim); text-transform: uppercase; font-weight: 600;">Resume Page</div>
@@ -95,7 +95,7 @@
         <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; flex-wrap: wrap; gap: 8px;">
           <h2 class="admin-section-title" style="margin-bottom: 0;">Projects Visibility</h2>
           <div style="display: flex; gap: 8px;">
-            <button id="btnShowAllActive" class="btn-text" style="font-size: 0.8rem;">Reset to Active 13</button>
+            <button id="btnShowAllActive" class="btn-text" style="font-size: 0.8rem;">Reset to Active 11</button>
             <span style="color: var(--text-dim);">&middot;</span>
             <button id="btnShowAllProjects" class="btn-text" style="font-size: 0.8rem;">Show All 20</button>
             <span style="color: var(--text-dim);">&middot;</span>
@@ -129,13 +129,13 @@
               <div class="admin-item-title">
                 <span>Autonomous Trading Engine</span>
                 <span class="category-badge" style="font-size: 0.72rem;">Trading</span>
-                <span class="admin-badge active badge-state">Shown</span>
+                <span class="admin-badge hidden badge-state">Hidden</span>
               </div>
               <p class="admin-item-desc">Autonomous market agent with Gemini reasoning, memory, news sentiment &middot; Python &middot; Alpaca API &middot; Gemini</p>
             </div>
             <label class="switch-label">
               <span class="switch">
-                <input type="checkbox" class="project-toggle" data-project="card-alpaca" checked>
+                <input type="checkbox" class="project-toggle" data-project="card-alpaca">
                 <span class="switch-slider"></span>
               </span>
             </label>
@@ -165,13 +165,13 @@
               <div class="admin-item-title">
                 <span>FOIA Request Automation</span>
                 <span class="category-badge" style="font-size: 0.72rem;">Tools</span>
-                <span class="admin-badge active badge-state">Shown</span>
+                <span class="admin-badge hidden badge-state">Hidden</span>
               </div>
               <p class="admin-item-desc">Automates Florida Sunshine Law requests across 100+ municipalities &middot; Python &middot; Flask &middot; Gemini &middot; Cloud Fax</p>
             </div>
             <label class="switch-label">
               <span class="switch">
-                <input type="checkbox" class="project-toggle" data-project="card-foia" checked>
+                <input type="checkbox" class="project-toggle" data-project="card-foia">
                 <span class="switch-slider"></span>
               </span>
             </label>
@@ -314,7 +314,7 @@
                 <span class="badge-in-progress" style="font-size: 0.68rem; padding: 1px 6px;">In Progress</span>
                 <span class="admin-badge active badge-state">Shown</span>
               </div>
-              <p class="admin-item-desc">iOS mileage tracking and trip logging application with GPS odometer &middot; Swift &middot; iOS &middot; CoreLocation</p>
+              <p class="admin-item-desc">Mobile companion app (iOS &amp; Android APK) for Mileage Tracker &middot; Swift &middot; Android &middot; CoreLocation</p>
             </div>
             <label class="switch-label">
               <span class="switch">
@@ -502,7 +502,7 @@
     </div>
   </div>
 
-  <script src="script.js?v=12"></script>
+  <script src="script.js?v=13"></script>
   <script>
     // --- ADMIN CONSOLE LOGIC ---
     (function() {
@@ -546,9 +546,9 @@
         resume_enabled: true,
         projects: {
           'card-imessage': true,
-          'card-alpaca': true,
+          'card-alpaca': false,
           'card-robinhood': true,
-          'card-foia': true,
+          'card-foia': false,
           'card-mileage': true,
           'card-scholarflow': true,
           'card-antigravity-ios': true,
