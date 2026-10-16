@@ -31,29 +31,40 @@
 
     if (!filterBtns.length || !cards.length) return;
 
+    function applyFilter(filter) {
+      filterBtns.forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-filter') === filter);
+      });
+
+      cards.forEach(card => {
+        if (card.classList.contains('admin-hidden')) {
+          card.style.display = 'none';
+          return;
+        }
+
+        const cat = card.getAttribute('data-category') || '';
+        const categories = cat.split(/\s+/);
+        if (filter === 'all' || categories.includes(filter)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
         const filter = btn.getAttribute('data-filter');
-
-        cards.forEach(card => {
-          if (card.classList.contains('admin-hidden')) {
-            card.style.display = 'none';
-            return;
-          }
-
-          const cat = card.getAttribute('data-category') || '';
-          const categories = cat.split(/\s+/);
-          if (filter === 'all' || categories.includes(filter)) {
-            card.style.display = 'block';
-          } else {
-            card.style.display = 'none';
-          }
-        });
+        applyFilter(filter);
       });
     });
+
+    // Check URL parameters or hash on load (e.g. projects.html?filter=trading or #trading)
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialFilter = urlParams.get('filter') || (window.location.hash ? window.location.hash.replace('#', '') : null);
+    if (initialFilter && ['all', 'trading', 'ai', 'tools', 'mobile'].includes(initialFilter)) {
+      applyFilter(initialFilter);
+    }
   }
 
   // --- 3. CONTACT HANDLING & SECRET ADMIN TRIGGER ---
