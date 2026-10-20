@@ -65,6 +65,23 @@
     if (initialFilter && ['all', 'trading', 'ai', 'tools', 'mobile'].includes(initialFilter)) {
       applyFilter(initialFilter);
     }
+
+    // Direct anchor link to a project card (e.g. projects.html#card-odofolio)
+    if (window.location.hash && window.location.hash.startsWith('#card-')) {
+      const targetId = window.location.hash.substring(1);
+      const target = document.getElementById(targetId);
+      if (target) {
+        setTimeout(() => {
+          if (target.style.display === 'none') {
+            const allChip = document.getElementById('filterChipAll');
+            if (allChip) allChip.click();
+          }
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          target.classList.add('card-highlight');
+          setTimeout(() => target.classList.remove('card-highlight'), 2200);
+        }, 180);
+      }
+    }
   }
 
   // --- 3. CONTACT HANDLING & SECRET ADMIN TRIGGER ---
@@ -327,11 +344,48 @@
 
   // --- 5. SEAMLESS ZERO-FLASH ROUTER ---
   function initRouter() {
+    let currentPath = window.location.pathname;
+
     document.addEventListener('click', (e) => {
       const link = e.target.closest('a');
       if (!link) return;
       const href = link.getAttribute('href');
       if (!href) return;
+
+      // Handle in-page anchor links (e.g. #card-odofolio or #card-mileage)
+      if (href.startsWith('#') && href.length > 1) {
+        if (href === '#contact') return; // Handled by contact modal logic
+
+        const targetId = href.substring(1);
+        const targetEl = document.getElementById(targetId);
+        if (targetEl) {
+          e.preventDefault();
+
+          // If the target element is currently hidden by category filter, switch to 'all' to show it
+          if (targetEl.classList.contains('editorial-card') && targetEl.style.display === 'none') {
+            const allChip = document.getElementById('filterChipAll');
+            if (allChip) {
+              allChip.click();
+            } else {
+              targetEl.style.display = 'block';
+            }
+          }
+
+          // Smoothly scroll the card into the center of the viewport
+          targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+          // Add pulse highlight animation
+          targetEl.classList.remove('card-highlight');
+          void targetEl.offsetWidth; // trigger reflow
+          targetEl.classList.add('card-highlight');
+          setTimeout(() => targetEl.classList.remove('card-highlight'), 2200);
+
+          if (window.history && window.history.replaceState) {
+            window.history.replaceState(null, '', href);
+          }
+          return;
+        }
+      }
 
       if (
         href.startsWith('#') ||
@@ -354,7 +408,20 @@
     });
 
     window.addEventListener('popstate', () => {
-      loadPage(window.location.href, false);
+      // Only reload page if the pathname actually changed!
+      if (window.location.pathname !== currentPath) {
+        currentPath = window.location.pathname;
+        loadPage(window.location.href, false);
+      } else if (window.location.hash) {
+        const targetEl = document.querySelector(window.location.hash);
+        if (targetEl) {
+          if (targetEl.classList.contains('editorial-card') && targetEl.style.display === 'none') {
+            const allChip = document.getElementById('filterChipAll');
+            if (allChip) allChip.click();
+          }
+          targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
     });
   }
 
@@ -392,7 +459,17 @@
             window.history.pushState({}, '', url);
           }
 
-          window.scrollTo(0, 0);
+          const targetHash = new URL(url, window.location.href).hash;
+          if (targetHash) {
+            const targetEl = document.querySelector(targetHash);
+            if (targetEl) {
+              targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+              window.scrollTo(0, 0);
+            }
+          } else {
+            window.scrollTo(0, 0);
+          }
 
           applyAdminSettings();
           initFilter();
