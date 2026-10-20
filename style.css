@@ -771,11 +771,10 @@ input, textarea {
 
 .card-header-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 8px;
-  flex-wrap: wrap;
-  gap: 8px;
+  gap: 12px;
 }
 
 .card-meta-group {
@@ -783,6 +782,14 @@ input, textarea {
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.badge-in-progress,
+.pnl-badge {
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .category-badge {
