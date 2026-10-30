@@ -1326,3 +1326,27 @@ html.resume-checking body.resume-page {
 .editorial-card.card-highlight {
   animation: cardTargetPulse 2s ease-out forwards;
 }
+
+
+/* --- MINIMAL HOLDING SCREEN --- */
+.minimal-landing-container {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-color: var(--bg);
+  text-align: center;
+}
+
+.minimal-landing-brand {
+  font-family: var(--font-sans);
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+  margin: 0;
+  transition: color var(--transition);
+}

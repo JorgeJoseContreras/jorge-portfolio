@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>window.location.replace('/');</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="dark light">
@@ -10,9 +11,11 @@
   <script>(function(){try{var t=localStorage.getItem('jorge_site_theme');if(t){document.documentElement.setAttribute('data-theme',t);}var s=localStorage.getItem('jorge_admin_settings');if(s){var p=JSON.parse(s);if(p.resume_enabled===false){document.documentElement.classList.add('hide-resume-nav');}}}catch(e){}})();</script>
   <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
   <link rel="dns-prefetch" href="https://firestore.googleapis.com">
-  <link rel="stylesheet" href="style.css?v=15">
+  <link rel="stylesheet" href="style.css?v=16">
 </head>
 <body class="contact-page">
+  <div id="preservedContactContent" style="display: none !important;" aria-hidden="true">
+
 
   <!-- Navigation -->
   <header class="site-header">
@@ -88,7 +91,7 @@
       </div>
     </div>
   </footer>
-
-  <script src="script.js?v=15"></script>
+  </div>
+  <script src="script.js?v=16"></script>
 </body>
 </html>

@@ -7,22 +7,22 @@ services:
     routes:
       - type: rewrite
         source: /resume
-        destination: /resume.html
+        destination: /index.html
       - type: rewrite
         source: /Resume
-        destination: /resume.html
+        destination: /index.html
       - type: rewrite
         source: /projects
-        destination: /projects.html
+        destination: /index.html
       - type: rewrite
         source: /Projects
-        destination: /projects.html
+        destination: /index.html
       - type: rewrite
         source: /contact
-        destination: /contact.html
+        destination: /index.html
       - type: rewrite
         source: /Contact
-        destination: /contact.html
+        destination: /index.html
       - type: rewrite
         source: /sitemap.xml
         destination: /sitemap.xml
